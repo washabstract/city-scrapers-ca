@@ -9,6 +9,7 @@ scrapy-sentry = "*"
 city-scrapers-core = "*"
 pypiwin32 = {version = "*", sys_platform = "== 'win32'"}
 scrapy-wayback-middleware = "*"
+google-cloud-storage = "*"
 
 [dev-packages]
 freezegun = "*"
