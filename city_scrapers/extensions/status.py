@@ -1,9 +1,5 @@
-from datetime import datetime
-
-import pytz
-from scrapy import Spider, signals
-from scrapy.crawler import Crawler
 from city_scrapers_core.extensions import StatusExtension
+from scrapy import Spider
 
 RUNNING = "running"
 FAILING = "failing"
@@ -44,11 +40,7 @@ class GCSStatusExtension(StatusExtension):
         from google.cloud import storage
 
         client = storage.Client()
-        bucket = client.bucket(
-            self.crawler.settings.get("CITY_SCRAPERS_STATUS_BUCKET")
-        )
+        bucket = client.bucket(self.crawler.settings.get("CITY_SCRAPERS_STATUS_BUCKET"))
 
         svg_blob = bucket.blob(f"{spider.name}.svg")
-        svg_blob.upload_from_string(
-            svg.encode(), content_type="image/svg+xml"
-        )
+        svg_blob.upload_from_string(svg.encode(), content_type="image/svg+xml")

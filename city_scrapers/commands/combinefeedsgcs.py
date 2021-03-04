@@ -20,9 +20,7 @@ class Command(ScrapyCommand):
         if "gcs" in storages:
             self.combine_gcs()
         else:
-            raise UsageError(
-                "'gcs' must be in FEED_STORAGES to combine past feeds"
-            )
+            raise UsageError("'gcs' must be in FEED_STORAGES to combine past feeds")
 
     def combine_gcs(self):
         from google.cloud import storage
@@ -63,7 +61,7 @@ class Command(ScrapyCommand):
             for meeting in meetings
             if meeting[self.start_key][:19] > yesterday_iso
         ]
-        
+
         new_meetings_blob = bucket.blob("latest.json")
         new_meetings_blob.upload_from_string(
             "\n".join([json.dumps(meeting) for meeting in meetings]).encode()
