@@ -44,9 +44,7 @@ DOWNLOADER_MIDDLEWARES = {
 
 SPIDER_MIDDLEWARES = {}
 
-# Use commands from city_scrapers_core package
-
-COMMANDS_MODULE = "city_scrapers_core.commands"
+COMMANDS_MODULE = "city_scrapers.commands"
 
 EXTENSIONS = {
     "scrapy.extensions.closespider.CloseSpider": None,
