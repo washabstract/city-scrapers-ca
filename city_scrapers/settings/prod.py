@@ -7,7 +7,7 @@ USER_AGENT = "City Scrapers [production mode]. Learn more and say hello at https
 # Configure item pipelines
 ITEM_PIPELINES = {
     "scrapy.pipelines.files.FilesPipeline": 100,
-    "city_scrapers.pipelines.GCSDiffPipeline": 200,
+    "city_scrapers_core.pipelines.GCSDiffPipeline": 200,
     "city_scrapers_core.pipelines.MeetingPipeline": 300,
     "city_scrapers_core.pipelines.OpenCivicDataPipeline": 400,
 }
@@ -16,7 +16,7 @@ SENTRY_DSN = os.getenv("SENTRY_DSN")
 
 EXTENSIONS = {
     "scrapy_sentry.extensions.Errors": 10,
-    "city_scrapers.extensions.GCSStatusExtension": 100,
+    "city_scrapers_core.extensions.GCSStatusExtension": 100,
     "scrapy.extensions.closespider.CloseSpider": None,
 }
 
