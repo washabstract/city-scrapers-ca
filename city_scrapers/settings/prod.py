@@ -11,7 +11,7 @@ ITEM_PIPELINES = {
     "city_scrapers_core.pipelines.MeetingPipeline": 300,
     "city_scrapers_core.pipelines.OpenCivicDataPipeline": 400,
     # "city_scrapers.pipelines.TextExtractorPipeline": 500,
-    # "city_scrapers.pipelines.PostgresPipeline"
+    # "city_scrapers.pipelines.PostgresPipeline",
 }
 
 SENTRY_DSN = os.getenv("SENTRY_DSN")
@@ -30,7 +30,7 @@ FEED_EXPORTERS = {
 FEED_FORMAT = "jsonlines"
 
 FEED_STORAGES = {
-    "gcs": "scrapy.extensions.feedexport.GCSFeedStorage".
+    "gcs": "scrapy.extensions.feedexport.GCSFeedStorage",
 }
 
 GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
