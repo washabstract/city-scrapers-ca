@@ -10,6 +10,8 @@ ITEM_PIPELINES = {
     "city_scrapers_core.pipelines.GCSDiffPipeline": 200,
     "city_scrapers_core.pipelines.MeetingPipeline": 300,
     "city_scrapers_core.pipelines.OpenCivicDataPipeline": 400,
+    # "city_scrapers.pipelines.TextExtractorPipeline": 500,
+    # "city_scrapers.pipelines.PostgresPipeline",
 }
 
 SENTRY_DSN = os.getenv("SENTRY_DSN")
@@ -38,3 +40,7 @@ FEED_STORAGES = {
 FEED_URI = (
     "gs://{bucket}/%(year)s/%(month)s/%(day)s/%(hour_min)s/%(name)s.json"
 ).format(bucket=GCS_BUCKET)
+
+POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE")
+POSTGRES_USER = os.getenv("POSTGRES_USER")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
