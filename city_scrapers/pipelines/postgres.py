@@ -3,22 +3,27 @@ class PostgresPipeline:
 
     def __init__(self):
         import psycopg2
-        self.conn = psycopg2.connect(user="pi",
-                                     dbname="cg_scraping",
-                                     host='/var/run/postgresql/')
+
+        self.conn = psycopg2.connect(
+            user="pi", dbname="cg_scraping", host="/var/run/postgresql/"
+        )
         # TODO: Make sure table exists before processing items
 
     def process_item(self, item, spider):
         cur = self.conn.cursor()
 
-        cur.execute('''
+        cur.execute(
+            """
                 insert into meetings ( schema )
                 values ( values );
-                ''', [
-                    item['value'],
-                    ])
+                """,
+            [
+                item["value"],
+            ],
+        )
         self.conn.commit()
         return item
+
 
 # MEETING
 # id = PK
