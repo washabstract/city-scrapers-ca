@@ -10,6 +10,8 @@ city-scrapers-core = {extras = ["gcs"], version = "*"}
 pypiwin32 = {version = "*", sys_platform = "== 'win32'"}
 scrapy-wayback-middleware = "*"
 google-cloud-storage = "*"
+psycopg2-binary = "*"
+python-dateutil = "*"
 
 [dev-packages]
 freezegun = "*"
