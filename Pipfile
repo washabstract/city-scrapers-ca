@@ -11,6 +11,7 @@ pypiwin32 = {version = "*", sys_platform = "== 'win32'"}
 scrapy-wayback-middleware = "*"
 google-cloud-storage = "*"
 psycopg2-binary = "*"
+pdfplumber = "*"
 
 [dev-packages]
 freezegun = "*"

@@ -1,7 +1,7 @@
 class PostgresPipeline:
     """Implements :class:`Pipeline` for PostgreSQL"""
 
-     def __init__(self):
+    def __init__(self):
         import psycopg2
         self.conn = psycopg2.connect(user="pi",
                                      dbname="cg_scraping",
@@ -63,3 +63,4 @@ class PostgresPipeline:
 # id = PK
 # note = ocd_event["links"][x]["note"]
 # url = ocd_event["links"][x]["url"]
+# raw_text = ocd_event["links"][x]["raw_text"]
