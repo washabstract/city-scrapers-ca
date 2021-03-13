@@ -3,24 +3,29 @@ class PostgresPipeline:
 
     def __init__(self):
         import psycopg2
-        self.conn = psycopg2.connect(user="pi",
-                                     dbname="cg_scraping",
-                                     host='/var/run/postgresql/')
+
+        self.conn = psycopg2.connect(
+            user="pi", dbname="cg_scraping", host="/var/run/postgresql/"
+        )
         # TODO: Make sure table exists before processing items
 
     def process_item(self, item, spider):
         cur = self.conn.cursor()
 
-        cur.execute('''
+        cur.execute(
+            """
                 insert into meetings ( schema )
                 values ( values );
-                ''', [
-                    item['value'],
-                ])
+                """,
+            [
+                item["value"],
+            ],
+        )
         self.conn.commit()
         return item
 
-## MEETING ##
+
+# MEETING
 # id = PK
 # title = string
 # description = long string
@@ -36,13 +41,13 @@ class PostgresPipeline:
 # links = FK->Links
 # source = string (URL)
 
-## LINK ##
+# LINK
 # id = PK
 # title = string
 # href = string (URL)
 # raw_text = long string
 
-## MEETING ##
+# MEETING
 # id = ocd_event["_id"]
 # title = ocd_event["name"]
 # description = ocd_event["description"]
@@ -59,7 +64,7 @@ class PostgresPipeline:
 # links = FK->Links
 # agency = ocd_event["extras"]["cityscrapers.org/agency"]
 
-## LINK ##
+# LINK
 # id = PK
 # note = ocd_event["links"][x]["note"]
 # url = ocd_event["links"][x]["url"]

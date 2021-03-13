@@ -12,6 +12,7 @@ scrapy-wayback-middleware = "*"
 google-cloud-storage = "*"
 psycopg2-binary = "*"
 pdfplumber = "*"
+python-dateutil = "*"
 
 [dev-packages]
 freezegun = "*"
