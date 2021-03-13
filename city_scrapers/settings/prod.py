@@ -33,9 +33,9 @@ FEED_STORAGES = {
     "gcs": "scrapy.extensions.feedexport.GCSFeedStorage",
 }
 
-# GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-# GCS_BUCKET = os.getenv("GCS_BUCKET")
-# CITY_SCRAPERS_STATUS_BUCKET = GCS_BUCKET
+GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+GCS_BUCKET = os.getenv("GCS_BUCKET")
+CITY_SCRAPERS_STATUS_BUCKET = GCS_BUCKET
 
 FEED_URI = (
     "gs://{bucket}/%(year)s/%(month)s/%(day)s/%(hour_min)s/%(name)s.json"
