@@ -1,5 +1,6 @@
-from scrapy.crawler import Crawler
 import psycopg2
+from scrapy.crawler import Crawler
+
 
 class PostgresPipeline:
 
