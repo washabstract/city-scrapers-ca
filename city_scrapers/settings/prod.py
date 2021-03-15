@@ -37,6 +37,13 @@ GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 GCS_BUCKET = os.getenv("GCS_BUCKET")
 CITY_SCRAPERS_STATUS_BUCKET = GCS_BUCKET
 
+path = "{}/google-cloud-storage-credentials.json".format(os.getcwd())
+credentials_content = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+if not os.path.exists(credentials_content):
+    with open(path, "w") as f:
+        f.write(credentials_content)
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path
+
 FEED_URI = (
     "gs://{bucket}/%(year)s/%(month)s/%(day)s/%(hour_min)s/%(name)s.json"
 ).format(bucket=GCS_BUCKET)
