@@ -59,7 +59,8 @@ class PostgresPipeline:
                 "id SERIAL PRIMARY KEY, "
                 "meeting_id VARCHAR(255) REFERENCES meeting (id), "
                 "note TEXT, "
-                "url TEXT "
+                "url TEXT, "
+                "raw_text TEXT"
                 ");"
             )
             (_, e) = self.sql_query(query)
@@ -117,24 +118,45 @@ class PostgresPipeline:
                 "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s"
                 ");"
             )
-
+            (_, e) = self.sql_query(query, data)
+            if e:
+                raise (e)
+        else:
+            query = (
+                "UPDATE meeting SET"
+                "id = %s, name = %s, description = %s, classification = %s, "
+                "status = %s, start_tz = %s, end_tz = %s, timezone = %s, "
+                "all_day = %s, time_notes = %s, location_name = %s, "
+                "location_url = %s, agency = %s"
+                "WHERE cb_id=%s"
+            )
             (_, e) = self.sql_query(query, data)
             if e:
                 raise (e)
         for link in item["links"]:
-            data = (item["_id"], link["note"], link["url"])
-            query = "SELECT * FROM link WHERE " "meeting_id=%s AND note=%s AND url=%s;"
-            (records, e) = self.sql_query(query, data)
+            data = (item["_id"], link["note"], link["url"], link["raw_text"])
+            query = "SELECT * FROM link WHERE meeting_id=%s AND url=%s;"
+            (records, e) = self.sql_query(query, (data[0], data[2]))
             if e:
                 raise (e)
             if len(records) == 0:
                 query = (
                     "INSERT INTO link("
-                    "meeting_id, note, url"
+                    "meeting_id, note, url, raw_text"
                     ") VALUES ("
-                    "%s, %s, %s"
+                    "%s, %s, %s, %s"
                     ");"
                 )
+                (_, e) = self.sql_query(query, data)
+                if e:
+                    raise (e)
+            else:
+                query = (
+                    "UPDATE link SET "
+                    "note = %s, raw_text = %s "
+                    " WHERE meeting_id=%s AND url=%s"
+                )
+                data = (link["note"], link["raw_text"], item["_id"], link["url"])
                 (_, e) = self.sql_query(query, data)
                 if e:
                     raise (e)
@@ -163,3 +185,4 @@ class PostgresPipeline:
 # meeting_id = PK
 # note = string: ocd_event["links"][x]["note"]
 # url = string (URL): ocd_event["links"][x]["url"]
+# raw_text = long string: ocd_event["links"][x]["raw_text"]
