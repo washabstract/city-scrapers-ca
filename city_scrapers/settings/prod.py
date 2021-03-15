@@ -55,6 +55,10 @@ POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
 
 LOG_LEVEL = "WARNING"
 
-# TODO: ScrapyDeprecationWarning: The `FEED_URI` and `FEED_FORMAT` settings have been deprecated in favor of the `FEEDS` setting. Please see the `FEEDS` setting docs for more details
+# TODO: ScrapyDeprecationWarning: The `FEED_URI` and `FEED_FORMAT` settings have been
+# deprecated in favor of the `FEEDS` setting. Please see the `FEEDS` setting docs for
+# more details
 
-# TODO: ScrapyDeprecationWarning: GCSFeedStorage.from_crawler does not support the 'feed_options' keyword argument. Add a 'feed_options' parameter to its signature to remove this warning. This parameter will become mandatory in a future version of Scrapy.
+# TODO: ScrapyDeprecationWarning: GCSFeedStorage.from_crawler does not support the
+# 'feed_options' keyword argument. Add a 'feed_options' parameter to its signature to
+# remove this warning. This parameter will become mandatory in a future version.
