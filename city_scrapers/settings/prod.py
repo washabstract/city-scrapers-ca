@@ -11,7 +11,7 @@ ITEM_PIPELINES = {
     "city_scrapers_core.pipelines.MeetingPipeline": 300,
     "city_scrapers_core.pipelines.OpenCivicDataPipeline": 400,
     # "city_scrapers.pipelines.TextExtractorPipeline": 500,
-    # "city_scrapers.pipelines.PostgresPipeline",
+    "city_scrapers.pipelines.PostgresPipeline": 600,
 }
 
 SENTRY_DSN = os.getenv("SENTRY_DSN")
@@ -43,4 +43,5 @@ FEED_URI = (
 
 POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE")
 POSTGRES_USER = os.getenv("POSTGRES_USER")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "")
+POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")

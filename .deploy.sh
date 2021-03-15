@@ -6,5 +6,5 @@ pipenv run scrapy list | xargs -I {} pipenv run scrapy crawl {} -s LOG_ENABLED=F
 export PID=$!
 while [[ `ps -p $PID | tail -n +2` ]]; do
   echo 'Deploying'
-  sleep 540
+  sleep 30
 done
