@@ -30,7 +30,7 @@ class PostgresPipeline:
             query = (
                 "CREATE TABLE meeting ( "
                 "id VARCHAR(255) PRIMARY KEY, "
-                "cb_id VARCHAR(255) NOT NULL, "
+                "ocd_id VARCHAR(255) NOT NULL, "
                 "name VARCHAR(255) NOT NULL, "
                 "classification VARCHAR(255), "
                 "description TEXT, "
@@ -89,8 +89,8 @@ class PostgresPipeline:
 
     def process_item(self, item, spider):
         data = (
-            item["_id"],
             item["extras"]["cityscrapers.org/id"],
+            item["_id"],
             item["name"],
             item["description"],
             item["classification"],
@@ -104,14 +104,14 @@ class PostgresPipeline:
             item["location"]["url"],
             item["extras"]["cityscrapers.org/agency"],
         )
-        query = "SELECT * FROM meeting WHERE cb_id=%s;"
-        (records, e) = self.sql_query(query, (data[1],))
+        query = "SELECT * FROM meeting WHERE id=%s;"
+        (records, e) = self.sql_query(query, (data[0],))
         if e:
             raise (e)
         if len(records) == 0:
             query = (
                 "INSERT INTO meeting("
-                "id, cb_id, name, description, classification, status, start_tz, "
+                "id, ocd_id, name, description, classification, status, start_tz, "
                 "end_tz, timezone, all_day, time_notes, location_name, "
                 "location_url, agency"
                 ") VALUES ("
@@ -123,18 +123,39 @@ class PostgresPipeline:
                 raise (e)
         else:
             query = (
-                "UPDATE meeting SET"
-                "id = %s, name = %s, description = %s, classification = %s, "
+                "UPDATE meeting SET "
+                "ocd_id = %s, name = %s, description = %s, classification = %s, "
                 "status = %s, start_tz = %s, end_tz = %s, timezone = %s, "
                 "all_day = %s, time_notes = %s, location_name = %s, "
-                "location_url = %s, agency = %s"
-                "WHERE cb_id=%s"
+                "location_url = %s, agency = %s "
+                "WHERE id=%s"
+            )
+            data = (
+                item["_id"],
+                item["name"],
+                item["description"],
+                item["classification"],
+                item["status"],
+                item["start_time"],
+                item["end_time"],
+                item["timezone"],
+                item["all_day"],
+                item["extras"]["cityscrapers.org/time_notes"],
+                item["location"]["name"],
+                item["location"]["url"],
+                item["extras"]["cityscrapers.org/agency"],
+                item["extras"]["cityscrapers.org/id"],
             )
             (_, e) = self.sql_query(query, data)
             if e:
                 raise (e)
         for link in item["links"]:
-            data = (item["_id"], link["note"], link["url"], link["raw_text"])
+            data = (
+                item["extras"]["cityscrapers.org/id"],
+                link["note"],
+                link["url"],
+                link.get("raw_text", ""),
+            )
             query = "SELECT * FROM link WHERE meeting_id=%s AND url=%s;"
             (records, e) = self.sql_query(query, (data[0], data[2]))
             if e:
@@ -152,11 +173,15 @@ class PostgresPipeline:
                     raise (e)
             else:
                 query = (
-                    "UPDATE link SET "
-                    "note = %s, raw_text = %s "
-                    " WHERE meeting_id=%s AND url=%s"
+                    "UPDATE link SET note = %s, raw_text = %s"
+                    "WHERE meeting_id=%s AND url=%s"
                 )
-                data = (link["note"], link["raw_text"], item["_id"], link["url"])
+                data = (
+                    link["note"],
+                    link.get("raw_text", ""),
+                    item["extras"]["cityscrapers.org/id"],
+                    link["url"],
+                )
                 (_, e) = self.sql_query(query, data)
                 if e:
                     raise (e)
@@ -164,8 +189,8 @@ class PostgresPipeline:
 
 
 # MEETING
-# id = PK: ocd_event["_id"]
-# cb_id = string: item["extras"]["cityscrapers.org/id"]
+# id = string: item["extras"]["cityscrapers.org/id"]
+# ocd_id = PK: ocd_event["_id"]
 # title = string: ocd_event["name"]
 # description = long string: ocd_event["description"]
 # classification = string: ocd_event["classification"]

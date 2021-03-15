@@ -10,7 +10,7 @@ ITEM_PIPELINES = {
     "city_scrapers_core.pipelines.GCSDiffPipeline": 200,
     "city_scrapers_core.pipelines.MeetingPipeline": 300,
     "city_scrapers_core.pipelines.OpenCivicDataPipeline": 400,
-    # "city_scrapers.pipelines.TextExtractorPipeline": 500,
+    "city_scrapers.pipelines.TextExtractorPipeline": 500,
     "city_scrapers.pipelines.PostgresPipeline": 600,
 }
 
@@ -52,3 +52,9 @@ POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE")
 POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "")
 POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
+
+LOG_LEVEL = "WARNING"
+
+# TODO: ScrapyDeprecationWarning: The `FEED_URI` and `FEED_FORMAT` settings have been deprecated in favor of the `FEEDS` setting. Please see the `FEEDS` setting docs for more details
+
+# TODO: ScrapyDeprecationWarning: GCSFeedStorage.from_crawler does not support the 'feed_options' keyword argument. Add a 'feed_options' parameter to its signature to remove this warning. This parameter will become mandatory in a future version of Scrapy.
