@@ -1,5 +1,4 @@
 import psycopg2
-from scrapy.crawler import Crawler
 
 
 class PostgresPipeline:
@@ -84,7 +83,7 @@ class PostgresPipeline:
                     self.conn.commit()
                     try:
                         return (cursor.fetchall(), None)
-                    except psycopg2.ProgrammingError as e:
+                    except psycopg2.ProgrammingError:
                         return ([], None)
 
     def process_item(self, item, spider):
