@@ -16,8 +16,10 @@ test_response = file_response(
         "&filters%5Beventtype%5D=686"
         "&filters%5Bdepartment%5D="
         "&filters%5Btags%5D="
-        f"&filters%5Bstart%5D%5Bvalue%5D%5Bdate%5D={str(date.today())}"
-        f"&filters%5Bend%5D%5Bvalue%5D%5Bdate%5D={str(date.today()+timedelta(days=1))}"
+        "&filters%5Bstart%5D%5Bvalue%5D%5Bdate%5D="
+        f"{str(date.today()-timedelta(days=14))}"
+        "&filters%5Bend%5D%5Bvalue%5D%5Bdate%5D="
+        f"{str(date.today()+timedelta(days=14))}"
     ),
 )
 spider = LaCityGovernmentSpider()
@@ -68,16 +70,16 @@ def test_location():
 
 def test_source():
     assert parsed_items[0]["source"] == (
-        "https://calendar.lacity.org/"
-        "rest/views/calendar_rest_dynamic"
+        "https://calendar.lacity.org/rest/views/calendar_rest_dynamic"
         "?display_id=services_1"
         "&display_id=services_1"
         "&filters%5Beventtype%5D=686"
         "&filters%5Bdepartment%5D="
         "&filters%5Btags%5D="
-        f"&filters%5Bstart%5D%5Bvalue%5D%5Bdate%5D={str(date.today())}"
+        "&filters%5Bstart%5D%5Bvalue%5D%5Bdate%5D="
+        f"{str(date.today()-timedelta(days=14))}"
         "&filters%5Bend%5D%5Bvalue%5D%5Bdate%5D="
-        f"{str(date.today()+timedelta(days=1))}"
+        f"{str(date.today()+timedelta(days=14))}"
     )
 
 

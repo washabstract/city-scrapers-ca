@@ -136,6 +136,8 @@ travis/*.json
 # output files: local gitignore added to city_scrapers/local_outputs/
 
 # testing
+.cleanup.sh
 .local_vars.sh
-.run_all.sh
 .postgres.sh
+.run_all.sh
+city_scrapers/settings/dev.py

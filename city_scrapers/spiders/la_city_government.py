@@ -20,7 +20,7 @@ class LaCityGovernmentSpider(CityScrapersSpider):
             "&filters%5Bdepartment%5D="
             "&filters%5Btags%5D="
             "&filters%5Bstart%5D%5Bvalue%5D%5Bdate%5D="
-            f"{str(date.today())}"
+            f"{str(date.today()-timedelta(days=14))}"
             "&filters%5Bend%5D%5Bvalue%5D%5Bdate%5D="
             f"{str(date.today()+timedelta(days=14))}"
         ),
