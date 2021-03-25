@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html  lang="en-US">
+<head id="Head"><meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta name="REVISIT-AFTER" content="1 DAYS" />
+<meta name="RATING" content="GENERAL" />
+<meta name="RESOURCE-TYPE" content="DOCUMENT" />
+<meta content="text/javascript" http-equiv="Content-Script-Type" />
+<meta content="text/css" http-equiv="Content-Style-Type" />
+
+<script>
+var styleElem = document.createElement('style');
+styleElem.type = 'text/css' ;
+var css = 'html{display:none;}' ;
+
+   if(self == top) {
+       document.documentElement.style.display = 'block'; 
+   } else {
+       top.location = self.location; 
+       if(styleElem.styleSheet){
+          styleElem.styleSheet.cssText = css;
+       }
+       else{
+              styleElem.appendChild(document.createTextNode(css));
+              }
+   }
+</script><title>
+	Board Agendas
+</title><meta id="MetaDescription" name="DESCRIPTION" content="BOS Website" /><meta id="MetaKeywords" name="KEYWORDS" content="County of Los Angeles Board of Supervisors,County of Los Angeles,Board of Supervisors" /><meta id="MetaRobots" name="ROBOTS" content="INDEX, FOLLOW" /><link href="/Resources/Shared/stylesheets/dnndefault/7.0.0/default.css?cdv=1080" type="text/css" rel="stylesheet"/><link href="/Resources/Search/SearchSkinObjectPreview.css?cdv=1080" type="text/css" rel="stylesheet"/><link href="/Portals/_default/Skins/20047-UnlimitedColorPack-033-Blue/skin.css?cdv=1080" type="text/css" rel="stylesheet"/><link href="/Portals/_default/Skins/20047-UnlimitedColorPack-033-Blue/InsidePage.css?cdv=1080" type="text/css" rel="stylesheet"/><link href="/Portals/_default/Containers/20047-UnlimitedColorPack-033/container.css?cdv=1080" type="text/css" rel="stylesheet"/><link href="/Portals/1/portal.css?cdv=1080" type="text/css" rel="stylesheet"/><link href="/DesktopModules/DNNGo_LayerGallery/Effects/Effect_01_SliderRevolution3D/Themes/defaultskin/Style.css?cdv=1080" type="text/css" rel="stylesheet"/><script src="/Resources/libraries/jQuery/03_05_01/jquery.js?cdv=1080" type="text/javascript"></script><script src="/Resources/libraries/jQuery-Migrate/03_02_00/jquery-migrate.js?cdv=1080" type="text/javascript"></script><script src="/Resources/libraries/jQuery-UI/01_12_01/jquery-ui.js?cdv=1080" type="text/javascript"></script><link  rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" /><link  rel="stylesheet" type="text/css" href="/DesktopModules/DNNGo_xPlugin/Resource/css/jquery.mmenu.css?cdv=20210324.1080" /><!--[if LT IE 9]><link id="IE6Minus" rel="stylesheet" type="text/css" href="/Portals/_default/Skins/20047-UnlimitedColorPack-033-Blue/ie.css" /><![endif]--><link rel='SHORTCUT ICON' href='/Portals/1/favicon.ico?ver=0lDoM17VGA_2Ao7FfWDkjA%3d%3d' type='image/x-icon' />
+
+          <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-20882473-2', 'auto', {'legacyCookieDomain': 'bos.lacounty.gov'});
+            
+			var dimensionName = localStorage.getItem('Analytics.Page.PageVariantDimension');
+
+			if (dimensionName != undefined && dimensionName != '') { ga('set', dimensionName, 'Default'); }
+
+            ga('send', 'pageview');	
+          </script>
+
+        <script async type='text/javascript' src='https://dnnapi.com/analytics/js/2036547.js'></script><meta name="viewport" content="width=device-width,height=device-height, minimum-scale=1.0, maximum-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /></head>
+<body id="Body">
+    
+    <form method="post" action="/Board-Meeting/Board-Agendas" id="Form" enctype="multipart/form-data">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form'];
+if (!theForm) {
+    theForm = document.Form;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV1p8IdVtJyylHG13IbJLEAGXfYC5Y3SRiaeTsVu6MoSuXBn-qw1&amp;t=637453780754849868" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=uHIkleVeDJfqp4i9yeflK-BhanhCjUC4d9pC4i8zoOhSklEnnyBnlxRBwlJLdIACFe2IfUan65elyzQQtEuoiJCePfyiZuOi7xlQJHEtpggTyPxRgfJkj55D-QKfQJgntcLcaQ2&amp;t=363be08" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=Jw6tUGWnA17Po0NQIu0rpgc83_gtA-z2TIzAI1dWH6Mv6uWulWNfZCDGDEbvox_gfUPvizzHcVQrmgsZvdNig6zFcortcNXbqEwlg8Ib8xgihnq5T3k9x-VFh3S76ET5M2wC0Er2WlEoLkcE0&amp;t=363be08" type="text/javascript"></script>
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="CA0B0334" />
+	<input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="EmzVhKItv1AtbkYKiZKQ4zOZIpKy7y3pJlIWtBiHiy4PWR74AX28Eej/yA9x+LvXXjFyOJqPdqpFHGZSSY2K6tao2suvXTe8dWzB3r4y+T7qD7D+1hqoVe9VNfVhdF+r96zAUAJfso5Ofu+bRSJqt9hWb0tGHHx/l9UZnHdF709I+a76vySYr/c94ia/xwfF/3Bu4w==" />
+</div><script src="/js/dnn.js?cdv=1080" type="text/javascript"></script><script src="/js/dnn.modalpopup.js?cdv=1080" type="text/javascript"></script><script src="/DesktopModules/DNNGo_LayerGallery/Resource/js/mobile-detect.min.js?cdv=1080" type="text/javascript"></script><script src="/DesktopModules/DNNGo_LayerGallery/Effects/Effect_01_SliderRevolution3D/js/jquery.themepunch.revolution.merge.js?cdv=1080" type="text/javascript"></script><script src="/js/dnncore.js?cdv=1080" type="text/javascript"></script><script src="/Resources/Search/SearchSkinObjectPreview.js?cdv=1080" type="text/javascript"></script><script src="/js/dnn.servicesframework.js?cdv=1080" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ScriptManager', 'Form', [], [], [], 90, '');
+//]]>
+</script>
+
+        
+        
+        
+
+
+ 
+
+
+<!--[if lt IE 9]>
+<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]--> 
+<!-- header7 --> 
+
+<!-- header7 End --> 
+<div class="body_bg full"> 
+
+<style>
+
+/* GOOGLE TRANSLATE */
+
+#google_translate_element {
+  /*position: relative;*/
+  top: calc (10px + 10px);
+  right: 10px!important;
+  
+}
+
+.goog-te-gadget {
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+}
+
+.goog-te-gadget-simple, .goog-te-gadget-simple:hover, .goog-te-gadget-simple:active, .goog-te-gadget-simple:visited   {
+  background-color: rgba(255,255,255,0.20)!important;
+  border: 1px solid #777777 !important;
+  padding: 8px!important;
+  border-radius: 4px!important;
+  font-size: 1rem!important;
+  line-height:1.6rem!important;
+  display: inline-block;
+  cursor: pointer;
+  zoom: 1;
+}
+
+/*
+.goog-te-gadget-icon {
+    background-image: url("https://translate.googleapis.com/translate_static/img/te_ctrl3.gif");
+}
+*/
+
+/*
+.goog-te-menu2 {
+  max-width: 100%;
+}
+*/
+
+/*
+.goog-te-menu-value {
+    color: #000000 !important;
+    &:before {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    content: "\E927";
+    margin-right: 16px;
+    font-size: 2rem;
+    vertical-align: -10px;
+  } 
+}
+*/
+
+.goog-te-menu-value span:nth-child(5) {
+  display:none;
+}
+
+.goog-te-menu-value span:nth-child(3) {
+  border:none!important;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  /*
+  &:after {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    content: "\E5C5";
+    font-size: 1.5rem;
+    vertical-align: -6px;
+  } 
+  */
+}
+
+.goog-te-menu-frame:first {
+    background-image: url("https://translate.googleapis.com/translate_static/img/te_ctrl3.gif");            
+    background-position: -65px 0px;
+}
+
+
+/* ============ HIDE TOP BAR ============ */
+.goog-te-banner-frame.skiptranslate {display: none!important;} 
+body {top: 0px!important;}
+/* ================================== *\
+    Mediaqueries
+\* ================================== */
+
+/* */
+@media (max-width: 667px) {
+    #google_translate_element {
+        bottom: calc(100% - 50% - 53px);
+        left: 16px!important;
+        width: 100%!important;
+        goog-te-gadget {
+            width:100%!important;
+        }
+        .skiptranslate {
+            width:100%!important;           
+        }
+        .goog-te-gadget-simple {
+            width: calc(100% - 32px)!important;
+            text-align: center;
+        }   
+    }
+}
+
+</Style>
+
+<script>
+          $(document).ready(function () {
+   
+              var mobileDiv = document.getElementsByClassName("visible-xs");
+              
+              if ($(mobileDiv).css('display') == 'none') {
+              	//For large screen
+		$("#translatePlaceHolder1").prepend("<div id='google_translate_element'></div>");
+              }
+              
+              if ($(mobileDiv).css('display') == 'block') {
+              	//For small screen
+                $("#translatePlaceHolder2").append("<div id='google_translate_element'></div>");
+              }
+              
+              // RESTYLE THE DROPDOWN MENU
+	              $('#google_translate_element').on("click", function () {
+	                  // Change font family and color
+	                  $("iframe").contents().find(".goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div, .goog-te-menu2 *")
+	                      .css({
+	                          'color': '#544F4B',
+	                          'font-family': 'Open Sans, Arial, Helvetica, sans-serif',
+	                          'font-size': '16px',
+	                          'width': '100%'
+	                      });
+	                  // Hide Arrow and Select language text in drop down
+	                  $("iframe").contents().find('.goog-te-menu2-item-selected').css('display', 'none');
+	      
+	                  // Change menu's padding
+	                  $("iframe").contents().find('.goog-te-menu2').css('padding', '0px');
+	      
+	                  // Change the padding of the languages
+	                  $("iframe").contents().find('.goog-te-menu2-item div').css('padding', '7px');
+	                  $("iframe").contents().find('.goog-te-menu2-item div').css('padding-left', '15px');
+	      
+	                  // Change the width of the languages
+	                  $("iframe").contents().find('.goog-te-menu2-item').css('width', '100%');
+	                  $("iframe").contents().find('td').css('width', '100%');
+	      
+	                  // Change hover effects
+	                  $("iframe").contents().find(".goog-te-menu2-item div").hover(function () {
+	                      $(this).css('background-color', '#4385F5').find('span.text').css('color', 'white');
+	                  }, function () {
+	                      $(this).css('background-color', 'white').find('span.text').css('color', '#544F4B');
+	                  });
+	                  // Change Google's default blue border
+	                  $("iframe").contents().find('.goog-te-menu2').css('border', 'none');
+	                  // Change the iframe's box shadow
+	                  $(".goog-te-menu-frame").css('box-shadow', '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3)');
+	      
+	                  // Change the iframe's size and position
+	                  $(".goog-te-menu-frame").css({
+	                      'height': '345px',
+	                      'width': '175px',
+	                      /* Position */
+	                      'position': 'absolute',
+	                      'top': 'calc (10px + 125px)',
+	                      'right': '10px!important',
+	                      'z-index': '999999!important'
+	      
+	                  });
+	                  // Change iframes's size
+	                  $("iframe").contents().find('.goog-te-menu2').css({
+	                      'height': '345px',
+	                      'width': '175px',
+	                      'z-index': '999999!important'
+	                  });
+        });
+          });
+   </script>  
+  
+  <div id="dnn_wrapper">
+    <div class="wrapper">
+      <div class="hidden-xs"> 
+          <!-- header1~6 --> 
+          <!--header1 ~ header6 -->
+
+<!-- header1 -->
+<div id="header1">
+  <header>
+    <div class="header_top  ">
+      <div class="dnn_layout">
+        <div class="head_mid clearfix">
+          <div id="dnn_HeadPane" class="HeadPane  "><div class="DnnModule DnnModule-DNN_HTML DnnModule-8176 DnnVersionableControl"><a name="8176"></a><div id="dnn_ctr8176_ContentPane"><!-- Start_Module_8176 --><div id="dnn_ctr8176_ModuleContent" class="DNNModuleContent ModDNNHTMLC">
+	<div id="dnn_ctr8176_HtmlModule_lblContent"><ul class="Header_Info">
+    <li> <span class="fa  fa-phone"></span> Call Us : (213) 974-1411 </li>
+    <li> <span class="fa fa-envelope"></span> Email Us : executiveoffice@bos.lacounty.gov </li>
+</ul></div>
+
+
+
+
+</div><!-- End_Module_8176 --></div>
+</div></div>
+          <div class="Login  ">
+            
+
+            <span class="sep"> | </span>
+            
+<div id="dnn_dnnLogin_loginGroup" class="loginGroup">
+    <a id="dnn_dnnLogin_enhancedLoginLink" title="Login" class="LoginLink" rel="nofollow" onclick="return dnnModal.show(&#39;http://bos.lacounty.gov/Login?returnurl=/Board-Meeting/Board-Agendas&amp;popUp=true&#39;,/*showReturn*/true,300,650,true,&#39;&#39;)" href="http://bos.lacounty.gov/Login?returnurl=%2fBoard-Meeting%2fBoard-Agendas">Login</a>
+</div>
+          </div>
+	  <div id="translatePlaceHolder1" style="padding: 5px 5px 5px 0px; float: right;"></div>
+				<script>
+					//Get Request URL, If it is production, hide login 
+					var currentURL = window.location.href;
+					if(currentURL.toLowerCase().indexOf("lacounty.gov")>=0 || currentURL.toLowerCase().indexOf("co.la.ca.us")>=0)
+					{
+						$(".Login  ").remove();
+					}
+					
+					////Block Cross-Frame Scripting tw 07/12/2017
+					/*var styleElem = document.createElement('style');
+					styleElem.type = 'text/css' ;
+					var css = 'html{display:none;}' ;
+   					if(self == top){
+       						document.documentElement.style.display = 'block';} 
+					else{
+       						top.location = self.location; 
+						if(styleElem.styleSheet){
+    							styleElem.styleSheet.cssText = css;}
+						else{
+    							styleElem.appendChild(document.createTextNode(css));
+						}
+   					}*/
+				</script>
+				
+          <div class="languageBox  ">
+            <div class="language-object" >
+
+
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="roll_menu">
+      <div class="dnn_layout  LogoMenuBox  ">
+        <div class="head_mid clearfix">
+          <div class="dnn_logo  ">
+            <a id="dnn_dnnLOGO_hypLogo" title="County of Los Angeles Board of Supervisors" href="http://bos.lacounty.gov/"><img id="dnn_dnnLOGO_imgLogo" src="/Portals/1/Images/BOS/10486_EO_BOSNavHeader_EO_v3.jpg?ver=ouxWezjCwtTjgr8p_S6ssg%3d%3d" alt="County of Los Angeles Board of Supervisors" style="border-width:0px;" /></a>
+          </div>
+          <div class="pulldownsearch  ">
+            <div class="searchbut"  ><span class="fa fa-search"></span></div>
+            <div class="searchBox" id="search" style="display:none;"> <span class="searchArrow"> </span>
+              <span id="dnn_dnnSEARCH_ClassicSearch">
+    
+    
+    <span class="searchInputContainer" data-moreresults="See More Results" data-noresult="No Results Found">
+        <input name="dnn$dnnSEARCH$txtSearch" type="text" maxlength="255" size="20" id="dnn_dnnSEARCH_txtSearch" class="NormalTextBox" aria-label="Search" autocomplete="off" placeholder="Search..." />
+        <a class="dnnSearchBoxClearText" title="Clear search text"></a>
+    </span>
+    <a id="dnn_dnnSEARCH_cmdSearch" class="search" href="javascript:__doPostBack(&#39;dnn$dnnSEARCH$cmdSearch&#39;,&#39;&#39;)">GO</a>
+</span>
+
+
+<script type="text/javascript">
+    $(function() {
+        if (typeof dnn != "undefined" && typeof dnn.searchSkinObject != "undefined") {
+            var searchSkinObject = new dnn.searchSkinObject({
+                delayTriggerAutoSearch : 400,
+                minCharRequiredTriggerAutoSearch : 2,
+                searchType: 'S',
+                enableWildSearch: true,
+                cultureCode: 'en-US',
+                portalId: -1
+                }
+            );
+            searchSkinObject.init();
+            
+            
+            // attach classic search
+            var siteBtn = $('#dnn_dnnSEARCH_SiteRadioButton');
+            var webBtn = $('#dnn_dnnSEARCH_WebRadioButton');
+            var clickHandler = function() {
+                if (siteBtn.is(':checked')) searchSkinObject.settings.searchType = 'S';
+                else searchSkinObject.settings.searchType = 'W';
+            };
+            siteBtn.on('change', clickHandler);
+            webBtn.on('change', clickHandler);
+            
+            
+        }
+    });
+</script>
+
+            </div>
+          </div>
+          <nav>
+            <div class="dnn_menu hidden-xs">
+              <div id="dnngo_megamenu" class="IHide-sm IHide-md">
+                
+    <div class="dnngo_gomenu" id="dnngo_megamenu36c545e3fd">
+      
+         <ul class="primary_structure">
+ <li class=" ">
+<a href="http://bos.lacounty.gov/"   ><span>Home</span></a>
+</li>
+ <li class="dir current">
+<a href="http://bos.lacounty.gov/Board-Meeting"   ><span>Board Meeting</span></a>
+ <div class="dnngo_menuslide">
+ <ul class="dnngo_slide_menu ">
+ <li class=" subcurrent">
+<a href="http://bos.lacounty.gov/Board-Meeting/Board-Agendas"   ><span>Board Agendas</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Board-Meeting/Live-Broadcast"   ><span>Live Broadcast</span></a>
+</li>
+ <li class=" ">
+<a href="https://lacounty.gov/sop/"   target="_blank"><span>Statement of Proceedings/Minutes</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Board-Meeting/Public-Hearings"   ><span>Public Hearings</span></a>
+</li>
+</ul>
+</div>
+</li>
+ <li class="dir ">
+<a href="javascript:;"   ><span>Services</span></a>
+ <div class="dnngo_menuslide">
+ <ul class="dnngo_slide_menu ">
+ <li class="dir ">
+<a href="http://bos.lacounty.gov/Services/Assessment-Appeals"   ><span>Assessment Appeals</span></a>
+ <div class="dnngo_submenu">
+ <ul>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Assessment-Appeals/Board-Members-and-Hearing-Officers"   ><span>Board Members and Hearing Officers</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Assessment-Appeals/Public-Education-Program"   ><span>Public Education Program</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Assessment-Appeals/FAQ"   ><span>FAQ</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Assessment-Appeals/Assessment-Appeals-Information"   ><span>Assessment Appeals Information</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Assessment-Appeals/Tax-Agent-Registration"   ><span>Tax Agent Registration</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Assessment-Appeals/Agendas"   ><span>Agendas</span></a>
+</li>
+</ul>
+</div>
+</li>
+ <li class="dir ">
+<a href="http://bos.lacounty.gov/Services/Commission-Services"   ><span>Commission Services</span></a>
+ <div class="dnngo_submenu">
+ <ul>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Commission-Services/Membership-Roster"   ><span>Membership Roster</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Commission-Services/FAQ"   ><span>FAQ</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Commission-Services/Our-Commissions"   ><span>Our Commissions</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Commission-Services/Event-Information"   ><span>Event Information</span></a>
+</li>
+</ul>
+</div>
+</li>
+ <li class="dir ">
+<a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist"   ><span>Conflict of Interest/ Lobbyist</span></a>
+ <div class="dnngo_submenu">
+ <ul>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist/Lobbyist-Information"   ><span>Lobbyist Information</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist/Statement-of-Economic-Interest"   ><span>Statement of Economic Interest</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist/LACERA-Election"   ><span>LACERA Election</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist/FAQ"   ><span>FAQ</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist/Postgovernment-Information"   ><span>Postgovernment Information</span></a>
+</li>
+</ul>
+</div>
+</li>
+ <li class="dir ">
+<a href="http://bos.lacounty.gov/Services/Customer-Service-Center"   ><span>Customer Service Center</span></a>
+ <div class="dnngo_submenu">
+ <ul>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Customer-Service-Center/Kids-Corner"   ><span>Kids Corner</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Customer-Service-Center/Workstations-Kiosks"   ><span>Workstations/Kiosks</span></a>
+</li>
+</ul>
+</div>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Services/Records-Search"   ><span>Records Search</span></a>
+</li>
+</ul>
+</div>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/Forms"   ><span>Forms</span></a>
+</li>
+ <li class="dir ">
+<a href="javascript:;"   ><span>About Us</span></a>
+ <div class="dnngo_menuslide">
+ <ul class="dnngo_slide_menu ">
+ <li class="dir ">
+<a href="http://bos.lacounty.gov/About-Us/Board-of-Supervisors"   ><span>Board of Supervisors</span></a>
+ <div class="dnngo_submenu">
+ <ul>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/About-Us/Board-of-Supervisors/Community"   ><span>Community</span></a>
+</li>
+</ul>
+</div>
+</li>
+ <li class="dir ">
+<a href="http://bos.lacounty.gov/About-Us/Executive-Office-of-the-Board"   ><span>Executive Office of the Board</span></a>
+ <div class="dnngo_submenu">
+ <ul>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/About-Us/Executive-Office-of-the-Board/A-note-from-the-Executive-Officer"   ><span>A note from the Executive Officer</span></a>
+</li>
+</ul>
+</div>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/FAQ"   ><span>FAQ</span></a>
+</li>
+ <li class=" ">
+<a href="http://bos.lacounty.gov/About-Us/Press-Releases"   ><span>Press Releases</span></a>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $("#dnngo_megamenu36c545e3fd").dnngomegamenu({
+            slide_speed: 200,
+            delay_disappear: 500,
+            popUp: "vertical",//level
+			delay_show:150,
+			direction:"ltr",//rtl ltr
+			megamenuwidth:"box",//full box
+			WidthBoxClassName:".dnn_layout"
+        });
+    });
+
+
+	jQuery(document).ready(function () {
+		jQuery("#dnngo_megamenu36c545e3fd").has("ul").find(".dir > a").attr("aria-haspopup", "true");
+	}); 
+
+</script>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+<!-- header1 End --> 
+<!-- header6 --> 
+
+          <!-- header1~6 end --> 
+      </div>
+      <div class="visible-xs">
+          <!-- mobile header --> 
+          <div id="translatePlaceHolder2" class="common_h3" style="padding: 5px;"></div>
+<header>
+    <div class=" phoneHeadTop clearfix"> 
+        <span class="  ">
+            <a id="dnn_dnnLOGO3_hypLogo" title="County of Los Angeles Board of Supervisors" href="http://bos.lacounty.gov/"><img id="dnn_dnnLOGO3_imgLogo" src="/Portals/1/Images/BOS/10486_EO_BOSNavHeader_EO_v3.jpg?ver=ouxWezjCwtTjgr8p_S6ssg%3d%3d" alt="County of Los Angeles Board of Supervisors" style="border-width:0px;" /></a>
+        </span> 
+        <span class="fa fa-search  " id="mobile_search"></span>
+        
+<a href="#gomenu55ffed818d" class="mobilemenu_close">X</a>
+<div id="gomenu55ffed818d" class="mobile_menu ">
+    <ul  class="menu_list"><li class="   first-item Item-1 "><a href="http://bos.lacounty.gov/"   ><span>Home</span></a></li><li class="dir  current  Item-2 "><a href="http://bos.lacounty.gov/Board-Meeting"   ><span>Board Meeting</span></a><ul><li class="  subcurrent  first-item SunItem-1  mm-selected"><a href="http://bos.lacounty.gov/Board-Meeting/Board-Agendas" class="acurrent"  ><span>Board Agendas</span></a></li><li class="   SunItem-2 "><a href="http://bos.lacounty.gov/Board-Meeting/Live-Broadcast"   ><span>Live Broadcast</span></a></li><li class="   SunItem-3 "><a href="https://lacounty.gov/sop/"   target="_blank"><span>Statement of Proceedings/Minutes</span></a></li><li class="   last-item SunItem-4 "><a href="http://bos.lacounty.gov/Board-Meeting/Public-Hearings"   ><span>Public Hearings</span></a></li></ul></li><li class="dir   Item-3 "><a href="javascript:;"   ><span>Services</span></a><ul><li class="dir   first-item SunItem-1 "><a href="http://bos.lacounty.gov/Services/Assessment-Appeals"   ><span>Assessment Appeals</span></a><ul><li class="   first-item SunItem-1 "><a href="http://bos.lacounty.gov/Services/Assessment-Appeals/Board-Members-and-Hearing-Officers"   ><span>Board Members and Hearing Officers</span></a></li><li class="   SunItem-2 "><a href="http://bos.lacounty.gov/Services/Assessment-Appeals/Public-Education-Program"   ><span>Public Education Program</span></a></li><li class="   SunItem-3 "><a href="http://bos.lacounty.gov/Services/Assessment-Appeals/FAQ"   ><span>FAQ</span></a></li><li class="   SunItem-4 "><a href="http://bos.lacounty.gov/Services/Assessment-Appeals/Assessment-Appeals-Information"   ><span>Assessment Appeals Information</span></a></li><li class="   SunItem-5 "><a href="http://bos.lacounty.gov/Services/Assessment-Appeals/Tax-Agent-Registration"   ><span>Tax Agent Registration</span></a></li><li class="   last-item SunItem-6 "><a href="http://bos.lacounty.gov/Services/Assessment-Appeals/Agendas"   ><span>Agendas</span></a></li></ul></li><li class="dir   SunItem-2 "><a href="http://bos.lacounty.gov/Services/Commission-Services"   ><span>Commission Services</span></a><ul><li class="   first-item SunItem-1 "><a href="http://bos.lacounty.gov/Services/Commission-Services/Membership-Roster"   ><span>Membership Roster</span></a></li><li class="   SunItem-2 "><a href="http://bos.lacounty.gov/Services/Commission-Services/FAQ"   ><span>FAQ</span></a></li><li class="   SunItem-3 "><a href="http://bos.lacounty.gov/Services/Commission-Services/Our-Commissions"   ><span>Our Commissions</span></a></li><li class="   last-item SunItem-4 "><a href="http://bos.lacounty.gov/Services/Commission-Services/Event-Information"   ><span>Event Information</span></a></li></ul></li><li class="dir   SunItem-3 "><a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist"   ><span>Conflict of Interest/ Lobbyist</span></a><ul><li class="   first-item SunItem-1 "><a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist/Lobbyist-Information"   ><span>Lobbyist Information</span></a></li><li class="   SunItem-2 "><a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist/Statement-of-Economic-Interest"   ><span>Statement of Economic Interest</span></a></li><li class="   SunItem-3 "><a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist/LACERA-Election"   ><span>LACERA Election</span></a></li><li class="   SunItem-4 "><a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist/FAQ"   ><span>FAQ</span></a></li><li class="   last-item SunItem-5 "><a href="http://bos.lacounty.gov/Services/Conflict-of-Interest-Lobbyist/Postgovernment-Information"   ><span>Postgovernment Information</span></a></li></ul></li><li class="dir   SunItem-4 "><a href="http://bos.lacounty.gov/Services/Customer-Service-Center"   ><span>Customer Service Center</span></a><ul><li class="   first-item SunItem-1 "><a href="http://bos.lacounty.gov/Services/Customer-Service-Center/Kids-Corner"   ><span>Kids Corner</span></a></li><li class="   last-item SunItem-2 "><a href="http://bos.lacounty.gov/Services/Customer-Service-Center/Workstations-Kiosks"   ><span>Workstations/Kiosks</span></a></li></ul></li><li class="   last-item SunItem-5 "><a href="http://bos.lacounty.gov/Services/Records-Search"   ><span>Records Search</span></a></li></ul></li><li class="   Item-4 "><a href="http://bos.lacounty.gov/Forms"   ><span>Forms</span></a></li><li class="dir   last-item Item-5 "><a href="javascript:;"   ><span>About Us</span></a><ul><li class="dir   first-item SunItem-1 "><a href="http://bos.lacounty.gov/About-Us/Board-of-Supervisors"   ><span>Board of Supervisors</span></a><ul><li class="   last-item SunItem-1 "><a href="http://bos.lacounty.gov/About-Us/Board-of-Supervisors/Community"   ><span>Community</span></a></li></ul></li><li class="dir   SunItem-2 "><a href="http://bos.lacounty.gov/About-Us/Executive-Office-of-the-Board"   ><span>Executive Office of the Board</span></a><ul><li class="   last-item SunItem-1 "><a href="http://bos.lacounty.gov/About-Us/Executive-Office-of-the-Board/A-note-from-the-Executive-Officer"   ><span>A note from the Executive Officer</span></a></li></ul></li><li class="   SunItem-3 "><a href="http://bos.lacounty.gov/FAQ"   ><span>FAQ</span></a></li><li class="   last-item SunItem-4 "><a href="http://bos.lacounty.gov/About-Us/Press-Releases"   ><span>Press Releases</span></a></li></ul></li></ul>
+</div>
+ 
+ <script type="text/javascript">
+     jQuery(document).ready(function ($) {
+
+
+		 $('#gomenu55ffed818d').find(".dir.mm-selected").removeClass("mm-selected").parent().parent().addClass("mm-selected")
+		 
+         $('#gomenu55ffed818d').mobile_menu({
+             slidingSubmenus: true,
+             counters: true,
+             navbartitle: "Menu",
+             headerbox: ".menu_header",
+             footerbox: ".menu_footer"			 
+         });
+		 
+		  $('#gomenu55ffed818d').find("a[href='javascript:;']").on("click",function (e) {
+			  e.preventDefault();
+			  $(this).siblings(".mm-next").click();
+		  })
+     });
+</script>
+
+
+ 
+    </div>
+    <div class="phoneHeadBottom">
+        <div class="HeadPane_mobile menu_header   " ></div>
+        <div class="searchBox2   " id="search2" >
+          <span id="dnn_dnnSEARCH2_ClassicSearch">
+    
+    
+    <span class="searchInputContainer" data-moreresults="See More Results" data-noresult="No Results Found">
+        <input name="dnn$dnnSEARCH2$txtSearch" type="text" maxlength="255" size="20" id="dnn_dnnSEARCH2_txtSearch" class="NormalTextBox" aria-label="Search" autocomplete="off" placeholder="Search..." />
+        <a class="dnnSearchBoxClearText" title="Clear search text"></a>
+    </span>
+    <a id="dnn_dnnSEARCH2_cmdSearch" class="search" href="javascript:__doPostBack(&#39;dnn$dnnSEARCH2$cmdSearch&#39;,&#39;&#39;)">GO</a>
+</span>
+
+
+<script type="text/javascript">
+    $(function() {
+        if (typeof dnn != "undefined" && typeof dnn.searchSkinObject != "undefined") {
+            var searchSkinObject = new dnn.searchSkinObject({
+                delayTriggerAutoSearch : 400,
+                minCharRequiredTriggerAutoSearch : 2,
+                searchType: 'S',
+                enableWildSearch: true,
+                cultureCode: 'en-US',
+                portalId: -1
+                }
+            );
+            searchSkinObject.init();
+            
+            
+            // attach classic search
+            var siteBtn = $('#dnn_dnnSEARCH2_SiteRadioButton');
+            var webBtn = $('#dnn_dnnSEARCH2_WebRadioButton');
+            var clickHandler = function() {
+                if (siteBtn.is(':checked')) searchSkinObject.settings.searchType = 'S';
+                else searchSkinObject.settings.searchType = 'W';
+            };
+            siteBtn.on('change', clickHandler);
+            webBtn.on('change', clickHandler);
+            
+            
+        }
+    });
+</script>
+
+        </div>
+        <div class="Login   ">
+          
+
+          <span class="sep">|</span>
+          
+<div id="dnn_dnnLogin3_loginGroup" class="loginGroup">
+    <a id="dnn_dnnLogin3_enhancedLoginLink" title="Login" class="LoginLink" rel="nofollow" onclick="return dnnModal.show(&#39;http://bos.lacounty.gov/Login?returnurl=/Board-Meeting/Board-Agendas&amp;popUp=true&#39;,/*showReturn*/true,300,650,true,&#39;&#39;)" href="http://bos.lacounty.gov/Login?returnurl=%2fBoard-Meeting%2fBoard-Agendas">Login</a>
+</div>
+        </div>
+				<script>
+					//Get Request URL, If it is production, hide login 
+					var currentURL = window.location.href;
+					if(currentURL.toLowerCase().indexOf("lacounty.gov")>=0 || currentURL.toLowerCase().indexOf("co.la.ca.us")>=0)
+					{
+						$(".Login  ").remove();
+					}
+					////Block Cross-Frame Scripting tw 07/12/2017
+					/*var styleElem = document.createElement('style');
+					styleElem.type = 'text/css' ;
+					var css = 'html{display:none;}' ;
+   					if(self == top){
+       						document.documentElement.style.display = 'block';} 
+					else{
+       						top.location = self.location; 
+						if(styleElem.styleSheet){
+    							styleElem.styleSheet.cssText = css;}
+						else{
+    							styleElem.appendChild(document.createTextNode(css));
+						}
+   					}*/
+				</script>
+        <div class="languageBox  ">
+          <div class="language-object" >
+
+
+</div>
+        </div>
+    </div>
+</header>
+
+
+          <!-- mobile end --> 
+      </div>
+      <div class="Breadcrumb_bg" id="Breadcrumb_style_1">
+      
+        <!-- breadcrumb  --> 
+        
+<div class="shade"></div>
+<div class="breadcrumbBox   ">
+  <div class="dnn_layout">
+    <div class="content_mid clearfix">
+      <div class="breadcrumbborder">
+        <h3>Board Agendas </h3>
+        <div class="breadcrumbRight"> <a href="http://bos.lacounty.gov/" > <span class="fa fa-home"></span></a> 
+          <span id="dnn_dnnBREADCRUMB_lblBreadCrumb" itemprop="breadcrumb" itemscope="" itemtype="https://schema.org/breadcrumb"><span itemscope itemtype="http://schema.org/BreadcrumbList"><span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="http://bos.lacounty.gov/Board-Meeting" class="breadcrumb" itemprop="item"><span itemprop="name">Board Meeting</span></a><meta itemprop="position" content="1" /></span>   >   <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="http://bos.lacounty.gov/Board-Meeting/Board-Agendas" class="breadcrumb" itemprop="item"><span itemprop="name">Board Agendas</span></a><meta itemprop="position" content="2" /></span></span></span>
+        </div>
+        <div class="clear"></div>
+        <div id="dnn_breadcrumb_Pane" class="breadcrumb_Pane DNNEmptyPane"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+        <!-- breadcrumb end --> 
+          
+        <section id="dnn_content"> 
+
+            <!-- content pane --> 
+            <div id="dnn_Full_Screen_PaneA" class="Full_Screen_PaneA"><div class="DnnModule DnnModule-DNNGoLayerGallery DnnModule-16373"><a name="16373"></a><div id="dnn_ctr16373_ContentPane"><!-- Start_Module_16373 --><div id="dnn_ctr16373_ModuleContent" class="DNNModuleContent ModDNNGoLayerGalleryC">
+	<div id="dnn_ctr16373_View_Index_plLicense">
+		
+
+ <!--[if IE 8]> <link rel="stylesheet" type="text/css" href="/DesktopModules/DNNGo_LayerGallery/Effects/Effect_01_SliderRevolution3D/css/settings-ie8.css"> <![endif]--> <div class="tp-banner-container" id="LayerGallery16373"> <div class="tp-banner"  > <ul style="display:none;"> <!-- SliderOptions Dictionary  --> <!-- SLIDE.202--> <li class="tp-slides-item" data-transition="slideleft" data-slotamount="0" data-masterspeed="300" data-saveperformance="off" data-displaydesktop="on" data-displaytablet="on" data-displayphone="on" data-link="https://prosperla.lacounty.gov" data-target="_blank" data-slideindex="1" > <!-- Background picture --> <img src="/Portals/1/LayerGallery/uploads/2020/12/3/EO_BoardAgendaPage_ProsperLA.jpg" data-bgrepeat="no-repeat" data-bgposition="left" data-bgpositionend="left" data-duration="3000" data-ease="easeOutExpo" data-kenburns="off" data-bgfit="cover" data-bgfitend="100" alt="" title="" > <!-- LAYERS --> </li> <!-- SliderOptions Dictionary  --> <!-- SLIDE.207--> <li class="tp-slides-item" data-transition="slidedown" data-slotamount="0" data-masterspeed="300" data-saveperformance="off" data-displaydesktop="off" data-displaytablet="off" data-displayphone="off" data-link="http://bos.lacounty.gov/LinkClick.aspx?fileticket=-O4N1jVn3FY%3d&portalid=1" data-target="_blank" data-slideindex="1" > <!-- Background picture --> <img src="/Portals/1/LayerGallery/uploads/2021/3/17/EO_VBM_AgendaPage_032321.jpg" data-bgrepeat="no-repeat" data-bgposition="left" data-bgpositionend="left" data-duration="3000" data-ease="easeOutExpo" data-kenburns="off" data-bgfit="cover" data-bgfitend="100" alt="" title="" > <!-- LAYERS --> </li> <!-- SliderOptions Dictionary  --> <!-- SLIDE.286--> <li class="tp-slides-item" data-transition="fade" data-slotamount="0" data-masterspeed="300" data-saveperformance="off" data-displaydesktop="off" data-displaytablet="off" data-displayphone="off" data-link="http://bos.lacounty.gov/LinkClick.aspx?fileticket=jncCHXf8Gu4%3d&portalid=1" data-target="_blank" data-slideindex="1" > <!-- Background picture --> <img src="/Portals/1/LayerGallery/uploads/2021/3/17/EO_VBM_AgendaPage_032321_Sp.jpg" data-bgrepeat="no-repeat" data-bgposition="left" data-bgpositionend="left" data-duration="3000" data-ease="easeOutExpo" data-kenburns="off" data-bgfit="cover" data-bgfitend="100" alt="" title="" > <!-- LAYERS --> </li> <!-- SliderOptions Dictionary  --> <!-- SLIDE.253--> <li class="tp-slides-item" data-transition="slideup" data-slotamount="0" data-masterspeed="300" data-saveperformance="off" data-displaydesktop="off" data-displaytablet="off" data-displayphone="off" data-link="http://bos.lacounty.gov/LinkClick.aspx?fileticket=-O4N1jVn3FY%3d&portalid=1" data-target="_blank" data-slideindex="1" > <!-- Background picture --> <img src="/Portals/1/LayerGallery/uploads/2021/2/4/EO_VBM_AgendaPage_3WEB1_020921.jpg" data-bgrepeat="no-repeat" data-bgposition="left" data-bgpositionend="left" data-duration="3000" data-ease="easeOutExpo" data-kenburns="off" data-bgfit="cover" data-bgfitend="100" alt="" title="" > <!-- LAYERS --> </li> <!-- SliderOptions Dictionary  --> <!-- SLIDE.243--> <li class="tp-slides-item" data-transition="slideleft" data-slotamount="0" data-masterspeed="300" data-saveperformance="off" data-displaydesktop="off" data-displaytablet="off" data-displayphone="off" data-link="http://bos.lacounty.gov/LinkClick.aspx?fileticket=jncCHXf8Gu4%3d&portalid=1" data-target="_blank" data-slideindex="1" > <!-- Background picture --> <img src="/Portals/1/LayerGallery/uploads/2021/2/4/EO_VBM_AgendaPage_3WEB1_020921_Sp.jpg" data-bgrepeat="no-repeat" data-bgposition="left" data-bgpositionend="left" data-duration="3000" data-ease="easeOutExpo" data-kenburns="off" data-bgfit="cover" data-bgfitend="100" alt="" title="" > <!-- LAYERS --> </li> </ul> </div> </div> <script type="text/javascript" charset="utf-8">  jQuery(document).ready(function ($) {     if("off" == "on")     {         jQuery.fn.randomize = function(selector)         {             var elems = selector ? $(this).find(selector) : $(this).children(),             parents = elems.parent();             parents.each(function()             {                 $(this).children(selector).sort(function()                 {                     return Math.round(Math.random()) - 0.5;                 }                 ).detach().appendTo(this);             }             );             return this;         }         ;         $('#LayerGallery16373 .tp-banner > ul').randomize('li');     }     if(typeof MobileDetect == "function")     {         var md = new MobileDetect(window.navigator.userAgent),         phone = md.phone(),         tablet = md.tablet();         if(phone)         {             $("#LayerGallery16373 .tp-slides-item,#LayerGallery16373 .tp-caption").each(function()             {                 if($(this).data("displayphone")=="off")                 {                     $(this).remove();                 }             }             )         }         else if(tablet)         {             $("#LayerGallery16373 .tp-slides-item,#LayerGallery16373 .tp-caption").each(function()             {                 if($(this).data("displaytablet")=="off")                 {                     $(this).remove();                 }             }             )         }         else         {             $("#LayerGallery16373 .tp-slides-item,#LayerGallery16373 .tp-caption").each(function()             {                 if($(this).data("displaydesktop")=="off")                 {                     $(this).remove();                 }             }             )         }     }     $('#LayerGallery16373 .tp-banner .tp-caption,#LayerGallery16373 .tp-banner .tp-caption > *').each(function()     {         $(this).html($(this).html().trim())     }     );     $('#LayerGallery16373 .tp-banner').show().revolution(     {         delay: 5000,         startwidth:2000,         startheight:753,         fullScreenAlignForce:"off",         autoHeight:"off",         hideTimerBar:"off",         hideThumbs:200,         hideNavDelayOnMobile:1500,         thumbWidth:100,         thumbHeight:50,         thumbAmount:3,         navigationType:"bullet",         navigationArrows: "solo",         navigationInGrid:"off",         hideThumbsOnMobile:"off",         hideBulletsOnMobile:"off",         hideArrowsOnMobile:"off",         hideThumbsUnderResoluition: 0,         navigationStyle:"round",         navigationHAlign:"center",         navigationVAlign:"bottom",         navigationHOffset:0,         navigationVOffset: 20,         soloArrowLeftHalign: "left",         soloArrowLeftValign: "center",         soloArrowLeftHOffset:20,         soloArrowLeftVOffset: 0,         soloArrowRightHalign: "right",         soloArrowRightValign: "center",         soloArrowRightHOffset: 20,         soloArrowRightVOffset: 0,         keyboardNavigation:"off",         touchenabled:"on",         onHoverStop:"on",         startWithSlide: 0,         stopAtSlide:-1,         stopAfterLoops:-1,         hideCaptionAtLimit:0,         hideAllCaptionAtLimit:0,         hideSliderAtLimit:0,         fullWidth:"off",         fullScreen:"off",         minFullScreenHeight:0,         fullScreenOffsetContainer:"",         fullScreenOffset: 0,         dottedOverlay: "none",         forceFullWidth: "off",         spinner: "spinner0",         swipe_treshold: 75,         swipe_min_touches: 1,         drag_block_vertical: true,         parallax: "mouse",         parallaxLevels: "[10,7,4,3,2,5,4,3,2,1]",         parallaxBgFreeze: "off",         parallaxOpacity: "on",         parallaxDisableOnMobile: "off",         panZoomDisableOnMobile: "off",         simplifyAll: "on",         minHeight: 0,         shadow:0     }     ); } ); </script>  
+<!--LayerGallery_2-->
+<div style="display:none;" >
+    
+</div>
+<!--LayerGallery_1-->
+
+	</div>
+
+</div><!-- End_Module_16373 --></div>
+</div></div>
+<div class="dnn_layout">
+  <div class="content_mid clearfix">
+    <div class="pane_layout">
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="dnn_TopPane" class="TopPane DNNEmptyPane"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="dnn_Full_Screen_PaneB" class="Full_Screen_PaneB DNNEmptyPane"></div>
+<div class="dnn_layout">
+  <div class="content_mid clearfix">
+    <div class="pane_layout">
+      <div class="row">
+        <div class="col-sm-3">
+          <div id="dnn_RowOne_Grid3_Pane" class="RowOne_Grid3_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-9">
+          <div id="dnn_RowOne_Grid9_Pane" class="RowOne_Grid9_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div id="dnn_RowTwo_Grid4_Pane" class="RowTwo_Grid4_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-8">
+          <div id="dnn_RowTwo_Grid8_Pane" class="RowTwo_Grid8_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-5">
+          <div id="dnn_RowThree_Grid5_Pane" class="RowThree_Grid5_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-7">
+          <div id="dnn_RowThree_Grid7_Pane" class="RowThree_Grid7_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div id="dnn_RowFour_Grid6_Pane1" class="RowFour_Grid6_Pane1 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-6">
+          <div id="dnn_RowFour_Grid6_Pane2" class="RowFour_Grid6_Pane2 DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-7">
+          <div id="dnn_RowFive_Grid7_Pane" class="RowFive_Grid7_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-5">
+          <div id="dnn_RowFive_Grid5_Pane" class="RowFive_Grid5_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <div id="dnn_RowSix_Grid8_Pane" class="RowSix_Grid8_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-4">
+          <div id="dnn_RowSix_Grid4_Pane" class="RowSix_Grid4_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-9">
+          <div id="dnn_RowSeven_Grid9_Pane" class="RowSeven_Grid9_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-3">
+          <div id="dnn_RowSeven_Grid3_Pane" class="RowSeven_Grid3_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="dnn_Full_Screen_PaneC" class="Full_Screen_PaneC DNNEmptyPane"></div>
+<div class="dnn_layout">
+  <div class="content_mid clearfix">
+    <div class="pane_layout">
+      <div class="row">
+        <div class="col-sm-4">
+          <div id="dnn_RowEight_Grid4_Pane1" class="RowEight_Grid4_Pane1 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-4">
+          <div id="dnn_RowEight_Grid4_Pane2" class="RowEight_Grid4_Pane2 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-4">
+          <div id="dnn_RowEight_Grid4_Pane3" class="RowEight_Grid4_Pane3 DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div id="dnn_RowNine_Grid3_Pane1" class="RowNine_Grid3_Pane1 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-6">
+          <div id="dnn_RowNine_Grid6_Pane" class="RowNine_Grid6_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-3">
+          <div id="dnn_RowNine_Grid3_Pane2" class="RowNine_Grid3_Pane2 DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div id="dnn_RownTen_Grid3_Pane1" class="RownTen_Grid3_Pane1 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-3">
+          <div id="dnn_RowTen_Grid3_Pane2" class="RowTen_Grid3_Pane2 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-3">
+          <div id="dnn_RowTen_Grid3_Pane3" class="RowTen_Grid3_Pane3 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-3">
+          <div id="dnn_RowTen_Grid3_Pane4" class="RowTen_Grid3_Pane4 DNNEmptyPane"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="dnn_Full_Screen_PaneD" class="Full_Screen_PaneD DNNEmptyPane"></div>
+<div class="dnn_layout">
+  <div class="content_mid clearfix">
+    <div class="pane_layout">
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="dnn_ContentPane" class="ContentPane"><div class="DnnModule DnnModule-DNN_HTML DnnModule-16216 DnnVersionableControl"><a name="16216"></a>
+
+<div class="Container-3"> 
+  <!--Container Title-->
+  <div class="dnntitle">
+    <span id="dnn_ctr16216_dnnTITLE3_titleLabel" class="title3">A G E N D A S</span>
+
+
+
+  </div>
+  <!--Container Title End--> 
+  <!--Container Content-->
+  <div class="contentmain1">
+  
+    <div id="dnn_ctr16216_ContentPane" class="contentpane"><!-- Start_Module_16216 --><div id="dnn_ctr16216_ModuleContent" class="DNNModuleContent ModDNNHTMLC">
+	<div id="dnn_ctr16216_HtmlModule_lblContent"><div class="backgroundImage18">
+<div class="price-table price-table6 row animation fadeInUp animated"><!-- start of agenda -->
+<div class="col-md-3 col-sm-6 color_1">
+<div class="price_border">
+<div class="price_title">
+<h2><strong>MARCH</strong></h2>
+</div>
+
+<div class="price_holder">
+<div class="price_box"><span class="price">23</span><span class="unit"><br>
+						</span></div>
+
+<ul>
+ <li>Agenda for the Regular Meeting of Tuesday, March 23, 2021 at 9:30 a.m.<br />
+ &nbsp;</li>
+</ul>
+<a class="btn" href="/LinkClick.aspx?fileticket=uubFVO4njSk%3d&amp;portalid=1" target="_blank">View Agenda</a></div>
+</div>
+</div>
+<!-- end of agenda --><!-- start of agenda -->
+
+<div class="col-md-3 col-sm-6 color_2">
+<div class="price_border">
+<div class="price_title">
+<h2><strong>MARCH</strong></h2>
+</div>
+
+<div class="price_holder">
+<div class="price_box"><span class="price">16</span><span class="unit"><br>
+						</span></div>
+
+<ul>
+ <li>Agenda for the Special Meeting of Tuesday, March 16, 2021 at 9:30 a.m.<br />
+ &nbsp;</li>
+</ul>
+<a class="btn" href="/LinkClick.aspx?fileticket=hud9uxGbJns%3d&amp;portalid=1" target="_blank">View Agenda</a></div>
+</div>
+</div>
+<!-- end of agenda --><!-- start of agenda -->
+
+<div class="col-md-3 col-sm-6 color_2">
+<div class="price_border">
+<div class="price_title">
+<h2><strong>MARCH</strong></h2>
+</div>
+
+<div class="price_holder">
+<div class="price_box"><span class="price">9</span><span class="unit"><br>
+						</span></div>
+
+<ul>
+ <li>Agenda for the Regular Meeting of Tuesday, March 9, 2021 at 9:30 a.m.<br />
+ &nbsp;</li>
+</ul>
+<a class="btn" href="/LinkClick.aspx?fileticket=pztBtVCl0QI%3d&amp;portalid=1" target="_blank">View Agenda</a></div>
+</div>
+</div>
+<!-- end of agenda --><!-- start of agenda -->
+
+<div class="col-md-3 col-sm-6 color_2">
+<div class="price_border">
+<div class="price_title">
+<h2><strong>MARCH</strong></h2>
+</div>
+
+<div class="price_holder">
+<div class="price_box"><span class="price">2</span><span class="unit"><br>
+						</span></div>
+
+<ul>
+ <li>Agenda for the Special Closed Session Meeting of Tuesday, March 2, 2021 at 9:30 a.m.</li>
+</ul>
+<a class="btn" href="/LinkClick.aspx?fileticket=-gvODfqLCb0%3d&amp;portalid=1" target="_blank">View Agenda</a></div>
+</div>
+</div>
+<!-- end of agenda --></div>
+</div>
+</div>
+
+
+
+
+</div><!-- End_Module_16216 --></div>
+  </div>
+  <!--Container Content End--> 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="dnn_Full_Screen_PaneE" class="Full_Screen_PaneE DNNEmptyPane"></div>
+<div class="dnn_layout">
+  <div class="content_mid clearfix">
+    <div class="pane_layout">
+      <div class="row">
+        <div class="col-sm-3">
+          <div id="dnn_RownEleven_Grid3_Pane1" class="RownEleven_Grid3_Pane1 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-3">
+          <div id="dnn_RowEleven_Grid3_Pane2" class="RowEleven_Grid3_Pane2 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-3">
+          <div id="dnn_RowEleven_Grid3_Pane3" class="RowEleven_Grid3_Pane3 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-3">
+          <div id="dnn_RowEleven_Grid3_Pane4" class="RowEleven_Grid3_Pane4 DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div id="dnn_RowTwelve_Grid3_Pane1" class="RowTwelve_Grid3_Pane1 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-6">
+          <div id="dnn_RowTwelve_Grid6_Pane" class="RowTwelve_Grid6_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-3">
+          <div id="dnn_RowTwelve_Grid3_Pane2" class="RowTwelve_Grid3_Pane2 DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div id="dnn_RowThirteen_Grid4_Pane1" class="RowThirteen_Grid4_Pane1 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-4">
+          <div id="dnn_RowThirteen_Grid4_Pane2" class="RowThirteen_Grid4_Pane2 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-4">
+          <div id="dnn_RowThirteen_Grid4_Pane3" class="RowThirteen_Grid4_Pane3 DNNEmptyPane"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="dnn_Full_Screen_PaneF" class="Full_Screen_PaneF DNNEmptyPane"></div>
+<div class="dnn_layout">
+  <div class="content_mid clearfix">
+    <div class="pane_layout">
+      <div class="row">
+        <div class="col-sm-9">
+          <div id="dnn_RowFourteen_Grid9_Pane" class="RowFourteen_Grid9_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-3">
+          <div id="dnn_RowFourteen_Grid3_Pane" class="RowFourteen_Grid3_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <div id="dnn_RowFifteen_Grid8_Pane" class="RowFifteen_Grid8_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-4">
+          <div id="dnn_RowFifteen_Grid4_Pane" class="RowFifteen_Grid4_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-7">
+          <div id="dnn_RowSixteen_Grid7_Pane" class="RowSixteen_Grid7_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-5">
+          <div id="dnn_RowSixteen_Grid5_Pane" class="RowSixteen_Grid5_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div id="dnn_RowSeventeen_Grid6_Pane1" class="RowSeventeen_Grid6_Pane1 DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-6">
+          <div id="dnn_RowSeventeen_Grid6_Pane2" class="RowSeventeen_Grid6_Pane2 DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-5">
+          <div id="dnn_RowEighteen_Grid5_Pane" class="RowEighteen_Grid5_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-7">
+          <div id="dnn_RowEighteen_Grid7_Pane" class="RowEighteen_Grid7_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div id="dnn_RowNineteen_Grid4_Pane" class="RowNineteen_Grid4_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-8">
+          <div id="dnn_RowNineteen_Grid8_Pane" class="RowNineteen_Grid8_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div id="dnn_RowTwenty_Grid3_Pane" class="RowTwenty_Grid3_Pane DNNEmptyPane"></div>
+        </div>
+        <div class="col-sm-9">
+          <div id="dnn_RowTwenty_Grid9_Pane" class="RowTwenty_Grid9_Pane DNNEmptyPane"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="dnn_Full_Screen_PaneG" class="Full_Screen_PaneG DNNEmptyPane"></div>
+<div class="dnn_layout">
+  <div class="content_mid clearfix">
+    <div class="pane_layout">
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="dnn_BottomPane" class="BottomPane"><div class="DnnModule DnnModule-DNN_HTML DnnModule-16209 DnnVersionableControl"><a name="16209"></a>
+
+<div class="Container-3"> 
+  <!--Container Title-->
+  <div class="dnntitle">
+    <span id="dnn_ctr16209_dnnTITLE3_titleLabel" class="title3">S U P P L E M E N T A L&nbsp;&nbsp;&nbsp;A G E N D A S</span>
+
+
+
+  </div>
+  <!--Container Title End--> 
+  <!--Container Content-->
+  <div class="contentmain1">
+  
+    <div id="dnn_ctr16209_ContentPane" class="contentpane"><!-- Start_Module_16209 --><div id="dnn_ctr16209_ModuleContent" class="DNNModuleContent ModDNNHTMLC">
+	<div id="dnn_ctr16209_HtmlModule_lblContent"><div class="backgroundImage14">
+<div class="price-table price-table6 row animation fadeInUp animated"><!-- start of supplemental -->
+<div class="col-md-3 col-sm-6 color_1">
+<div class="price_border">
+<div class="price_title ">
+<h2>MARCH</h2>
+</div>
+
+<div class="price_holder">
+<div class="price_box"><span class="price">23</span><span class="unit">
+						<br>
+						</span></div>
+
+<ul>
+ <li>Supplemental Agenda for the Regular Meeting of Tuesday, March 23, 2021 at 9:30 a.m.</li>
+</ul>
+<a class="btn " href="/LinkClick.aspx?fileticket=SLldR448CUU%3d&amp;portalid=1" target="_blank">View Supplemental Agenda </a></div>
+</div>
+</div>
+<!-- end of supplemental --><!-- start of supplemental -->
+
+<div class="col-md-3 col-sm-6 color_2">
+<div class="price_border">
+<div class="price_title ">
+<h2>MARCH</h2>
+</div>
+
+<div class="price_holder">
+<div class="price_box"><span class="price">9</span><span class="unit">
+						<br>
+						</span></div>
+
+<ul>
+ <li>Supplemental Agenda for the Regular Meeting of Tuesday, March 9, 2021 at 9:30 a.m.</li>
+</ul>
+<a class="btn " href="/LinkClick.aspx?fileticket=WyvnLwMAY24%3d&amp;portalid=1" target="_blank">View Supplemental Agenda </a></div>
+</div>
+</div>
+<!-- end of supplemental --><!-- start of supplemental -->
+
+<div class="col-md-3 col-sm-6 color_2">
+<div class="price_border">
+<div class="price_title ">
+<h2>FEBRUARY</h2>
+</div>
+
+<div class="price_holder">
+<div class="price_box"><span class="price">23</span><span class="unit">
+						<br>
+						</span></div>
+
+<ul>
+ <li>Supplemental Agenda for the Regular Meeting of Tuesday, February 23, 2021 at 9:30 a.m.</li>
+</ul>
+<a class="btn " href="/LinkClick.aspx?fileticket=KC7oFNDn-Ko%3d&amp;portalid=1" target="_blank">View Supplemental Agenda </a></div>
+</div>
+</div>
+<!-- end of supplemental --><!-- start of supplemental -->
+
+<div class="col-md-3 col-sm-6 color_2">
+<div class="price_border">
+<div class="price_title ">
+<h2>FEBRUARY</h2>
+</div>
+
+<div class="price_holder">
+<div class="price_box"><span class="price">9</span><span class="unit">
+						<br>
+						</span></div>
+
+<ul>
+ <li>Supplemental Agenda for the Regular Meeting of Tuesday, February 9, 2021 at 9:30 a.m.</li>
+</ul>
+<a class="btn " href="/LinkClick.aspx?fileticket=GNicLnxraxs%3d&amp;portalid=1" target="_blank">View Supplemental Agenda </a></div>
+</div>
+</div>
+<!-- end of supplemental --></div>
+</div>
+
+<p>&nbsp;</p>
+</div>
+
+
+
+
+</div><!-- End_Module_16209 --></div>
+  </div>
+  <!--Container Content End--> 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="dnn_Full_Screen_PaneH" class="Full_Screen_PaneH"><div class="DnnModule DnnModule-DNN_HTML DnnModule-16212 DnnVersionableControl"><a name="16212"></a><div id="dnn_ctr16212_ContentPane"><!-- Start_Module_16212 --><div id="dnn_ctr16212_ModuleContent" class="DNNModuleContent ModDNNHTMLC">
+	<div id="dnn_ctr16212_HtmlModule_lblContent"><div class="ContentBottom3 pt-60 pb-60">
+	<div class="dnn_layout">
+		<div class="content_mid">
+			<div class="functionList_agenda row">
+				<div class="col-sm-4 animation flipInY animated">
+					<div class="functionBox">
+						<div class="functionIcon"><a href="https://public.govdelivery.com/accounts/CALACOUNTY/subscriber/new?topic_id=CALACOUNTY_114" target="_blank"><span class="fa fa-envelope"></span></a>
+						</div>
+						<div class="functiontitle"><a href="https://public.govdelivery.com/accounts/CALACOUNTY/subscriber/new?topic_id=CALACOUNTY_114" target="_blank"><span style="color: #ffffff">e-Mail Notification</span></a>
+						</div>
+						<div class="functionMain">
+							<p><a href="https://public.govdelivery.com/accounts/CALACOUNTY/subscriber/new?topic_id=CALACOUNTY_114" target="_blank"><span style="color: #ffffff">Subscribe and receive an E-mail notification of the Board's next meeting agenda.</span></a><br>
+								 
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4 animation flipInY animated">
+					<div class="functionBox">
+						<div class="functionIcon"><a href="/LinkClick.aspx?fileticket=7J6VEOogJK8%3d&portalid=1" target="_blank"><span class="fa fa-newspaper-o"></span> </a>
+						</div>
+						<div class="functiontitle"><a href="/LinkClick.aspx?fileticket=7J6VEOogJK8%3d&portalid=1" target="_blank"><span style="color: #ffffff">Information Booklet</span></a>
+						</div>
+						<div class="functionMain">
+							<p><a href="/LinkClick.aspx?fileticket=7J6VEOogJK8%3d&portalid=1" target="_blank"><span style="color: #ffffff">For more information regarding Agendas and Meetings of the Board, click here.</span></a><br>
+								 
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4 animation flipInY animated">
+					<div class="functionBox">
+						<div class="functionIcon"><a href="https://www.lacounty.gov/sop/?department=SOP&lang=&querytext=&searchTerm=1&Transcript=1&rowsPerPage=30#" target="_blank"><span class="fa fa-file-pdf-o"></span> </a>
+						</div>
+						<div class="functiontitle"><a href="https://www.lacounty.gov/sop/?department=SOP&lang=&querytext=&searchTerm=1&Transcript=1&rowsPerPage=30#" target="_blank"><span style="color: #ffffff">Transcripts</span></a>
+						</div>
+						<div class="functionMain">
+							<p><a href="https://www.lacounty.gov/sop/?department=SOP&lang=&querytext=&searchTerm=1&Transcript=1&rowsPerPage=30#" target="_blank"><span style="color: #ffffff">The Board's Transcripts are available at the Los Angeles County's portal in Microsoft Word and PDF format.</span></a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div></div>
+
+
+
+
+</div><!-- End_Module_16212 --></div>
+</div></div>
+
+
+            <!-- content pane end --> 
+        
+         </section>
+         
+            <!-- Footer --> 
+            <!-- Footer -->
+
+<div id="footer1">
+  <footer>
+    <div class="Footer_Contentbg  ">
+      <div class="dnn_layout">
+        <div class="footer_mid clearfix">
+          <div class="row">
+            <div class="col-sm-3">
+              <div id="dnn_FootPaneA" class="FootPaneA   DNNEmptyPane"></div>
+            </div>
+            <div class="col-sm-3">
+              <div id="dnn_FootPaneB" class="FootPaneB   DNNEmptyPane"></div>
+            </div>
+            <div class="col-sm-3">
+              <div id="dnn_FootPaneC" class="FootPaneC   DNNEmptyPane"></div>
+            </div>
+            <div class="col-sm-3">
+              <div id="dnn_FootPaneD" class="FootPaneD   DNNEmptyPane"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div id="dnn_FootPaneE" class="FootPaneE  "><div class="DnnModule DnnModule-DNN_HTML DnnModule-542 DnnVersionableControl"><a name="542"></a>
+
+<div class="Container-3"> 
+  <!--Container Title-->
+  <div class="dnntitle">
+    <span id="dnn_ctr542_dnnTITLE3_titleLabel" class="title3">Featured Links</span>
+
+
+
+  </div>
+  <!--Container Title End--> 
+  <!--Container Content-->
+  <div class="contentmain1">
+  
+    <div id="dnn_ctr542_ContentPane" class="contentpane"><!-- Start_Module_542 --><div id="dnn_ctr542_ModuleContent" class="DNNModuleContent ModDNNHTMLC">
+	<div id="dnn_ctr542_HtmlModule_lblContent"><div class="Footer_style">
+	<ul class="fa-ul">
+		<li>
+		<em class="fa-li fa fa-arrow-right"></em><a href="/FAQ" title="FAQ">FAQ</a>
+		</li>
+		<li>
+		<em class="fa-li fa fa-arrow-right"></em><a href="/BoardMeeting/Rewards.aspx" title="Cash Rewards for Information on Crimes">Rewards</a>
+		</li>
+		<li>
+		<em class="fa-li fa fa-arrow-right"></em><a href="/Services/CustomerServiceCenter/KidsCorner.aspx" title="Tour the Natural History Museum and more">Kid's Corner</a>
+		</li>
+		<li>
+		<em class="fa-li fa fa-arrow-right"></em><a href="/Services/ConflictofInterestLobbyist/PostgovernmentInformation.aspx">Postgovernment Information</a>
+		</li>
+		<li>
+		<em class="fa-li fa fa-arrow-right"></em><a href="http://cssd.lacounty.gov/" target="_blank" title="Child Support">Child Support</a>
+		</li>
+		<li>
+		<em class="fa-li fa fa-arrow-right"></em><a href="/AboutUs/ExecutiveOfficeoftheBoard/CountyEquityOversightPanel.aspx">County Equity Oversight Panel</a>
+		</li>
+		<li>
+		<em class="fa-li fa fa-arrow-right"></em><a href="/Services/ConflictofInterestLobbyist/LACERAElection.aspx">LACERA Elections</a>
+		</li>
+		<li>
+		<em class="fa-li fa fa-arrow-right"></em><a href="/LACountyJailPlan.aspx">LA County Jail Plan</a>
+		</li>
+	</ul>
+</div></div>
+
+
+
+
+</div><!-- End_Module_542 --></div>
+  </div>
+  <!--Container Content End--> 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+            </div>
+            <div class="col-sm-4">
+              <div id="dnn_FootPaneF" class="FootPaneF  "><div class="DnnModule DnnModule-DNN_HTML DnnModule-541 DnnVersionableControl"><a name="541"></a>
+
+<div class="Container-3"> 
+  <!--Container Title-->
+  <div class="dnntitle">
+    <span id="dnn_ctr541_dnnTITLE3_titleLabel" class="title3">Customer Service Center</span>
+
+
+
+  </div>
+  <!--Container Title End--> 
+  <!--Container Content-->
+  <div class="contentmain1">
+  
+    <div id="dnn_ctr541_ContentPane" class="contentpane"><!-- Start_Module_541 --><div id="dnn_ctr541_ModuleContent" class="DNNModuleContent ModDNNHTMLC">
+	<div id="dnn_ctr541_HtmlModule_lblContent"><div class="Footer_style">
+<p class="animation fadeInUp animated">Kenneth Hahn Hall of Administration</p>
+
+<ul class="Contact_List animation fadeInUp animated">
+ <li><span class="fa fa-map-marker"></span>500 West Temple St. Ste 383 Los Angeles, CA 90012</li>
+ <li><span class="fa fa-phone"></span>(213) 974-1411</li>
+ <li><span class="fa fa-envelope"></span><a href="mailto:executiveoffice@bos.lacounty.gov">executiveoffice@bos.lacounty.gov</a></li>
+</ul>
+
+<div class="icon_only animation fadeInUp animated" style="margin-top: 0px;"><a aria-label="Click here to access County's twitter account" href="https://twitter.com/lacountybos" target="_blank"><span class="fa fa-twitter"></span></a> <a aria-label="Click here to access County's facebook account" href="https://www.lacounty.gov/social" target="_blank"><span class="fa fa-facebook"></span></a> <a aria-label="Click here to access County's linkedin account" href="https://www.lacounty.gov/social" target="_blank"><span class="fa fa-linkedin"></span></a> <a aria-label="Click here to access County's google-plus account" href="https://www.lacounty.gov/social" target="_blank"><span class="fa fa-google-plus"></span></a><br />
+<span style="margin-left: 15px;">County Social Media Directory</span></div>
+</div>
+</div>
+
+
+
+
+</div><!-- End_Module_541 --></div>
+  </div>
+  <!--Container Content End--> 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+            </div>
+            <div class="col-sm-4">
+              <div id="dnn_FootPaneG" class="FootPaneG  "><div class="DnnModule DnnModule-DNN_HTML DnnModule-539 DnnVersionableControl"><a name="539"></a>
+
+<div class="Container-3"> 
+  <!--Container Title-->
+  <div class="dnntitle">
+    <span id="dnn_ctr539_dnnTITLE3_titleLabel" class="title3">Contact Us</span>
+
+
+
+  </div>
+  <!--Container Title End--> 
+  <!--Container Content-->
+  <div class="contentmain1">
+  
+    <div id="dnn_ctr539_ContentPane" class="contentpane"><!-- Start_Module_539 --><div id="dnn_ctr539_ModuleContent" class="DNNModuleContent ModDNNHTMLC">
+	<div id="dnn_ctr539_HtmlModule_lblContent"><div class="Footer_style">
+<div style="float: right;">
+<p class="animation fadeInUp"><a href="http://lacounty.gov" target="_blank"><img alt="la county seal" height="100" src="/portals/1/Images/BOS/LACoSEAL.png" width="100" /></a></p>
+</div>
+
+<div>
+<ul class="fa-ul">
+ <li>
+ <p class="animation fadeInUp"><em class="fa-li fa fa-question-circle"></em><a href="/AboutUs/ContactUs.aspx">Have a question?</a></p>
+ </li>
+ <li>
+ <p class="animation fadeInUp"><em class="fa-li fa fa-thumbs-o-up"></em><a href="https://www.211la.org/" target="_blank">211 LA County</a></p>
+ </li>
+ <li>
+ <p class="animation fadeInUp"><em class="fa-li fa fa-life-buoy"></em><a href="http://lacountyhelps.org/" target="_blank">LA CountyHelps</a></p>
+ </li>
+ <li>
+ <p class="animation fadeInUp"><em class="fa-li fa fa-warning"></em><a href="https://ready.lacounty.gov/alerts/" target="_blank">Public Alerts</a></p>
+ </li>
+</ul>
+</div>
+
+<div>&nbsp;
+<p class="animation fadeInUp"><a href="http://lacounty.gov" target="_blank"><img alt="lacounty.gov seal" src="/portals/1/Images/lacountyheader_logo.png" width="200" /></a></p>
+</div>
+</div>
+</div>
+
+
+
+
+</div><!-- End_Module_539 --></div>
+  </div>
+  <!--Container Content End--> 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="Footer_Bottombg  ">
+      <div class="dnn_layout">
+        <div class="footer_mid clearfix">
+          <div class="copyright_style">
+            <span id="dnn_dnnCOPYRIGHT_lblCopyright" class="footer   ">Copyright 2021 by County of Los Angeles Board of Supervisors</span>
+
+            <span class="sep  ">|</span>
+            <a id="dnn_dnnPRIVACY_hypPrivacy" class="terms  " rel="nofollow" href="http://bos.lacounty.gov/Privacy">Privacy Statement</a>
+            <span class="sep    ">|</span>
+            <a id="dnn_dnnTERMS_hypTerms" class="terms  " rel="nofollow" href="http://bos.lacounty.gov/Terms">Terms Of Use</a>
+            
+          </div>
+          <div id="dnn_FooterPane" class="FooterPane  "><div class="DnnModule DnnModule-DNN_HTML DnnModule-8217 DnnVersionableControl"><a name="8217"></a><div id="dnn_ctr8217_ContentPane"><!-- Start_Module_8217 --><div id="dnn_ctr8217_ModuleContent" class="DNNModuleContent ModDNNHTMLC">
+	<div id="dnn_ctr8217_HtmlModule_lblContent">&nbsp;&nbsp;<a href="https://get.adobe.com/reader/" target="_blank"><img title="Get_Adobe_Acrobat_Reader" style="max-width: 100%;" alt="Get Adobe Acrobat Reader" src="/portals/1/Images/Get_Adobe_Acrobat_Reader.png?ver=2016-05-26-170436-220" unselectable="on" /></a></div>
+
+
+
+
+</div><!-- End_Module_8217 --></div>
+</div></div>
+          <div id="to_top" class=" "><span> </span></div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+<!-- Footer End --> 
+<!-- Footer2 --> 
+
+            <!-- Footer end--> 
+
+     </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="/Portals/_default/Skins/20047-UnlimitedColorPack-033-Blue/scripts/script.js"></script> 
+<script type="text/javascript" src="/Portals/_default/Skins/20047-UnlimitedColorPack-033-Blue/scripts/custom.js"></script> 
+
+
+
+
+<script type="text/javascript">
+        //Get Request URL, If it is production, hide login 
+        var currentURL = window.location.href;
+        //Removed condition to display Google Translate on specific sites
+        //if (currentURL.toLowerCase().indexOf("bos.lacounty.gov") >= 0 || currentURL.toLowerCase().indexOf("bos-staging") >= 0 || currentURL.toLowerCase().indexOf("oig.lacounty.gov") >= 0 || currentURL.toLowerCase().indexOf("oig-staging") >= 0 || currentURL.toLowerCase().indexOf("qpc.lacounty.gov") >= 0 || currentURL.toLowerCase().indexOf("qpc-staging") >= 0) {
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,es,zh-CN,ko,tl,hy,ru,km,ar,vi,ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+            }
+        //}
+    </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+        <input name="ScrollTop" type="hidden" id="ScrollTop" />
+        <input name="__dnnVariable" type="hidden" id="__dnnVariable" autocomplete="off" value="`{`trackLinks`:`false`,`__scdoff`:`1`,`sf_siteRoot`:`/`,`sf_tabId`:`2211`,`evoq_TabId`:`2211`,`evoq_PageLanguage`:`en-US`,`evoq_ContentItemId`:`-1`,`evoq_UrlReferrer`:``,`evoq_UrlPath`:`http%3a%2f%2fbos.lacounty.gov%2fBoard-Meeting%2fBoard-Agendas`,`evoq_UrlQuery`:`%3fTabId%3d2211%26language%3den-US`,`evoq_ContentItemReferrer`:`-1`,`evoq_PersonalizedUrlReferrer`:`-1`,`evoq_DisableAnalytics`:`False`}" />
+        <input name="__RequestVerificationToken" type="hidden" value="4Bjg7sIEYBDnHeczQSs_3UNNSlpA_YocD-Ca3lEOQzHTWyZlcC_wZS_EYVSClnwSxA2otg2" />
+    
+<script type="text/javascript" src="/DesktopModules/DNNGo_xPlugin/Resource/js/dnngo-xplugin.js?cdv=20210324.1080"></script></form>
+    <!--CDF(Javascript|/js/dnncore.js?cdv=1080|DnnBodyProvider|100)--><!--CDF(Javascript|/js/dnn.modalpopup.js?cdv=1080|DnnBodyProvider|50)--><!--CDF(Css|/Resources/Shared/stylesheets/dnndefault/7.0.0/default.css?cdv=1080|DnnPageHeaderProvider|5)--><!--CDF(Css|/Portals/_default/Skins/20047-UnlimitedColorPack-033-Blue/skin.css?cdv=1080|DnnPageHeaderProvider|15)--><!--CDF(Css|/Portals/_default/Skins/20047-UnlimitedColorPack-033-Blue/InsidePage.css?cdv=1080|DnnPageHeaderProvider|20)--><!--CDF(Css|/Portals/_default/Containers/20047-UnlimitedColorPack-033/container.css?cdv=1080|DnnPageHeaderProvider|25)--><!--CDF(Css|/Portals/_default/Containers/20047-UnlimitedColorPack-033/container.css?cdv=1080|DnnPageHeaderProvider|25)--><!--CDF(Css|/Portals/_default/Containers/20047-UnlimitedColorPack-033/container.css?cdv=1080|DnnPageHeaderProvider|25)--><!--CDF(Css|/Portals/_default/Containers/20047-UnlimitedColorPack-033/container.css?cdv=1080|DnnPageHeaderProvider|25)--><!--CDF(Css|/Portals/_default/Containers/20047-UnlimitedColorPack-033/container.css?cdv=1080|DnnPageHeaderProvider|25)--><!--CDF(Css|/DesktopModules/DNNGo_LayerGallery/Effects/Effect_01_SliderRevolution3D/Themes/defaultskin/Style.css?cdv=1080|DnnPageHeaderProvider|100)--><!--CDF(Javascript|/DesktopModules/DNNGo_LayerGallery/Resource/js/mobile-detect.min.js?cdv=1080|DnnBodyProvider|50)--><!--CDF(Javascript|/DesktopModules/DNNGo_LayerGallery/Effects/Effect_01_SliderRevolution3D/js/jquery.themepunch.revolution.merge.js?cdv=1080|DnnBodyProvider|51)--><!--CDF(Css|/Portals/1/portal.css?cdv=1080|DnnPageHeaderProvider|35)--><!--CDF(Css|/Resources/Search/SearchSkinObjectPreview.css?cdv=1080|DnnPageHeaderProvider|10)--><!--CDF(Javascript|/Resources/Search/SearchSkinObjectPreview.js?cdv=1080|DnnBodyProvider|100)--><!--CDF(Css|/Resources/Search/SearchSkinObjectPreview.css?cdv=1080|DnnPageHeaderProvider|10)--><!--CDF(Javascript|/Resources/Search/SearchSkinObjectPreview.js?cdv=1080|DnnBodyProvider|100)--><!--CDF(Javascript|/js/dnn.js?cdv=1080|DnnBodyProvider|12)--><!--CDF(Javascript|/js/dnn.servicesframework.js?cdv=1080|DnnBodyProvider|100)--><!--CDF(Javascript|/Resources/libraries/jQuery-UI/01_12_01/jquery-ui.js?cdv=1080|DnnPageHeaderProvider|10)--><!--CDF(Javascript|/Resources/libraries/jQuery/03_05_01/jquery.js?cdv=1080|DnnPageHeaderProvider|5)--><!--CDF(Javascript|/Resources/libraries/jQuery-Migrate/03_02_00/jquery-migrate.js?cdv=1080|DnnPageHeaderProvider|6)-->
+    
+<script async type="text/javascript" src="/_Incapsula_Resource?SWJIYLWA=719d34d31c8e3a6e6fffd425f7e032f3&ns=1&cb=335174125"></script>
+</body>
+</html>
