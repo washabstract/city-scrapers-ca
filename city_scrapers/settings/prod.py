@@ -42,9 +42,30 @@ if not os.path.exists(credentials_content):
         f.write(credentials_content)
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path
 
-FEED_URI = (
-    "gs://{bucket}/%(year)s/%(month)s/%(day)s/%(hour_min)s/%(name)s.json"
-).format(bucket=GCS_BUCKET)
+FEEDS = {
+    # 'meetings-%(year)s-%(month)s-%(day)s-%(hour_min)s-%(name)s.json': {
+    #     'format': 'jsonlines',
+    #     'encoding': 'utf8',
+    #     'store_empty': False,
+    #     'fields': None,
+    #     'indent': 4,
+    #     'item_export_kwargs': {
+    #         'export_empty_fields': True,
+    #     },
+    # },
+    ("gs://{bucket}/%(year)s/%(month)s/%(day)s/%(hour_min)s/%(name)s.json").format(
+        bucket=GCS_BUCKET
+    ): {
+        "format": "jsonlines",
+        "encoding": "utf8",
+        "store_empty": False,
+        "fields": None,
+        "indent": 4,
+        "item_export_kwargs": {
+            "export_empty_fields": True,
+        },
+    },
+}
 
 POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE")
 POSTGRES_USER = os.getenv("POSTGRES_USER")
@@ -52,11 +73,3 @@ POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "")
 POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
 
 LOG_LEVEL = "WARNING"
-
-# TODO: ScrapyDeprecationWarning: The `FEED_URI` and `FEED_FORMAT` settings have been
-# deprecated in favor of the `FEEDS` setting. Please see the `FEEDS` setting docs for
-# more details
-
-# TODO: ScrapyDeprecationWarning: GCSFeedStorage.from_crawler does not support the
-# 'feed_options' keyword argument. Add a 'feed_options' parameter to its signature to
-# remove this warning. This parameter will become mandatory in a future version.
