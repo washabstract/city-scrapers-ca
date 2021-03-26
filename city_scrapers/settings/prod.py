@@ -27,8 +27,6 @@ FEED_EXPORTERS = {
     "jsonlines": "scrapy.exporters.JsonLinesItemExporter",
 }
 
-FEED_FORMAT = "jsonlines"
-
 FEED_STORAGES = {
     "gcs": "scrapy.extensions.feedexport.GCSFeedStorage",
 }
