@@ -1,10 +1,11 @@
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from html import unescape
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
-from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import ParserError, parse
+
+from city_scrapers.items import Meeting
 
 
 class LaCityGovernmentSpider(CityScrapersSpider):
@@ -47,6 +48,8 @@ class LaCityGovernmentSpider(CityScrapersSpider):
                 location=self._parse_location(item),
                 links=self._parse_links(item),
                 source=self._parse_source(response),
+                created=datetime.now(),
+                updated=datetime.now(),
             )
 
             meeting["id"] = self._get_id(meeting)

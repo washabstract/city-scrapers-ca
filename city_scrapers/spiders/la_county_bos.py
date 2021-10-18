@@ -1,10 +1,12 @@
 import re
+from datetime import datetime
 from urllib.parse import urljoin
 
 from city_scrapers_core.constants import BOARD
-from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse as dateparse
+
+from city_scrapers.items import Meeting
 
 
 class LaCountyBosSpider(CityScrapersSpider):
@@ -33,6 +35,8 @@ class LaCountyBosSpider(CityScrapersSpider):
                 location=self._parse_location(item),
                 links=self._parse_links(item),
                 source=self._parse_source(response),
+                created=datetime.now(),
+                updated=datetime.now(),
             )
 
             meeting["status"] = self._get_status(meeting)

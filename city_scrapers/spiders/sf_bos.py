@@ -1,9 +1,11 @@
+from datetime import datetime
 from urllib.parse import urljoin
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
-from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse as datetime_parse
+
+from city_scrapers.items import Meeting
 
 
 class SfBosSpider(CityScrapersSpider):
@@ -31,6 +33,8 @@ class SfBosSpider(CityScrapersSpider):
                 time_notes=self._parse_time_notes(item),
                 location=self._parse_location(item, default_address),
                 source=self._parse_source(response),
+                created=datetime.now(),
+                updated=datetime.now(),
             )
 
             meeting["status"] = self._get_status(meeting)
