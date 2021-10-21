@@ -92,7 +92,7 @@ class LaCityGovernmentSpider(CityScrapersSpider):
         try:
             start = parse(start_str)
         except ParserError:
-            start = None
+            return None
         return start.replace(tzinfo=None)
 
     def _parse_end(self, item):
