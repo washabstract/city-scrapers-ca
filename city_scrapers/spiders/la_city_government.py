@@ -3,7 +3,7 @@ from html import unescape
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
 from city_scrapers_core.spiders import CityScrapersSpider
-from dateutil.parser import ParserError, parse
+from dateutil.parser import parse
 
 from city_scrapers.items import Meeting
 
@@ -89,10 +89,7 @@ class LaCityGovernmentSpider(CityScrapersSpider):
             start_str += item["date"] + " "
         if "time" in item:
             start_str += item["time"]
-        try:
-            start = parse(start_str)
-        except ParserError:
-            return None
+        start = parse(start_str)
         return start.replace(tzinfo=None)
 
     def _parse_end(self, item):
