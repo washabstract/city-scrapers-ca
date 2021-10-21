@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from html import unescape
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
@@ -13,7 +13,11 @@ class LaCityGovernmentSpider(CityScrapersSpider):
     agency = "Los Angeles City Government"
     timezone = "America/Los_Angeles"
     start_urls = [
-        f"https://lacity.primegov.com/api/v2/PublicPortal/ListArchivedMeetings?year={date.today().year}",
+        (
+            "https://lacity.primegov.com/api/v2/PublicPortal/ListArchivedMeetings"
+            f"?year={date.today().year}"
+        ),
+        "https://lacity.primegov.com/api/v2/PublicPortal/ListUpcomingMeetings",
     ]
 
     def parse(self, response):
@@ -56,13 +60,17 @@ class LaCityGovernmentSpider(CityScrapersSpider):
         """Parse or generate meeting description."""
         description = ""
         if "allowPublicSpeaker" in item:
-            allowPublicSpeaker = "allows" if item["allowPublicSpeaker"] else "does not allow"
+            allowPublicSpeaker = (
+                "allows" if item["allowPublicSpeaker"] else "does not allow"
+            )
             description += f"This meeting {allowPublicSpeaker} public speakers. "
         if "allowPublicComment" in item:
-            allowPublicComment = "allows" if item["allowPublicComment"] else "does not allow"
+            allowPublicComment = (
+                "allows" if item["allowPublicComment"] else "does not allow"
+            )
             description += f"This meeting {allowPublicComment} public speakers. "
         if "isZoomMeeting" in item and item["isZoomMeeting"]:
-            description += f"This meeting is a Zoom meeting. "
+            description += "This meeting is a Zoom meeting. "
         if "meetingStatus" in item and item["meetingState"] == 1:
             description += "This meeting has been cancelled. "
         return description.strip()
@@ -112,17 +120,20 @@ class LaCityGovernmentSpider(CityScrapersSpider):
         if "documentList" in item:
             for doc in item["documentList"]:
                 if "compileOutputType" in doc and doc["compileOutputType"] == 1:
-                    link = "https://lacity.primegov.com/Public/CompiledDocument/" + doc["id"]
+                    link = "https://lacity.primegov.com/Public/CompiledDocument/" + str(
+                        doc["id"]
+                    )
                 else:
-                    link = "https://lacity.primegov.com/Portal/Meeting?compiledMeetingDocumentFileId=" + doc["id"]
-                
+                    link = (
+                        "https://lacity.primegov.com/Portal/Meeting"
+                        "?compiledMeetingDocumentFileId=" + str(doc["id"])
+                    )
+
                 if "templateName" in doc and doc["templateName"]:
-                    title = doc["tempmlateName"]
+                    title = doc["templateName"]
                 else:
                     title = "Meeting/Agenda Information"
-                links.append(
-                    {"href": link, "title": title}
-                )
+                links.append({"href": link, "title": title})
         if "videoUrl" in item and item["videoUrl"]:
             links.append({"href": item["videoUrl"], "title": "Video Link"})
         if len(links) == 0:
