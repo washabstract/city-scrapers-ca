@@ -38,6 +38,8 @@ class TextExtractorPipeline:
     def process_item(self, item, spider):
         for link in item["links"]:
             """parse only the meeting/agenda link"""
-            if link["note"] == "Meeting/Agenda Information" or ("Agenda" in link["note"] and "HTML" not in link["note"]):
+            if link["note"] == "Meeting/Agenda Information" or (
+                "Agenda" in link["note"] and "HTML" not in link["note"]
+            ):
                 link["raw_text"], item["location"]["url"] = self.extract_text(link)
         return item
