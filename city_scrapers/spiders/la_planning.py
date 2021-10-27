@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 from datetime import date
 
+=======
+>>>>>>> 56c289ad3bfa26a7bc39e262a4862dc1edc2b227
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
@@ -11,12 +14,18 @@ class LaPlanningSpider(CityScrapersSpider):
     agency = "LA Planning Commission"
     timezone = "America/Los_Angeles"
     start_urls = [
+<<<<<<< HEAD
         "https://planning.lacity.org/dcpapi/meetings/api/all/commissions/"
         f"{date.today().year}",
         "https://planning.lacity.org/dcpapi/meetings/api/all/boards/"
         f"{date.today().year}",
         "https://planning.lacity.org/dcpapi/meetings/api/all/hearings/"
         f"{date.today().year}",
+=======
+        "https://planning.lacity.org/dcpapi/meetings/api/all/commissions/2021",
+        "https://planning.lacity.org/dcpapi/meetings/api/all/boards/2021",
+        "https://planning.lacity.org/dcpapi/meetings/api/all/hearings/2021",
+>>>>>>> 56c289ad3bfa26a7bc39e262a4862dc1edc2b227
     ]
 
     def parse(self, response):

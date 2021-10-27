@@ -12,7 +12,7 @@ from city_scrapers.items import Meeting
 class LaCountyBosSpider(CityScrapersSpider):
     name = "la_county_bos"
     agency = "LA County Board of Supervisors"
-    timezone = "America/Chicago"
+    timezone = "America/Los_Angeles"
     start_urls = ["http://bos.lacounty.gov/Board-Meeting/Board-Agendas"]
 
     def parse(self, response):

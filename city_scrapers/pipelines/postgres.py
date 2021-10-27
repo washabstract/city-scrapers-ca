@@ -44,7 +44,6 @@ class PostgresPipeline:
                 "location_address TEXT, "
                 "location_url TEXT, "
                 "agency VARCHAR(255), "
-                "created TIMESTAMPTZ, "
                 "updated TIMESTAMPTZ "
                 ");"
             )
@@ -105,8 +104,7 @@ class PostgresPipeline:
             item["location"]["name"],
             item["location"]["url"],
             item["extras"]["cityscrapers.org/agency"],
-            item["created"],
-            item["updated"],
+            item["updated_at"],
         )
         query = "SELECT * FROM meeting WHERE id=%s;"
         (records, e) = self.sql_query(query, (data[0],))
@@ -117,9 +115,9 @@ class PostgresPipeline:
                 "INSERT INTO meeting("
                 "id, ocd_id, name, description, classification, status, start_tz, "
                 "end_tz, timezone, all_day, time_notes, location_name, "
-                "location_url, agency, created, updated, "
+                "location_url, agency, updated "
                 ") VALUES ("
-                "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s"
+                "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s"
                 ");"
             )
             (_, e) = self.sql_query(query, data)
@@ -131,7 +129,7 @@ class PostgresPipeline:
                 "ocd_id = %s, name = %s, description = %s, classification = %s, "
                 "status = %s, start_tz = %s, end_tz = %s, timezone = %s, "
                 "all_day = %s, time_notes = %s, location_name = %s, "
-                "location_url = %s, agency = %s, created = %s, updated = %s "
+                "location_url = %s, agency = %s, updated = %s "
                 "WHERE id=%s"
             )
             data = (
@@ -148,9 +146,8 @@ class PostgresPipeline:
                 item["location"]["name"],
                 item["location"]["url"],
                 item["extras"]["cityscrapers.org/agency"],
+                item["updated_at"],
                 item["extras"]["cityscrapers.org/id"],
-                item["created"],
-                item["updated"],
             )
             (_, e) = self.sql_query(query, data)
             if e:
