@@ -7,7 +7,7 @@ from dateutil.parser import parse
 class LaPlanningSpider(CityScrapersSpider):
     name = "la_planning"
     agency = "LA Planning Commission"
-    timezone = "America/Chicago"
+    timezone = "America/Los_Angeles"
     start_urls = [
         "https://planning.lacity.org/dcpapi/meetings/api/all/commissions/2021",
         "https://planning.lacity.org/dcpapi/meetings/api/all/boards/2021",
