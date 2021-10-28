@@ -1,9 +1,10 @@
+from urllib.parse import urljoin
+
 from city_scrapers_core.constants import COMMISSION
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
-
-from urllib.parse import urljoin
 from dateutil.parser import parse
+
 
 class SfPlanningSpider(CityScrapersSpider):
     name = "sf_planning"
@@ -67,10 +68,15 @@ class SfPlanningSpider(CityScrapersSpider):
 
     def _parse_location(self, item):
         """Parse or generate location."""
-        location = item.xpath('//div[@class="location"]/text()').extract()[1].strip().split('\n')
+        location = (
+            item.xpath('//div[@class="location"]/text()')
+            .extract()[1]
+            .strip()
+            .split("\n")
+        )
         location[0] = location[0].strip()
         location[1] = location[1].strip()
-        location = ' '.join(location)
+        location = " ".join(location)
         return {
             "address": location,
             "name": "SF Planning Commission",
@@ -80,15 +86,19 @@ class SfPlanningSpider(CityScrapersSpider):
         """Parse or generate links."""
         links = []
         if len(item.xpath('//a[text()="AGENDA"]/@href').extract()) > 0:
-            links.append({
-                "href": item.xpath('//a[text()="AGENDA"]/@href').extract()[0],
-                "title": "Meeting/Agenda Information"
-            })
+            links.append(
+                {
+                    "href": item.xpath('//a[text()="AGENDA"]/@href').extract()[0],
+                    "title": "Meeting/Agenda Information",
+                }
+            )
         if len(item.xpath('//a[text()="SUPPORTING"]/@href').extract()) > 0:
-            links.append({
-                "href": item.xpath('//a[text()="SUPPORTING"]/@href').extract()[0],
-                "title": "Supporting Documents"
-            })
+            links.append(
+                {
+                    "href": item.xpath('//a[text()="SUPPORTING"]/@href').extract()[0],
+                    "title": "Supporting Documents",
+                }
+            )
         return links
 
     def _parse_source(self, response):

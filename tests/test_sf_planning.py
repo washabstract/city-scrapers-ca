@@ -2,7 +2,7 @@ from datetime import datetime
 from os.path import dirname, join
 
 import pytest
-from city_scrapers_core.constants import COMMISSION, NOT_CLASSIFIED
+from city_scrapers_core.constants import COMMISSION
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
@@ -18,8 +18,6 @@ freezer = freeze_time("2021-10-27")
 freezer.start()
 parsed_items = [item for item in spider.parse_meeting(test_response)]
 freezer.stop()
-
-
 
 
 def test_title():
@@ -43,7 +41,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "sf_planning/202110281300/x/hearing_for_sf_planning_commission"
+    assert (
+        parsed_items[0]["id"]
+        == "sf_planning/202110281300/x/hearing_for_sf_planning_commission"
+    )
 
 
 def test_status():
@@ -52,24 +53,32 @@ def test_status():
 
 def test_location():
     assert parsed_items[0]["location"] == {
-        "address": "Stream at https://sfgovtv.org/planning – Public Comment: (415) 655-0001 / Access Code: 2486 151 4664",
-        "name": "SF Planning Commission"
+        "address": "Stream at https://sfgovtv.org/planning – Public Comment:"
+        " (415) 655-0001 / Access Code: 2486 151 4664",
+        "name": "SF Planning Commission",
     }
 
 
 def test_source():
-    assert parsed_items[0]["source"] == "https://sfplanning.org/event/planning-commission-151"
+    assert (
+        parsed_items[0]["source"]
+        == "https://sfplanning.org/event/planning-commission-151"
+    )
 
 
 def test_links():
-    assert parsed_items[0]["links"] == [{
-      "href": "https://sfplanning.org/sites/default/files/agendas/2021-10/20211028_cal.pdf",
-      "title": "Meeting/Agenda Information"
-    },
-    {
-        "href": "https://sfplanning.org/resource/planning-commission-packet-october-28-2021",
-        "title": "Supporting Documents"
-    }]
+    assert parsed_items[0]["links"] == [
+        {
+            "href": "https://sfplanning.org/sites/default/files/agendas/"
+            "2021-10/20211028_cal.pdf",
+            "title": "Meeting/Agenda Information",
+        },
+        {
+            "href": "https://sfplanning.org/resource/"
+            "planning-commission-packet-october-28-2021",
+            "title": "Supporting Documents",
+        },
+    ]
 
 
 def test_classification():
