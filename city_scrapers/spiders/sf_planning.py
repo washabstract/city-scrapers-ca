@@ -10,7 +10,13 @@ class SfPlanningSpider(CityScrapersSpider):
     name = "sf_planning"
     agency = "SF Planning Commission"
     timezone = "America/Los_Angeles"
-    start_urls = ["https://sfplanning.org/hearings-cpc-grid"]
+    start_urls = [
+        "https://sfplanning.org/hearings-cpc-grid",
+        "https://sfplanning.org/hearings-cpc-grid?keys=&"
+        "field_events_timeframe_target_id=2&field_id_previous_years_mobile=All"
+        "&field_id_upcoming_years_mobile=All&field_id_previous_years=All"
+        "&field_id_upcoming_years=All"
+    ]
 
     def parse(self, response):
         for url in response.xpath("//a[text()='Read More']/@href"):
