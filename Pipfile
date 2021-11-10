@@ -13,6 +13,8 @@ google-cloud-storage = "*"
 psycopg2-binary = "*"
 pdfplumber = "*"
 python-dateutil = "*"
+importlib-resources = "*"
+jsonschema = "*"
 
 [dev-packages]
 freezegun = "*"
