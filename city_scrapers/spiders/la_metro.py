@@ -3,11 +3,11 @@ from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import LegistarSpider
 
 
-class SanJoseLegSpider(LegistarSpider):
-    name = "san_jose_leg"
-    agency = "San Jose Calendar"
+class LaMetroLegSpider(LegistarSpider):
+    name = "la_metro_leg"
+    agency = "LA Metro Legistar"
     timezone = "America/Los_Angeles"
-    start_urls = ["https://sanjose.legistar.com/Calendar.aspx"]
+    start_urls = ["https://metro.legistar.com/Calendar.aspx"]
     # Add the titles of any links not included in the scraped results
     link_types = []
 
