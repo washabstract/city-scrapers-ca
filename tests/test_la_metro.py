@@ -64,7 +64,9 @@ def test_status():
 # Meeting Location
 def test_location():
     assert parsed_items[0]["location"] == {
-        "name": "Watch online:  http://boardagendas.metro.net \r\nListen by phone: Dial 888-251-2949 and enter Access Code: \r\n8231160# (English) or 4544724# (Español) To give written or live public comment, please see the top of page 4",
+        "name": "Watch online:  http://boardagendas.metro.net \r\nListen by phone: Dial"
+        " 888-251-2949 and enter Access Code: \r\n8231160# (English) or 4544724# ("
+        "Español) To give written or live public comment, please see the top of page 4",
         "address": "http://boardagendas.metro.net",
     }
 
@@ -72,7 +74,8 @@ def test_location():
 # Name URL
 def test_source():
     assert parsed_items[0]["source"] == (
-        "https://metro.legistar.com/DepartmentDetail.aspx?ID=28529&GUID=44319A1A-B2B7-48CC-B857-ADCE9064573B"
+        "https://metro.legistar.com/DepartmentDetail.aspx?ID=28529"
+        "&GUID=44319A1A-B2B7-48CC-B857-ADCE9064573B"
     )
 
 
