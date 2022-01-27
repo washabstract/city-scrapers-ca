@@ -1,7 +1,8 @@
 from urllib.parse import urljoin
 
+from datetime import datetime
 from city_scrapers_core.constants import COMMISSION
-from city_scrapers_core.items import Meeting
+from city_scrapers.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse
 
@@ -36,6 +37,8 @@ class SfPlanningSpider(CityScrapersSpider):
             location=self._parse_location(item),
             links=self._parse_links(item),
             source=self._parse_source(response),
+            created=datetime.now(),
+            updated=datetime.now(),
         )
 
         meeting["status"] = self._get_status(meeting)

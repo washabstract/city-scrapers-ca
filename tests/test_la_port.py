@@ -2,7 +2,7 @@ from datetime import datetime
 from os.path import dirname, join
 
 import pytest
-from city_scrapers_core.constants import NOT_CLASSIFIED
+from city_scrapers_core.constants import BOARD
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
@@ -10,34 +10,34 @@ from city_scrapers.spiders.la_port import LaPortSpider
 
 test_response = file_response(
     join(dirname(__file__), "files", "la_port.html"),
-    url = "https://www.portoflosangeles.org/commission/agenda-archive-and-videos/agendas"
-    "/2022/01132022-regular-agenda",
+    url = "https://portofla.granicus.com/ViewPublisher.php?view_id=9",
 )
 spider = LaPortSpider()
 
 freezer = freeze_time("2022-01-25")
 freezer.start()
 
-parsed_items = [item for item in spider.parse_meeting(test_response)]
+parsed_items = [item for item in spider.parse(test_response)]
 
 freezer.stop()
 
-
-def test_tests():
-    print("Please write some tests for this spider or at least disable this one.")
-    assert True
-
+def test_items():
+    assert len(parsed_items) > 0
 
 def test_title():
-    assert parsed_items[0]["title"] == "REGULAR MEETING AGENDA"
+    assert parsed_items[0]["title"] == "Regular Board Meeting"
 
 
-# def test_description():
-#     assert parsed_items[0]["description"] == "EXPECTED DESCRIPTION"
+def test_description():
+    assert parsed_items[0]["description"] == ""
 
 
-# def test_start():
-#     assert parsed_items[0]["start"] == datetime(2019, 1, 1, 0, 0)
+def test_classification():
+    assert parsed_items[0]["classification"] == BOARD
+
+
+def test_start():
+    assert parsed_items[0]["start"] == datetime(2020, 4, 20, 0, 0)
 
 
 # def test_end():
@@ -73,9 +73,6 @@ def test_title():
 #       "title": "EXPECTED TITLE"
 #     }]
 
-
-# def test_classification():
-#     assert parsed_items[0]["classification"] == NOT_CLASSIFIED
 
 
 # @pytest.mark.parametrize("item", parsed_items)

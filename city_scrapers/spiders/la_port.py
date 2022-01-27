@@ -1,7 +1,8 @@
 from urllib.parse import urljoin
 
-from city_scrapers_core.constants import NOT_CLASSIFIED, TENTATIVE
-from city_scrapers_core.items import Meeting
+from datetime import datetime
+from city_scrapers_core.constants import TENTATIVE, BOARD, COMMITTEE, COMMISSION
+from city_scrapers.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 
 
@@ -13,51 +14,54 @@ class LaPortSpider(CityScrapersSpider):
 
     # Not that important?? It's only useed in datetime
     def parse(self, response):
-        for url in response.xpath("//a[text()='Agenda']/@href"):
-            url = urljoin(response.url, url.extract())
-            yield response.follow(url, callback=self.parse_meeting, dont_filter=True)
+        items = response.xpath("//tbody/tr")
+        for item in items:
+            meeting = Meeting(
+                title=self._parse_title(item),
+                description=self._parse_description(item),
+                classification=self._parse_classification(item),
+                start=self._parse_start(item),
+                end=self._parse_end(item),
+                all_day=self._parse_all_day(item),
+                time_notes=self._parse_time_notes(item),
+                location=self._parse_location(item),
+                links=self._parse_links(item),
+                source=self._parse_source(response),
+                created=datetime.now(),
+                updated=datetime.now(),
+            )
 
-    def parse_meeting(self, response):
-        print("parsing meeting")
-        item = response.xpath("//div[@id='contentBody']")
-        meeting = Meeting(
-            title=self._parse_title(item),
-            description=self._parse_description(item),
-            classification=self._parse_classification(item),
-            start=self._parse_start(item),
-            end=self._parse_end(item),
-            all_day=self._parse_all_day(item),
-            time_notes=self._parse_time_notes(item),
-            location=self._parse_location(item),
-            links=self._parse_links(item),
-            source=self._parse_source(response),
-        )
+            meeting["status"] = TENTATIVE#self._get_status(meeting)
+            meeting["id"] = ""# self._get_id(meeting)
 
-        meeting["status"] = TENTATIVE #self._get_status(meeting)
-        meeting["id"] = self._get_id(meeting)
-
-        yield meeting
+            yield meeting
 
     def _parse_title(self, item):
-        print(type(item))
-        # about = item.xpath("//div[@id='section-about']")
-        title = item.xpath("//div[@id='section-about']//strong")
-        print(title[0].get())
-        print(title[1].get())
-        print(title[2].get())
-        return title[1].get()
+        row = item.xpath("td[@class='listItem']/text()")
+        return row[0].get()
 
     def _parse_description(self, item):
-        """Parse or generate meeting description."""
         return ""
 
     def _parse_classification(self, item):
-        """Parse or generate classification from allowed options."""
-        return NOT_CLASSIFIED
+        row = item.xpath("td[@class='listItem']/text()")
+        title = (row[0].get()).lower()
+        if "committee" in title:
+            return COMMITTEE
+        elif "commission" in title:
+            return COMMISSION
+        return BOARD
 
     def _parse_start(self, item):
         """Parse start datetime as a naive datetime object."""
-        return None
+        row = item.xpath("td[@class='listItem']/text()")
+        date = row[1].get()
+        if len(row) > 5:
+            return datetime(2020, 4, 20, 0, 0)
+
+        dt = datetime.strptime(date, "%B %d, %Y")
+        return dt
+
 
     def _parse_end(self, item):
         """Parse end datetime as a naive datetime object. Added by pipeline if None"""
