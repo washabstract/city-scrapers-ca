@@ -4,7 +4,8 @@ from datetime import datetime
 from city_scrapers_core.constants import TENTATIVE, BOARD, COMMITTEE, COMMISSION
 from city_scrapers.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
-
+from dateutil.parser import parse as dateparse
+import re
 
 class LaPortSpider(CityScrapersSpider):
     name = "la_port"
@@ -12,7 +13,6 @@ class LaPortSpider(CityScrapersSpider):
     timezone = "America/Los_Angeles"
     start_urls = ["https://portofla.granicus.com/ViewPublisher.php?view_id=9"]
 
-    # Not that important?? It's only useed in datetime
     def parse(self, response):
         items = response.xpath("//tbody/tr")
         for item in items:
@@ -32,7 +32,7 @@ class LaPortSpider(CityScrapersSpider):
             )
 
             meeting["status"] = TENTATIVE#self._get_status(meeting)
-            meeting["id"] = ""# self._get_id(meeting)
+            meeting["id"] = self._get_id(meeting)
 
             yield meeting
 
@@ -53,26 +53,21 @@ class LaPortSpider(CityScrapersSpider):
         return BOARD
 
     def _parse_start(self, item):
-        """Parse start datetime as a naive datetime object."""
+        """ Calendar page does not have times.  Times can be found in meeting pages.
+            Currently does not scrape time; defaults to 00:00 
+        """
         row = item.xpath("td[@class='listItem']/text()")
-        date = row[1].get()
-        if len(row) > 5:
-            return datetime(2020, 4, 20, 0, 0)
-
-        dt = datetime.strptime(date, "%B %d, %Y")
-        return dt
+        date = row[1].get() 
+        return dateparse(date)
 
 
     def _parse_end(self, item):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
         return None
 
     def _parse_time_notes(self, item):
-        """Parse any additional notes on the timing of the meeting"""
         return ""
 
     def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
         return False
 
     def _parse_location(self, item):
@@ -83,9 +78,45 @@ class LaPortSpider(CityScrapersSpider):
         }
 
     def _parse_links(self, item):
+        links = []
         """Parse or generate links."""
-        return [{"href": "", "title": ""}]
+        # For upcoming meetings
+        row = item.xpath("td[@class='listItem']")
+        
+        # Archived meetings
+        if len(row) > 4:
+            agenda = row[3].xpath("./a/@href").extract()
+            if len(agenda) > 0:
+                links.append({"href": "https:" + agenda[0], "title": "Agenda"})
+            
+            minutes = row[4].xpath("./a/@href").extract()
+            if len(minutes) > 0:
+                links.append({"href": "https:" + minutes[0], "title": "Minutes"})
+ 
+            recording = row[5].xpath("./a").extract()
+            if len(recording) > 0:
+                # extract the url from the onclick field
+                text = recording[0]
+                beg = text.find("onclick=\"window.open(\'") + 22
+                end = text.find("\'", beg)
+                url = text[beg:end]
+                clean_url = re.sub("amp;", "", url)
+                links.append({"href": "https:" + clean_url, 
+                "title": "Audio/Video Recording"})
+            return links
+
+        agenda = row[2].xpath("./*").extract()
+        if agenda != []:
+            # extract the url from the onclick field
+            text = agenda[0]
+            beg = text.find("onclick=\"window.open(\'") + 22
+            end = text.find("\'", beg)
+            url = text[beg:end]
+            clean_url = re.sub("amp;", "", url)
+            links.append({"href": "https:" + clean_url, "title": "Agenda"})
+
+        return links
 
     def _parse_source(self, response):
         """Parse or generate source."""
-        return response.url
+        return response#.url

@@ -37,23 +37,15 @@ def test_classification():
 
 
 def test_start():
-    assert parsed_items[0]["start"] == datetime(2020, 4, 20, 0, 0)
+    assert parsed_items[0]["start"] == datetime(2022, 1, 27, 0, 0)
 
 
-# def test_end():
-#     assert parsed_items[0]["end"] == datetime(2019, 1, 1, 0, 0)
+def test_end():
+    assert parsed_items[0]["end"] == None
 
 
-# def test_time_notes():
-#     assert parsed_items[0]["time_notes"] == "EXPECTED TIME NOTES"
-
-
-# def test_id():
-#     assert parsed_items[0]["id"] == "EXPECTED ID"
-
-
-# def test_status():
-#     assert parsed_items[0]["status"] == "EXPECTED STATUS"
+def test_time_notes():
+    assert parsed_items[0]["time_notes"] == ""
 
 
 # def test_location():
@@ -62,17 +54,30 @@ def test_start():
 #         "address": "EXPECTED ADDRESS"
 #     }
 
+def test_links():
+    assert parsed_items[0]["links"] == [{
+      "href": "https://portofla.granicus.com/AgendaViewer.php?view_id=9&event_id=666",
+      "title": "Agenda"
+    }]
+    assert parsed_items[24]["links"] == [{
+      "href": "https://portofla.granicus.com/AgendaViewer.php?view_id=9&clip_id=1624",
+      "title": "Agenda"
+    },
+    {
+      "href": "https://portofla.granicus.com/MediaPlayer.php?view_id=9&clip_id=1624",
+      "title": "Audio/Video Recording"
+    }]
 
 # def test_source():
 #     assert parsed_items[0]["source"] == "EXPECTED URL"
 
 
-# def test_links():
-#     assert parsed_items[0]["links"] == [{
-#       "href": "EXPECTED HREF",
-#       "title": "EXPECTED TITLE"
-#     }]
+# def test_id():
+#     assert parsed_items[0]["id"] == "EXPECTED ID"
 
+
+# def test_status():
+#     assert parsed_items[0]["status"] == "EXPECTED STATUS"
 
 
 # @pytest.mark.parametrize("item", parsed_items)
