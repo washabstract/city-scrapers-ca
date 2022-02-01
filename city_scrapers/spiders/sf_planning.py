@@ -62,7 +62,7 @@ class SfPlanningSpider(CityScrapersSpider):
         """Parse start datetime as a naive datetime object."""
         date = item.xpath('//h3[@class="date"]/text()').extract()[0]
         time = item.xpath('//div[@class="time"]/text()').extract()[1].strip()
-        return dateparse(date + " " + time)
+        return dateparse(date + " " + time, fuzzy=True)
 
     def _parse_end(self, item):
         """Parse end datetime as a naive datetime object. Added by pipeline if None"""
@@ -74,7 +74,8 @@ class SfPlanningSpider(CityScrapersSpider):
 
     def _parse_all_day(self, item):
         """Parse or generate all-day status. Defaults to False."""
-        return False
+        time = item.xpath('//div[@class="time"]/text()').extract()[1].strip().lower()
+        return "all day" in time
 
     def _parse_location(self, item):
         """Parse or generate location."""
