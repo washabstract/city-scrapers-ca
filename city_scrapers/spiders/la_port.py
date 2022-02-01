@@ -74,7 +74,7 @@ class LaPortSpider(CityScrapersSpider):
                 )
                 starttime = items[2].text_content()
                 return dateparse(starttime, fuzzy=True)
-            except:
+            except Exception:
                 items = response.xpath(
                     "//section[@class='cms-content text-info-block']"
                 )
@@ -82,7 +82,7 @@ class LaPortSpider(CityScrapersSpider):
                 sample_str = re.sub(r"\s+", "", starttime)
                 try:
                     return dateparse(sample_str, fuzzy=True)
-                except:
+                except Exception:
                     row = item.xpath("td[@class='listItem']/text()")
                     date = row[1].get()
                     return dateparse(date)

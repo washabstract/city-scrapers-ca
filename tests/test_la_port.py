@@ -47,8 +47,8 @@ def test_start():
 
 
 def test_end():
-    assert parsed_items[0]["end"] == None
-    assert parsed_items[24]["end"] == None
+    assert parsed_items[0]["end"] is None
+    assert parsed_items[24]["end"] is None
 
 
 def test_time_notes():
@@ -69,17 +69,20 @@ San Pedro, California 90731"""
 def test_links():
     assert parsed_items[0]["links"] == [
         {
-            "href": "https://portofla.granicus.com/AgendaViewer.php?view_id=9&event_id=666",
+            "href": "https://portofla.granicus.com/AgendaViewer.php"
+            "?view_id=9&event_id=666",
             "title": "Agenda",
         }
     ]
     assert parsed_items[24]["links"] == [
         {
-            "href": "https://portofla.granicus.com/AgendaViewer.php?view_id=9&clip_id=1624",
+            "href": "https://portofla.granicus.com/AgendaViewer.php?"
+            "view_id=9&clip_id=1624",
             "title": "Agenda",
         },
         {
-            "href": "https://portofla.granicus.com/MediaPlayer.php?view_id=9&clip_id=1624",
+            "href": "https://portofla.granicus.com/MediaPlayer.php?"
+            "view_id=9&clip_id=1624",
             "title": "Audio/Video Recording",
         },
     ]
