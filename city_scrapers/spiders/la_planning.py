@@ -1,10 +1,10 @@
-from datetime import date
+from datetime import date, datetime
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
-from city_scrapers.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse as dateparse
-from datetime import datetime
+
+from city_scrapers.items import Meeting
 
 
 class LaPlanningSpider(CityScrapersSpider):

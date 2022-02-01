@@ -1,7 +1,9 @@
-from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
-from city_scrapers.items import Meeting
-from city_scrapers_core.spiders import LegistarSpider
 from datetime import datetime
+
+from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
+from city_scrapers_core.spiders import LegistarSpider
+
+from city_scrapers.items import Meeting
 
 
 class LaMetroLegSpider(LegistarSpider):

@@ -2,7 +2,7 @@ from datetime import datetime
 from os.path import dirname, join
 
 import pytest
-from city_scrapers_core.constants import BOARD
+from city_scrapers_core.constants import BOARD, TENTATIVE, PASSED
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
@@ -26,33 +26,42 @@ def test_items():
 
 def test_title():
     assert parsed_items[0]["title"] == "Regular Board Meeting"
+    assert parsed_items[24]["title"] == "Regular Board Meeting"
 
 
 def test_description():
     assert parsed_items[0]["description"] == ""
+    assert parsed_items[24]["description"] == ""
 
 
 def test_classification():
     assert parsed_items[0]["classification"] == BOARD
+    assert parsed_items[24]["classification"] == BOARD
 
 
 def test_start():
-    assert parsed_items[0]["start"] == datetime(2022, 1, 27, 0, 0)
+    assert parsed_items[0]["start"] == datetime(2022, 1, 27, 9, 0)
+    assert parsed_items[24]["start"] == datetime(2022, 1, 13, 9, 0)
 
 
 def test_end():
     assert parsed_items[0]["end"] == None
+    assert parsed_items[24]["end"] == None
 
 
 def test_time_notes():
     assert parsed_items[0]["time_notes"] == ""
+    assert parsed_items[24]["time_notes"] == ""
 
 
-# def test_location():
-#     assert parsed_items[0]["location"] == {
-#         "name": "EXPECTED NAME",
-#         "address": "EXPECTED ADDRESS"
-#     }
+def test_location():
+    name = "Los Angeles Board of Harbor Commissioners"
+    address = '''Harbor Administration Building\n425 S. Palos Verdes Street
+San Pedro, California 90731'''
+    location = {"name": name, "address": address}
+
+    assert (parsed_items[0]["location"] == location)
+    assert parsed_items[24]["location"] == location
 
 def test_links():
     assert parsed_items[0]["links"] == [{
@@ -68,18 +77,23 @@ def test_links():
       "title": "Audio/Video Recording"
     }]
 
-# def test_source():
-#     assert parsed_items[0]["source"] == "EXPECTED URL"
+def test_source():
+    assert (parsed_items[0]["source"] == 
+    "https://portofla.granicus.com/ViewPublisher.php?view_id=9")
+    assert (parsed_items[24]["source"] == 
+    "https://portofla.granicus.com/ViewPublisher.php?view_id=9")
 
 
-# def test_id():
-#     assert parsed_items[0]["id"] == "EXPECTED ID"
+def test_id():
+    assert parsed_items[0]["id"] == "la_port/202201270900/x/regular_board_meeting"
+    assert parsed_items[24]["id"] == "la_port/202201130900/x/regular_board_meeting"
 
 
-# def test_status():
-#     assert parsed_items[0]["status"] == "EXPECTED STATUS"
+def test_status():
+    assert parsed_items[0]["status"] == TENTATIVE
+    assert parsed_items[24]["status"] == PASSED
 
 
-# @pytest.mark.parametrize("item", parsed_items)
-# def test_all_day(item):
-#     assert item["all_day"] is False
+@pytest.mark.parametrize("item", parsed_items)
+def test_all_day(item):
+    assert item["all_day"] is False
