@@ -59,8 +59,9 @@ class LaPortSpider(CityScrapersSpider):
 
     def _parse_start(self, item):
         """Calendar page does not have times.  Times can be found in agenda.
-        Currently does not scrape time; defaults to 00:00
+        If time cannot be scraoped, defaults to 00:00
         """
+        # Pulls the link for the agenda page from the _parse_links function
         links = self._parse_links(item)
         if (len(links) > 0) and (links[0]["title"] == "Agenda"):
             url = links[0]["href"]
@@ -68,6 +69,9 @@ class LaPortSpider(CityScrapersSpider):
             rs = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
             response = html.fromstring(rs.content)
 
+            # Try to find the date in the second block of text
+            # If it cannot be found, check the entire intro block
+            # otherwise, just return default 00:00 start time
             try:
                 items = response.xpath(
                     "//div[@id='contentBody']//div[@id='section-about']//strong"
@@ -142,7 +146,7 @@ class LaPortSpider(CityScrapersSpider):
         return links
 
     def _parse_location(self, item):
-        """The location can be found in the agenda, not scraped yet"""
+        """The location can be found in the agenda (url extracted from _parse_links)"""
 
         links = self._parse_links(item)
         if (len(links) > 0) and (links[0]["title"] == "Agenda"):
