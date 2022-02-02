@@ -37,9 +37,8 @@ class LaPortSpider(CityScrapersSpider):
             meeting["id"] = self._get_id(meeting)
 
             # Meeting page url processing
-            links = self._parse_links(item)
-            if (len(links) > 0) and (links[0]["title"] == "Agenda"):
-                url = links[0]["href"]
+            if (len(meeting["links"]) > 0) and (meeting["links"][0]["title"] == "Agenda"):
+                url = meeting["links"][0]["href"]
                 rs = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
                 response = html.fromstring(rs.content)
                 meeting["start"] = self._parse_start(item, response)
