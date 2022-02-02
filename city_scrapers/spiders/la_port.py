@@ -5,10 +5,7 @@ import requests
 from city_scrapers_core.constants import BOARD, COMMISSION, COMMITTEE
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse as dateparse
-<<<<<<< HEAD
-=======
 from dateutil.parser._parser import ParserError
->>>>>>> 3973207 (Addressed merge request comments)
 from lxml import html
 
 from city_scrapers.items import Meeting
