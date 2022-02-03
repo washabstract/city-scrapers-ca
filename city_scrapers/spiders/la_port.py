@@ -33,18 +33,35 @@ class LaPortSpider(CityScrapersSpider):
                 updated=datetime.now(),
             )
 
+            meeting["start"], meeting["location"] = self._get_time_location(
+                item, meeting["links"]
+            )
+
             meeting["status"] = self._get_status(meeting)
             meeting["id"] = self._get_id(meeting)
 
-            # Meeting page url processing
-            if (len(meeting["links"]) > 0) and (meeting["links"][0]["title"] == "Agenda"):
-                url = meeting["links"][0]["href"]
-                rs = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
-                response = html.fromstring(rs.content)
-                meeting["start"] = self._parse_start(item, response)
-                meeting["location"] = self._parse_location(item, response)
-
             yield meeting
+
+    def _get_time_location(self, item, links):
+        """Meeting page url processing.  Scrapes start time and location from meeting
+        agenda page
+        """
+        # If there is a meeeting agenda link, scrape location and time from that
+        if (len(links) > 0) and (links[0]["title"] == "Agenda"):
+            url = links[0]["href"]
+            r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+            if r.content != b"":
+                rs = html.fromstring(r.content)
+                return self._parse_start(item, rs), self._parse_location(item, rs)
+
+        # If there is no meeting agenda link, scrape time from table
+        location = None
+        row = item.xpath("td[@class='listItem']/text()")
+        if len(row) > 0:
+            date = row[1].get()
+            return dateparse(date), location
+        else:
+            return datetime(1, 1, 1, 0, 0), location
 
     def _parse_title(self, item):
         row = item.xpath("td[@class='listItem']/text()")
@@ -68,25 +85,32 @@ class LaPortSpider(CityScrapersSpider):
         If time cannot be scraoped, defaults to 00:00
         """
         # Try to find the date in the second block of text
-        # If it cannot be found, check the entire intro block
-        # otherwise, just return default 00:00 start time
+        #   If it cannot be found, check the entire intro block
+        #   otherwise, just return default 00:00 start time
         try:
             items = response.xpath(
                 "//div[@id='contentBody']//div[@id='section-about']//strong"
             )
-            starttime = items[2].text_content()
-            return dateparse(starttime, fuzzy=True)
-        except ParserError:
+            if len(items) > 2:
+                starttime = items[2].text_content()
+                return dateparse(starttime, fuzzy=True)
+            elif len(items) > 0:
+                raise ValueError
+            return datetime(1, 1, 1, 0, 0)
+        except (ParserError, ValueError):
             # Selects the entire intro block of text
             items = response.xpath("//section[@class='cms-content text-info-block']")
-            starttime = items[0].text_content()
-            sample_str = re.sub(r"\s+", "", starttime)
-            try:
-                return dateparse(sample_str, fuzzy=True)
-            except ParserError:
-                row = item.xpath("td[@class='listItem']/text()")
-                date = row[1].get()
-                return dateparse(date)
+            if len(items) > 0:
+                starttime = items[0].text_content()
+                sample_str = re.sub(r"\s+", "", starttime)
+                try:
+                    return dateparse(sample_str, fuzzy=True)
+                except ParserError:
+                    row = item.xpath("td[@class='listItem']/text()")
+                    if len(items) > 0:
+                        date = row[1].get()
+                        return dateparse(date)
+            return datetime(1, 1, 1, 0, 0)
 
     def _parse_end(self, item):
         return None
@@ -144,16 +168,17 @@ class LaPortSpider(CityScrapersSpider):
         items = response.xpath(
             "//div[@id='contentBody']//div[@id='section-about']//strong"
         )
+        if len(items) > 0:
+            location = items[0].text_content()
+            clean_location = re.sub("\r\n", "\n", location)
+            clean_location = re.sub("\xa0", " ", clean_location)
 
-        location = items[0].text_content()
-        clean_location = re.sub("\r\n", "\n", location)
-        clean_location = re.sub("\xa0", " ", clean_location)
+            end = clean_location.find("\n")
+            name = (clean_location[:end]).strip()
+            address = (clean_location[end:]).strip()
 
-        end = clean_location.find("\n")
-        name = (clean_location[:end]).strip()
-        address = (clean_location[end:]).strip()
-
-        return {"name": name, "address": address}
+            return {"name": name, "address": address}
+        return None
 
     def _parse_source(self, response):
         return response.url
