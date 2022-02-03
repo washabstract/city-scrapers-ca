@@ -44,6 +44,7 @@ class PostgresPipeline:
                 "location_address TEXT, "
                 "location_url TEXT, "
                 "agency VARCHAR(255), "
+                "created TIMESTAMPTZ, "
                 "updated TIMESTAMPTZ "
                 ");"
             )
@@ -104,6 +105,7 @@ class PostgresPipeline:
             item["location"]["name"],
             item["location"]["url"],
             item["extras"]["cityscrapers.org/agency"],
+            item["created_at"],
             item["updated_at"],
         )
         query = "SELECT * FROM meeting WHERE id=%s;"
@@ -115,7 +117,7 @@ class PostgresPipeline:
                 "INSERT INTO meeting("
                 "id, ocd_id, name, description, classification, status, start_tz, "
                 "end_tz, timezone, all_day, time_notes, location_name, "
-                "location_url, agency, updated "
+                "location_url, agency, created, updated "
                 ") VALUES ("
                 "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s"
                 ");"
@@ -129,7 +131,7 @@ class PostgresPipeline:
                 "ocd_id = %s, name = %s, description = %s, classification = %s, "
                 "status = %s, start_tz = %s, end_tz = %s, timezone = %s, "
                 "all_day = %s, time_notes = %s, location_name = %s, "
-                "location_url = %s, agency = %s, updated = %s "
+                "location_url = %s, agency = %s, created = %s, updated = %s "
                 "WHERE id=%s"
             )
             data = (
@@ -146,6 +148,7 @@ class PostgresPipeline:
                 item["location"]["name"],
                 item["location"]["url"],
                 item["extras"]["cityscrapers.org/agency"],
+                item["created_at"],
                 item["updated_at"],
                 item["extras"]["cityscrapers.org/id"],
             )
@@ -207,8 +210,8 @@ class PostgresPipeline:
 # location_address = long string: ocd_event["extras"]["cityscrapers.org/address"]
 # location_url = string (URL): ocd_event["location"]["url"]
 # agency = string (URL): ocd_event["extras"]["cityscrapers.org/agency"]
-# created = datetime
-# updated = datetime
+# created = datetime: ocd_event["created_at"]
+# updated = datetime: ocd_event["updated_at"]
 
 # LINK
 # id = PK

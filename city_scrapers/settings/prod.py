@@ -9,7 +9,7 @@ ITEM_PIPELINES = {
     "scrapy.pipelines.files.FilesPipeline": 100,
     "city_scrapers_core.pipelines.GCSDiffPipeline": 200,
     "city_scrapers_core.pipelines.MeetingPipeline": 300,
-    "city_scrapers_core.pipelines.OpenCivicDataPipeline": 400,
+    "city_scrapers.pipelines.OpenCivicDataPipeline": 400,
     "city_scrapers.pipelines.TextExtractorPipeline": 500,
     "city_scrapers.pipelines.PostgresPipeline": 600,
 }
