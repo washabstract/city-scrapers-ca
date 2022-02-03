@@ -85,9 +85,7 @@ class SfPlanningSpider(CityScrapersSpider):
             .strip()
             .split("\n")
         )
-        location[0] = location[0].strip()
-        location[1] = location[1].strip()
-        location = " ".join(location)
+        location = " ".join([l.strip() for l in location])
         return {
             "address": location,
             "name": "SF Planning Commission",
