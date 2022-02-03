@@ -7,12 +7,19 @@ Based on the template from the [City Scrapers](https://cityscrapers.org/) projec
 
 ## Scrapers Implemented
 
-We currently pull meeting and agenda data from the Board of Supervisors in the Counties of Los Angeles and (the City and County of) San Fransisco as well as the local government in Los Angeles city.
+* Los Angeles City Government
+* Los Angeles County Board of Supervisors
+* Los Angeles Metro
+* Los Angeles Planning Committee
+* Port of Los Angeles
+* City of San Jose 
+* San Francisco Board of Supervisors
+* San Francisco Planning Commission
 
-## Washington Abstract
+## Abstract
 
-[Washington Abstract](https://washingtonabstract.com) helps experts track, collaborate, and impact legislation. We are using City Scrapers to scrape local government data.
+[Abstract](https://abstract.us) helps experts track, collaborate, and impact legislation. We are using City Scrapers to scrape local government data.
 
 ## Getting Involved
 
-If you'd like to help us build these City Scrapers, feel free to fork our repositories. Otherwise, for questions or comments, [contact us](mailto:contact@washingtonabstract.com)!
+If you'd like to help us build these City Scrapers, feel free to fork our repositories. Otherwise, for questions or comments, [contact us](mailto:hey@abstract.us)!
