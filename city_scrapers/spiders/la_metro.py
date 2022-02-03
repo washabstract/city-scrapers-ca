@@ -1,6 +1,9 @@
+from datetime import datetime
+
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
-from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import LegistarSpider
+
+from city_scrapers.items import Meeting
 
 
 class LaMetroLegSpider(LegistarSpider):
@@ -30,6 +33,8 @@ class LaMetroLegSpider(LegistarSpider):
                 location=self._parse_location(event),
                 links=self.legistar_links(event),
                 source=self.legistar_source(event),
+                created=datetime.now(),
+                updated=datetime.now(),
             )
 
             meeting["status"] = self._get_status(meeting)

@@ -1,9 +1,10 @@
-from datetime import date
+from datetime import date, datetime
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
-from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
-from dateutil.parser import parse
+from dateutil.parser import parse as dateparse
+
+from city_scrapers.items import Meeting
 
 
 class LaPlanningSpider(CityScrapersSpider):
@@ -33,6 +34,8 @@ class LaPlanningSpider(CityScrapersSpider):
                 location=self._parse_location(item),
                 links=self._parse_links(item),
                 source=self._parse_source(response),
+                created=datetime.now(),
+                updated=datetime.now(),
             )
 
             meeting["status"] = self._get_status(meeting)
@@ -69,7 +72,7 @@ class LaPlanningSpider(CityScrapersSpider):
             datetime_str += item["Date"]
         if "Time" in item and item["Time"]:
             datetime_str += item["Time"]
-        return parse(datetime_str) if datetime_str else None
+        return dateparse(datetime_str) if datetime_str else None
 
     def _parse_end(self, item):
         return None

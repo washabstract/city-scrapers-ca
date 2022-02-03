@@ -1,9 +1,11 @@
+from datetime import datetime
 from urllib.parse import urljoin
 
 from city_scrapers_core.constants import COMMISSION
-from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
-from dateutil.parser import parse
+from dateutil.parser import parse as dateparse
+
+from city_scrapers.items import Meeting
 
 
 class SfPlanningSpider(CityScrapersSpider):
@@ -36,6 +38,8 @@ class SfPlanningSpider(CityScrapersSpider):
             location=self._parse_location(item),
             links=self._parse_links(item),
             source=self._parse_source(response),
+            created=datetime.now(),
+            updated=datetime.now(),
         )
 
         meeting["status"] = self._get_status(meeting)
@@ -58,7 +62,7 @@ class SfPlanningSpider(CityScrapersSpider):
         """Parse start datetime as a naive datetime object."""
         date = item.xpath('//h3[@class="date"]/text()').extract()[0]
         time = item.xpath('//div[@class="time"]/text()').extract()[1].strip()
-        return parse(date + " " + time, fuzzy=True)
+        return dateparse(date + " " + time, fuzzy=True)
 
     def _parse_end(self, item):
         """Parse end datetime as a naive datetime object. Added by pipeline if None"""
