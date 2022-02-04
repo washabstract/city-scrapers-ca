@@ -119,7 +119,7 @@ class PostgresPipeline:
                 "end_tz, timezone, all_day, time_notes, location_name, "
                 "location_url, agency, created, updated "
                 ") VALUES ("
-                "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s"
+                "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s"
                 ");"
             )
             (_, e) = self.sql_query(query, data)
