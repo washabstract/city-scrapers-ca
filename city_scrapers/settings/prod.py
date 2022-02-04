@@ -7,7 +7,7 @@ USER_AGENT = "City Scrapers [production mode]. Learn more and say hello at https
 # Configure item pipelines
 ITEM_PIPELINES = {
     "scrapy.pipelines.files.FilesPipeline": 100,
-    "city_scrapers_core.pipelines.GCSDiffPipeline": 200,
+    "city_scrapers.pipelines.GCSDiffPipeline": 200,
     "city_scrapers_core.pipelines.MeetingPipeline": 300,
     "city_scrapers.pipelines.OpenCivicDataPipeline": 400,
     "city_scrapers.pipelines.TextExtractorPipeline": 500,

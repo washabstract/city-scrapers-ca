@@ -3,9 +3,8 @@ from typing import Mapping
 from uuid import uuid1
 
 import pytz
-from scrapy import Spider
-
 from city_scrapers_core.decorators import ignore_processed
+from scrapy import Spider
 
 
 class OpenCivicDataPipeline:
