@@ -11,18 +11,15 @@ from city_scrapers.spiders.long_beach import LongBeachSpider
 freezer = freeze_time("2022-02-04")
 freezer.start()
 
-with open(join(dirname(__file__), "files", "long_beach.json"), "r", encoding="utf-8") as f:
+with open(
+    join(dirname(__file__), "files", "long_beach.json"), "r", encoding="utf-8"
+) as f:
     test_response = json.load(f)
 
 spider = LongBeachSpider()
 parsed_items = [item for item in spider.parse_legistar(test_response)]
 
 freezer.stop()
-
-
-# def test_tests():
-#     print("Please write some tests for this spider or at least disable this one.")
-#     assert False
 
 
 def test_title():
@@ -38,7 +35,7 @@ def test_start():
 
 
 def test_end():
-    assert parsed_items[0]["end"] == None
+    assert parsed_items[0]["end"] is None
 
 
 def test_time_notes():
@@ -46,7 +43,10 @@ def test_time_notes():
 
 
 def test_id():
-    assert parsed_items[0]["id"] == "long_beach/202202161600/x/economic_development_commission"
+    assert (
+        parsed_items[0]["id"]
+        == "long_beach/202202161600/x/economic_development_commission"
+    )
 
 
 def test_status():
@@ -54,22 +54,25 @@ def test_status():
 
 
 def test_location():
-    assert parsed_items[0]["location"] == {
-        "name": "",
-        "address": ""
-    }
+    assert parsed_items[0]["location"] == {"name": "", "address": ""}
 
 
 def test_source():
-    assert (parsed_items[0]["source"] == 
-    "http://longbeach.legistar.com/DepartmentDetail.aspx?ID=2512&GUID=F050FB58-374F-49BE-8F22-A46417A0CAD3")
+    assert (
+        parsed_items[0]["source"]
+        == "http://longbeach.legistar.com/DepartmentDetail.aspx?ID=2512&"
+        "GUID=F050FB58-374F-49BE-8F22-A46417A0CAD3"
+    )
 
 
 def test_links():
-    assert parsed_items[0]["links"] == [{
-      "href": "http://longbeach.legistar.com/View.ashx?M=A&ID=929995&GUID=A72AC276-1664-492A-A815-2CEE02B847AA",
-      "title": "Agenda"
-    }]
+    assert parsed_items[0]["links"] == [
+        {
+            "href": "http://longbeach.legistar.com/View.ashx?M=A&ID=929995&"
+            "GUID=A72AC276-1664-492A-A815-2CEE02B847AA",
+            "title": "Agenda",
+        }
+    ]
 
 
 def test_classification():
