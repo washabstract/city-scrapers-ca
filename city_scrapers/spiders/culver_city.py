@@ -59,7 +59,4 @@ class CulverCitySpider(LegistarSpider):
 
     def _parse_location(self, item):
         """Parse or generate location."""
-        return {
-            "address": "",
-            "name": "",
-        }
+        return {"address": "", "name": item["Meeting Location"]}

@@ -54,7 +54,8 @@ def test_status():
 
 
 def test_location():
-    assert parsed_items[0]["location"] == {"name": "", "address": ""}
+    assert parsed_items[0]["location"] == {
+        "name": "Mike Balkman Council Chambers", "address": ""}
 
 
 def test_source():
