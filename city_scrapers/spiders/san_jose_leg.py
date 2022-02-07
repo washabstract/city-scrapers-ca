@@ -50,8 +50,9 @@ class SanJoseLegSpider(LegistarSpider):
 
     def _parse_classification(self, item):
         """Parse or generate classification from allowed options."""
+        title = item["Name"]["label"].title()
         for classification in CLASSIFICATIONS:
-            if classification in item["Name"]["label"]:
+            if classification in title:
                 return classification
         return NOT_CLASSIFIED
 

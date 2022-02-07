@@ -3,7 +3,7 @@ from datetime import datetime
 from os.path import dirname, join
 
 import pytest
-from city_scrapers_core.constants import NOT_CLASSIFIED
+from city_scrapers_core.constants import COMMISSION
 from freezegun import freeze_time
 
 from city_scrapers.spiders.long_beach import LongBeachSpider
@@ -54,7 +54,11 @@ def test_status():
 
 
 def test_location():
-    assert parsed_items[0]["location"] == {"name": "", "address": ""}
+    assert parsed_items[0]["location"] == {
+        "name": "",
+        "address": "411 W. Ocean Boulevard "
+        "10th Floor Conference Room VIA TELECONFERENCE",
+    }
 
 
 def test_source():
@@ -76,7 +80,7 @@ def test_links():
 
 
 def test_classification():
-    assert parsed_items[0]["classification"] == NOT_CLASSIFIED
+    assert parsed_items[0]["classification"] == COMMISSION
 
 
 @pytest.mark.parametrize("item", parsed_items)

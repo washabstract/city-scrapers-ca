@@ -1,4 +1,6 @@
-from city_scrapers_core.constants import NOT_CLASSIFIED
+import re
+
+from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import LegistarSpider
 
@@ -6,7 +8,7 @@ from city_scrapers_core.spiders import LegistarSpider
 class LongBeachSpider(LegistarSpider):
     name = "long_beach"
     agency = "City of Long Beach"
-    timezone = "America/Chicago"
+    timezone = "America/Los_Angeles"
     start_urls = ["http://longbeach.legistar.com/Calendar.aspx"]
     # Add the titles of any links not included in the scraped results
     link_types = []
@@ -43,6 +45,9 @@ class LongBeachSpider(LegistarSpider):
 
     def _parse_classification(self, item):
         """Parse or generate classification from allowed options."""
+        for classification in CLASSIFICATIONS:
+            if classification in item["Name"]["label"]:
+                return classification
         return NOT_CLASSIFIED
 
     def _parse_end(self, item):
@@ -59,7 +64,10 @@ class LongBeachSpider(LegistarSpider):
 
     def _parse_location(self, item):
         """Parse or generate location."""
-        return {
-            "address": "",
-            "name": "",
-        }
+        location = item["Meeting Location"]
+        clean_location = re.sub("\r\n", " ", location)
+        clean_location = re.sub("\xa0", " ", clean_location)
+        is_address = bool(re.findall("[0-9]+", clean_location))
+        if is_address:
+            return {"address": clean_location, "name": ""}
+        return {"address": "", "name": clean_location}
