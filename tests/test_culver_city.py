@@ -3,7 +3,7 @@ from datetime import datetime
 from os.path import dirname, join
 
 import pytest
-from city_scrapers_core.constants import NOT_CLASSIFIED
+from city_scrapers_core.constants import COMMITTEE
 from freezegun import freeze_time
 
 from city_scrapers.spiders.culver_city import CulverCitySpider
@@ -55,7 +55,14 @@ def test_status():
 
 def test_location():
     assert parsed_items[0]["location"] == {
-        "name": "Mike Balkman Council Chambers", "address": ""}
+        "name": "Mike Balkman Council Chambers",
+        "address": "",
+    }
+    assert parsed_items[4]["location"] == {
+        "name": "Regular Meeting of the City Council, Successor Agency to the Culver "
+        "City Redevelopment Agency Board, and Culver City Housing Authority Board",
+        "address": "",
+    }
 
 
 def test_source():
@@ -77,7 +84,7 @@ def test_links():
 
 
 def test_classification():
-    assert parsed_items[0]["classification"] == NOT_CLASSIFIED
+    assert parsed_items[0]["classification"] == COMMITTEE
 
 
 @pytest.mark.parametrize("item", parsed_items)

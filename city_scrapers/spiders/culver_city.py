@@ -1,4 +1,6 @@
-from city_scrapers_core.constants import NOT_CLASSIFIED
+import re
+
+from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import LegistarSpider
 
@@ -43,6 +45,10 @@ class CulverCitySpider(LegistarSpider):
 
     def _parse_classification(self, item):
         """Parse or generate classification from allowed options."""
+        title = item["Name"]["label"].title()
+        for classification in CLASSIFICATIONS:
+            if classification in title:
+                return classification
         return NOT_CLASSIFIED
 
     def _parse_end(self, item):
@@ -59,4 +65,10 @@ class CulverCitySpider(LegistarSpider):
 
     def _parse_location(self, item):
         """Parse or generate location."""
-        return {"address": "", "name": item["Meeting Location"]}
+        location = item["Meeting Location"]
+        clean_location = re.sub("\r\n", " ", location)
+        clean_location = re.sub("\xa0", " ", clean_location)
+        is_address = bool(re.findall("[0-9]+", clean_location))
+        if is_address:
+            return {"address": clean_location, "name": ""}
+        return {"address": "", "name": clean_location}
