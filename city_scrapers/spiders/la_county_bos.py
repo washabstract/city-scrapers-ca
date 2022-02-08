@@ -48,14 +48,16 @@ class LaCountyBosSpider(CityScrapersSpider):
         sections = response.css(".price_border")
         items = []
         while len(sections) > 1:
-            agenda_text = sections[0].css("li::text").get()
-            agenda_re = re.search("Agenda for the (.+) of (.+).", agenda_text)
+            agenda_text = " ".join(
+                [text.strip() for text in sections[0].css("li::text").getall()]
+            )
+            agenda_re = re.search(r"Agenda for the (.+) of (.+\.)", agenda_text)
             for i in range(1, len(sections)):
                 match_text = sections[i].css("li::text").get()
                 match_re = re.search("Agenda for the (.+) of (.+).", match_text)
-                if agenda_re.group(1) == match_re.group(1) and agenda_re.group(
-                    2
-                ) == match_re.group(2):
+                if (agenda_re.group(1) == match_re.group(1)) and (
+                    agenda_re.group(2) == match_re.group(2)
+                ):
                     supp_agenda = sections.pop(i)
                     agenda = sections.pop(0)
                     items.append((agenda, supp_agenda))
