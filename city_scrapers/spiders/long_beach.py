@@ -1,16 +1,15 @@
-from datetime import datetime
+import re
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
+from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import LegistarSpider
 
-from city_scrapers.items import Meeting
 
-
-class SanJoseLegSpider(LegistarSpider):
-    name = "san_jose_leg"
-    agency = "San Jose Calendar"
+class LongBeachSpider(LegistarSpider):
+    name = "long_beach"
+    agency = "City of Long Beach"
     timezone = "America/Los_Angeles"
-    start_urls = ["https://sanjose.legistar.com/Calendar.aspx"]
+    start_urls = ["http://longbeach.legistar.com/Calendar.aspx"]
     # Add the titles of any links not included in the scraped results
     link_types = []
 
@@ -33,8 +32,6 @@ class SanJoseLegSpider(LegistarSpider):
                 location=self._parse_location(event),
                 links=self.legistar_links(event),
                 source=self.legistar_source(event),
-                created=datetime.now(),
-                updated=datetime.now(),
             )
 
             meeting["status"] = self._get_status(meeting)
@@ -44,9 +41,7 @@ class SanJoseLegSpider(LegistarSpider):
 
     def _parse_description(self, item):
         """Parse or generate meeting description."""
-        if "url" in item.get("Meeting Details"):
-            return item.get("Meeting Details")["url"]
-        return item.get("Meeting Details")
+        return ""
 
     def _parse_classification(self, item):
         """Parse or generate classification from allowed options."""
@@ -70,15 +65,10 @@ class SanJoseLegSpider(LegistarSpider):
 
     def _parse_location(self, item):
         """Parse or generate location."""
-        meeting_location = item.get("Meeting Location")
-
-        if type(meeting_location) == dict:
-            return {
-                "name": meeting_location.get("label", ""),
-                "address": meeting_location.get("url", ""),
-            }
-        else:
-            return {
-                "name": "",
-                "address": "",
-            }
+        location = item["Meeting Location"]
+        clean_location = re.sub("\r\n", " ", location)
+        clean_location = re.sub("\xa0", " ", clean_location)
+        is_address = bool(re.findall("[0-9]+", clean_location))
+        if is_address:
+            return {"address": clean_location, "name": ""}
+        return {"address": "", "name": clean_location}
