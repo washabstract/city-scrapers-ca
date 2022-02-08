@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Dict
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
 from city_scrapers_core.spiders import LegistarSpider
@@ -41,6 +42,28 @@ class LaMetroLegSpider(LegistarSpider):
             meeting["id"] = self._get_id(meeting)
 
             yield meeting
+
+    def legistar_start(self, item: Dict) -> datetime:
+        """Pulls the start time from a Legistar item
+
+        :param item: Scraped item from Legistar
+        :return: Meeting start datetime
+        """
+
+        start_date = item.get("Meeting Date")
+        start_time = item.get("Meeting Time")
+        if start_date and start_time:
+            try:
+                return datetime.strptime(
+                    f"{start_date} {start_time}", "%m/%d/%Y %I:%M %p"
+                )
+            except ValueError:
+                return datetime.strptime(start_date, "%m/%d/%Y")
+        if start_date:
+            try:
+                return datetime.strptime(start_date, "%m/%d/%Y")
+            except ValueError:
+                return None  # this will cause an error down the line anyway, so idk
 
     def _parse_description(self, item):
         """Parse or generate meeting description."""
