@@ -55,7 +55,7 @@ class LaPortSpider(CityScrapersSpider):
                 return self._parse_start(item, rs), self._parse_location(item, rs)
 
         # If there is no meeting agenda link, scrape time from table
-        location = {"address": "", "name":""}
+        location = {"address": "", "name": ""}
         row = item.xpath("td[@class='listItem']/text()")
         if len(row) > 0:
             date = row[1].get()
@@ -182,7 +182,7 @@ class LaPortSpider(CityScrapersSpider):
                 address = clean_location[end:].strip()
 
             return {"name": name, "address": address}
-        return {"name":"", "address":""}
+        return {"name": "", "address": ""}
 
     def _parse_source(self, response):
         return response.url
