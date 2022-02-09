@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Dict
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
 from city_scrapers_core.spiders import LegistarSpider
@@ -43,7 +42,7 @@ class LaMetroLegSpider(LegistarSpider):
 
             yield meeting
 
-    def legistar_start(self, item: Dict) -> datetime:
+    def legistar_start(self, item):
         """Pulls the start time from a Legistar item
 
         :param item: Scraped item from Legistar
