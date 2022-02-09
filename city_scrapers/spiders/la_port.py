@@ -59,8 +59,12 @@ class LaPortSpider(CityScrapersSpider):
         row = item.xpath("td[@class='listItem']/text()")
         if len(row) > 0:
             date = row[1].get()
+            print(62, date)
+            input()
             return dateparse(date), location
         else:
+            print(65, row)
+            input()
             return datetime(1, 1, 1, 0, 0), location
 
     def _parse_title(self, item):
@@ -93,9 +97,13 @@ class LaPortSpider(CityScrapersSpider):
             )
             if len(items) > 2:
                 starttime = items[2].text_content()
+                print(98, starttime)
+                input()
                 return dateparse(starttime, fuzzy=True, ignoretz=True)
             elif len(items) > 0:
                 raise ValueError
+            print(102, items)
+            input()
             return datetime(1, 1, 1, 0, 0)
         except (ParserError, ValueError):
             # Selects the entire intro block of text
@@ -104,12 +112,18 @@ class LaPortSpider(CityScrapersSpider):
                 starttime = items[0].text_content()
                 sample_str = re.sub(r"\s+", "", starttime)
                 try:
+                    print(111, sample_str)
+                    input()
                     return dateparse(sample_str, fuzzy=True)
                 except ParserError:
                     row = item.xpath("td[@class='listItem']/text()")
                     if len(items) > 0:
                         date = row[1].get()
+                        print(117, date)
+                        input()
                         return dateparse(date)
+            print(119, items)
+            input()
             return datetime(1, 1, 1, 0, 0)
 
     def _parse_end(self, item):
