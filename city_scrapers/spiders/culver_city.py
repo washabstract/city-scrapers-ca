@@ -1,5 +1,5 @@
-from datetime import datetime
 import re
+from datetime import datetime
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
 from city_scrapers_core.items import Meeting
@@ -39,7 +39,7 @@ class CulverCitySpider(LegistarSpider):
             meeting["id"] = self._get_id(meeting)
 
             yield meeting
-    
+
     def legistar_start(self, item):
         """Pulls the start time from a Legistar item
 
