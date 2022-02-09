@@ -63,13 +63,12 @@ class LaCountyBosSpider(CityScrapersSpider):
                     agenda_re.group(2) == match_re.group(2)
                 ):
                     supp_agenda = sections.pop(i)
-                    agenda = sections.pop(0)
-                    items.append((agenda, supp_agenda))
+                    items.append((section, supp_agenda))
                     matched = True
                     break
             if not matched and "Supplemental" in agenda_text:
                 self.logger.info("Could not find match for %s", section)
-            else:
+            elif not matched:
                 items.append((section, None))
         return items
 
