@@ -55,7 +55,9 @@ class LaCountyBosSpider(CityScrapersSpider):
             agenda_re = re.search(r"Agenda for the (.+) of (.+\.)", agenda_text)
             matched = False
             for i in range(1, len(sections)):
-                match_text = " ".join([text.strip() for text in sections[i].css("li::text").getall()])
+                match_text = " ".join(
+                    [text.strip() for text in sections[i].css("li::text").getall()]
+                )
                 match_re = re.search(r"Agenda for the (.+) of (.+\.)", match_text)
                 if (agenda_re.group(1) == match_re.group(1)) and (
                     agenda_re.group(2) == match_re.group(2)
@@ -96,9 +98,7 @@ class LaCountyBosSpider(CityScrapersSpider):
     def _parse_start(self, item):
         """Parse start datetime as a naive datetime object."""
         item = item[0]
-        agenda_text = " ".join(
-            [text.strip() for text in item.css("li::text").getall()]
-        )
+        agenda_text = " ".join([text.strip() for text in item.css("li::text").getall()])
         m = re.search(r"of (.+\.)", agenda_text)
         return dateparse(m.group(1))
 
