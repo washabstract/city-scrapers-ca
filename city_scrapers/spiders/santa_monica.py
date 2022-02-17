@@ -13,7 +13,10 @@ class SantaMonicaSpider(CityScrapersSpider):
     name = "santa_monica"
     agency = "Santa Monica City Council"
     timezone = "America/Los_Angeles"
-    start_urls = ["http://santamonicacityca.iqm2.com/Citizens/calendar.aspx"]
+    start_urls = [
+        "http://santamonicacityca.iqm2.com/Citizens/calendar.aspx?"
+        "From=1/1/1900&To=12/31/9999"
+    ]
 
     def parse(self, response):
         """
