@@ -37,7 +37,9 @@ class SantaMonicaSpider(CityScrapersSpider):
                 source=self._parse_source(response),
             )
 
-            meeting["classification"] = self._parse_classification(item)
+            meeting["classification"] = self._parse_classification(
+                item, meeting["title"]
+            )
             meeting["status"] = self._get_status(meeting)
             meeting["id"] = self._get_id(meeting)
 
@@ -55,17 +57,12 @@ class SantaMonicaSpider(CityScrapersSpider):
         """Parse or generate meeting description."""
         return ""
 
-    def _parse_classification(self, item):
+    def _parse_classification(self, item, title):
         """Parse or generate classification from allowed options."""
-        title = item.xpath(".//div[@class='MainScreenText RowDetails']/text()")
-        title = title.extract()
-        if len(title) < 1:
-            title = ""
-        else:
-            title = title[0]
+        title = title.lower()
 
         for classification in CLASSIFICATIONS:
-            if classification in title:
+            if classification.lower() in title:
                 return classification
         return NOT_CLASSIFIED
 
