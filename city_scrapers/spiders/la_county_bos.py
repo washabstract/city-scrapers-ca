@@ -48,26 +48,28 @@ class LaCountyBosSpider(CityScrapersSpider):
         sections = response.css(".price_border")
         items = []
         while len(sections) > 1:
+            section = sections.pop(0)
             agenda_text = " ".join(
-                [text.strip() for text in sections[0].css("li::text").getall()]
+                [text.strip() for text in section.css("li::text").getall()]
             )
             agenda_re = re.search(r"Agenda for the (.+) of (.+\.)", agenda_text)
+            matched = False
             for i in range(1, len(sections)):
-                match_text = sections[i].css("li::text").get()
-                match_re = re.search("Agenda for the (.+) of (.+).", match_text)
+                match_text = " ".join(
+                    [text.strip() for text in sections[i].css("li::text").getall()]
+                )
+                match_re = re.search(r"Agenda for the (.+) of (.+\.)", match_text)
                 if (agenda_re.group(1) == match_re.group(1)) and (
                     agenda_re.group(2) == match_re.group(2)
                 ):
                     supp_agenda = sections.pop(i)
-                    agenda = sections.pop(0)
-                    items.append((agenda, supp_agenda))
+                    items.append((section, supp_agenda))
+                    matched = True
                     break
-            if len(sections) and sections[0].css("li::text").get() == agenda_text:
-                section = sections.pop(0)
-                if "Supplemental" in section.css("li::text").get():
-                    self.logger.info("Could not find match for %s", section)
-                else:
-                    items.append((section, None))
+            if not matched and "Supplemental" in agenda_text:
+                self.logger.info("Could not find match for %s", section)
+            elif not matched:
+                items.append((section, None))
         return items
 
     def _parse_title(self, item):
@@ -95,7 +97,8 @@ class LaCountyBosSpider(CityScrapersSpider):
     def _parse_start(self, item):
         """Parse start datetime as a naive datetime object."""
         item = item[0]
-        m = re.search("of (.+).", item.css("li::text").get())
+        agenda_text = " ".join([text.strip() for text in item.css("li::text").getall()])
+        m = re.search(r"of (.+\.)", agenda_text)
         return dateparse(m.group(1))
 
     def _parse_end(self, item):
