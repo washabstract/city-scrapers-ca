@@ -31,7 +31,7 @@ def test_description():
 
 
 def test_start():
-    assert parsed_items[0]["start"] == datetime(2022, 1, 11, 17, 30)
+    assert parsed_items[0]["start"] == datetime(2015, 4, 28, 17, 30)
 
 
 def test_end():
@@ -45,7 +45,7 @@ def test_time_notes():
 def test_id():
     assert (
         parsed_items[0]["id"]
-        == "santa_monica/202201111730/x/city_council_regular_meeting"
+        == "santa_monica/201504281730/x/city_council_regular_meeting"
     )
 
 
@@ -65,28 +65,7 @@ def test_source():
 
 
 def test_links():
-    assert parsed_items[0]["links"] == [
-        {
-            "href": "https://santamonicacityca.iqm2.com/Citizens/FileOpen.aspx?Type=14"
-            "&ID=1288&Inline=True",
-            "title": "Agenda",
-        },
-        {
-            "href": "https://santamonicacityca.iqm2.com/Citizens/FileOpen.aspx?Type=1"
-            "&ID=1288&Inline=True",
-            "title": "Agenda Packet",
-        },
-        {
-            "href": "https://santamonicacityca.iqm2.com/Citizens/FileOpen.aspx?Type=15"
-            "&ID=1313&Inline=True",
-            "title": "Minutes",
-        },
-        {
-            "href": "https://santamonicacityca.iqm2.com/Citizens/FileOpen.aspx?Type=12"
-            "&ID=1313&Inline=True",
-            "title": "Minutes Packet",
-        },
-    ]
+    assert parsed_items[0]["links"] == []
 
 
 def test_classification():
