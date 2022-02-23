@@ -1,15 +1,16 @@
 from datetime import datetime
-from os.path import dirname, join
+from os.path import join
 
 import pytest
 from city_scrapers_core.constants import BOARD, PASSED, TENTATIVE
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
+from city_scrapers.items import Meeting
 from city_scrapers.spiders.la_port import LaPortSpider
 
 test_response = file_response(
-    join(dirname(__file__), "files", "la_port.html"),
+    join("tests", "files", "la_port.html"),
     url="https://portofla.granicus.com/ViewPublisher.php?view_id=9",
 )
 spider = LaPortSpider()
@@ -18,7 +19,26 @@ freezer = freeze_time("2022-01-25")
 freezer.start()
 
 parsed_items = [item for item in spider.parse(test_response)]
-
+test_response_0 = file_response(
+    join("tests", "files", "la_port_0.html"), url=parsed_items[0].url
+)
+parsed_items[0] = next(
+    spider._parse_time_location(
+        test_response_0,
+        parsed_items[0]._cb_kwargs["meeting"],
+        parsed_items[0]._cb_kwargs["item"],
+    )
+)
+test_response_24 = file_response(
+    join("tests", "files", "la_port_24.html"), url=parsed_items[24].url
+)
+parsed_items[24] = next(
+    spider._parse_time_location(
+        test_response_24,
+        parsed_items[24]._cb_kwargs["meeting"],
+        parsed_items[24]._cb_kwargs["item"],
+    )
+)
 freezer.stop()
 
 
@@ -111,4 +131,5 @@ def test_status():
 
 @pytest.mark.parametrize("item", parsed_items)
 def test_all_day(item):
-    assert item["all_day"] is False
+    if type(item) is Meeting:
+        assert item["all_day"] is False
