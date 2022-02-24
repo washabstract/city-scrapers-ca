@@ -48,7 +48,7 @@ class LaPortSpider(CityScrapersSpider):
         if (
             response
             and response.body != b""
-            and b"text/html" in response.headers.get("Content-Type", "text/html")
+            and b"text/html" in response.headers.get("Content-Type", "")
         ):
             meeting["start"], meeting["location"] = self._parse_start(
                 item, response

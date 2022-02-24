@@ -22,6 +22,7 @@ parsed_items = [item for item in spider.parse(test_response)]
 test_response_0 = file_response(
     join("tests", "files", "la_port_0.html"), url=parsed_items[0].url
 )
+test_response_0.headers["Content-Type"] = "text/html"
 parsed_items[0] = next(
     spider._parse_time_location(
         test_response_0,
@@ -32,6 +33,7 @@ parsed_items[0] = next(
 test_response_24 = file_response(
     join("tests", "files", "la_port_24.html"), url=parsed_items[24].url
 )
+test_response_24.headers["Content-Type"] = "text/html"
 parsed_items[24] = next(
     spider._parse_time_location(
         test_response_24,
