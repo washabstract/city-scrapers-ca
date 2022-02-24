@@ -57,9 +57,11 @@ class LadwpSpider(CityScrapersSpider):
 
     def _parse_start(self, item):
         """Parse start datetime as a naive datetime object.
-           Start time defaults to 10AM"""
-        date = item.xpath("./td[@headers='Date']/text()|"
-        "./td[@headers='Date Board-of-Commissioners-Meeting-']/text()").extract()
+        Start time defaults to 10AM"""
+        date = item.xpath(
+            "./td[@headers='Date']/text()|"
+            "./td[@headers='Date Board-of-Commissioners-Meeting-']/text()"
+        ).extract()
         if len(date) < 1:
             return datetime(1, 1, 1, 0, 0)
         clean_date = re.sub("\xa0", " ", date[0]).strip()
@@ -81,7 +83,7 @@ class LadwpSpider(CityScrapersSpider):
         )
         if len(time) < 1:
             return None
-        
+
         time = time[0].extract()
         time = re.sub("\xa0", " ", time)
 
@@ -90,12 +92,12 @@ class LadwpSpider(CityScrapersSpider):
 
         h = time.find("h")
         if h >= 2:
-            hr = int(time[h-2:h])
+            hr = int(time[h - 2 : h])
         m = time.find("m")
         if m >= 2:
-            min = int(time[m-2:m])
+            min = int(time[m - 2 : m])
 
-        length = timedelta(minutes = min, hours = hr)
+        length = timedelta(minutes=min, hours=hr)
         return start + length
 
     def _parse_time_notes(self, item):
@@ -128,20 +130,17 @@ class LadwpSpider(CityScrapersSpider):
                 title = ""
             else:
                 title = title[0].extract()
-            
+
             # If it has a clip_id, it's a good link
             if "clip_id=" in href:
-                result.append({
-                    "href": "https:" + href, 
-                    "title": title
-                })
-            
+                result.append({"href": "https:" + href, "title": title})
+
             # If not, check for onclick, find the first argument
             else:
                 click = link.xpath("./@onclick")
                 if len(click) > 0:
                     text = click[0].extract()
-                    
+
                     beg = text.find("('")
                     if beg < 0:
                         continue
@@ -149,15 +148,12 @@ class LadwpSpider(CityScrapersSpider):
                     end = text.find("'", beg)
                     if end < 0:
                         continue
-                    
+
                     href = "https:" + text[beg:end]
-                    result.append({
-                        "href": href, 
-                        "title": title
-                    })
-    
+                    result.append({"href": href, "title": title})
+
             # If THAT doesnt work, it's a bad link.  Skip.
-        
+
         return result
 
     def _parse_source(self, response):
