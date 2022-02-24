@@ -45,7 +45,11 @@ class LaPortSpider(CityScrapersSpider):
         """Meeting page url processing.  Scrapes start time and location from meeting
         agenda page
         """
-        if response and response.body != b"":
+        if (
+            response
+            and response.body != b""
+            and b"text/html" in response.headers["Content-Type"]
+        ):
             meeting["start"], meeting["location"] = self._parse_start(
                 item, response
             ), self._parse_location(response)
