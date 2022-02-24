@@ -77,10 +77,11 @@ def test_time_notes():
 
 
 def test_location():
-    name = "Los Angeles Board of Harbor Commissioners"
-    address = """Harbor Administration Building\n425 S. Palos Verdes Street
-San Pedro, California 90731"""
-    location = {"name": name, "address": address}
+    location = {
+        "name": "Los Angeles Board of Harbor Commissioners",
+        "address": """Harbor Administration Building\n425 S. Palos Verdes Street
+San Pedro, California 90731""",
+    }
 
     assert parsed_items[0]["location"] == location
     assert parsed_items[24]["location"] == location
