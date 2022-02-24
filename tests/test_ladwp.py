@@ -94,7 +94,7 @@ def test_links():
 
 def test_classification():
     assert parsed_items[0]["classification"] == BOARD
-    assert parsed_items[0]["classification"] == BOARD
+    assert parsed_items[2]["classification"] == BOARD
 
 
 @pytest.mark.parametrize("item", parsed_items)
