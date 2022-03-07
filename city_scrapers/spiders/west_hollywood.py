@@ -27,7 +27,7 @@ class WestHollywoodSpider(CityScrapersSpider):
             meeting = Meeting(
                 title=self._parse_title(item),
                 description=self._parse_description(item),
-                start=self._parse_start(item),
+                start=self._parse_start(item, response),
                 end=self._parse_end(item),
                 all_day=self._parse_all_day(item),
                 time_notes=self._parse_time_notes(item),
@@ -63,7 +63,7 @@ class WestHollywoodSpider(CityScrapersSpider):
                 return classification
         return NOT_CLASSIFIED
 
-    def _parse_start(self, item):
+    def _parse_start(self, item, response):
         """Parse start datetime as a naive datetime object."""
         date = item.xpath(
             ".//td[@headers='Date Regular-City-Council-Meeting']/text() |"
@@ -73,6 +73,11 @@ class WestHollywoodSpider(CityScrapersSpider):
             return datetime(1, 1, 1, 0, 0)
 
         date = date[0].extract().strip()
+        if "id=22" in response.url:
+            date = date + " 6 PM"
+        elif "id=31" in response.url:
+            date = date + " 6:30 PM"
+
         try:
             return dateparse(date, fuzzy=True, ignoretz=True)
         except (ParserError):

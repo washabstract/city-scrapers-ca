@@ -42,8 +42,8 @@ def test_description():
 
 
 def test_start():
-    assert parsed_items[0]["start"] == datetime(2022, 2, 22, 0, 0)
-    assert parsed_items[400]["start"] == datetime(2018, 3, 1, 0, 0)
+    assert parsed_items[0]["start"] == datetime(2022, 2, 22, 18, 0)
+    assert parsed_items[400]["start"] == datetime(2018, 3, 1, 18, 30)
 
 
 def test_end():
@@ -59,11 +59,11 @@ def test_time_notes():
 def test_id():
     assert (
         parsed_items[0]["id"]
-        == "west_hollywood/202202220000/x/regular_city_council_meeting"
+        == "west_hollywood/202202221800/x/regular_city_council_meeting"
     )
     assert (
         parsed_items[400]["id"]
-        == "west_hollywood/201803010000/x/planning_commission_meeting"
+        == "west_hollywood/201803011830/x/planning_commission_meeting"
     )
 
 
