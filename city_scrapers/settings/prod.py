@@ -7,7 +7,7 @@ USER_AGENT = "City Scrapers [production mode]. Learn more and say hello at https
 # Configure item pipelines
 ITEM_PIPELINES = {
     "scrapy.pipelines.files.FilesPipeline": 100,
-    "city_scrapers.pipelines.GCSDiffPipeline": 200,
+    "city_scrapers.pipelines.S3DiffPipeline": 200,
     "city_scrapers_core.pipelines.MeetingPipeline": 300,
     "city_scrapers.pipelines.OpenCivicDataPipeline": 400,
     "city_scrapers.pipelines.TextExtractorPipeline": 500,
@@ -18,7 +18,7 @@ SENTRY_DSN = os.getenv("SENTRY_DSN")
 
 EXTENSIONS = {
     "scrapy_sentry.extensions.Errors": 10,
-    "city_scrapers_core.extensions.GCSStatusExtension": 100,
+    "city_scrapers_core.extensions.S3StatusExtension": 100,
     "scrapy.extensions.closespider.CloseSpider": None,
 }
 
@@ -30,23 +30,17 @@ FEED_EXPORTERS = {
 FEED_FORMAT = "jsonlines"
 
 FEED_STORAGES = {
-    "gcs": "scrapy.extensions.feedexport.GCSFeedStorage",
+    "s3": "scrapy.extensions.feedexport.S3FeedStorage",
 }
 
-GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-GCS_BUCKET = os.getenv("GCS_BUCKET")
-CITY_SCRAPERS_STATUS_BUCKET = GCS_BUCKET
-
-path = "{}/google-cloud-storage-credentials.json".format(os.getcwd())
-credentials_content = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-if not os.path.exists(credentials_content):
-    with open(path, "w") as f:
-        f.write(credentials_content)
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+S3_BUCKET = os.getenv("S3_BUCKET")
+CITY_SCRAPERS_STATUS_CONTAINER = S3_BUCKET
 
 FEED_URI = (
-    "gs://{bucket}/%(year)s/%(month)s/%(day)s/%(hour_min)s/%(name)s.json"
-).format(bucket=GCS_BUCKET)
+    "s3://{bucket}/%(year)s/%(month)s/%(day)s/%(hour_min)s/%(name)s.json"
+).format(bucket=S3_BUCKET)
 
 POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE")
 POSTGRES_USER = os.getenv("POSTGRES_USER")

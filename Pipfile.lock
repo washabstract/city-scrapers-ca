@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e3caa0246f0461e63ac3e4845a62d17351483b4c9db94912e663060cff831d55"
+            "sha256": "9db8c46393420712e12617978fcbfea9665d31f53e9c20fe8f38254140df9cb5"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -28,6 +28,21 @@
                 "sha256:b6feb6455337df834f6c9962d6ccf771515b7d939bca142b29c20c2376bc6111"
             ],
             "version": "==20.2.0"
+        },
+        "boto3": {
+            "hashes": [
+                "sha256:16fae86d0c4993fd5112128bb4622a879f02363bccd045153cc0bbd7722cc9a5",
+                "sha256:e17d994d222162dac02ec32fde6ae910d819ebf239a94dddcee47def2c82b9c9"
+            ],
+            "version": "==1.21.13"
+        },
+        "botocore": {
+            "hashes": [
+                "sha256:2c40f4fc3925b9057869beda1413a7b77edb7a28eb05c6265eaf6ca1ca7d3b63",
+                "sha256:9fe55f6eab0977b00afd90e770ef2c8b989fa7b18e5c14b22ba62216ec3b564a"
+            ],
+            "markers": "python_version >= '3.6'",
+            "version": "==1.24.14"
         },
         "cachetools": {
             "hashes": [
@@ -117,6 +132,7 @@
         },
         "city-scrapers-core": {
             "extras": [
+                "aws",
                 "gcs"
             ],
             "hashes": [
@@ -193,11 +209,11 @@
         },
         "google-cloud-core": {
             "hashes": [
-                "sha256:7d19bf8868b410d0bdf5a03468a3f3f2db233c0ee86a023f4ecc2b7a4b15f736",
-                "sha256:d9cffaf86df6a876438d4e8471183bbe404c9a15de9afe60433bc7dce8cb4252"
+                "sha256:89d2f7189bc6dc74de128d423ea52cc8719f0a5dbccd9ca80433f6504a20255c",
+                "sha256:a423852f4c36622376c8f0be509b67533690e061062368b763b92694c4ee06a7"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==2.2.2"
+            "version": "==2.2.3"
         },
         "google-cloud-storage": {
             "hashes": [
@@ -714,6 +730,14 @@
             "markers": "python_version >= '3.6'",
             "version": "==4.8"
         },
+        "s3transfer": {
+            "hashes": [
+                "sha256:7a6f4c4d1fdb9a2b640244008e142cbc2cd3ae34b386584ef044dd0f27101971",
+                "sha256:95c58c194ce657a5f4fb0b9e60a84968c808888aed628cd98ab8771fe1db98ed"
+            ],
+            "markers": "python_version >= '3.6'",
+            "version": "==0.5.2"
+        },
         "scrapy": {
             "hashes": [
                 "sha256:56fd55a59d0f329ce752892358abee5a6b50b4fc55a40420ea317dc617553827",
@@ -761,7 +785,6 @@
             "version": "==3.2.0"
         },
         "twisted": {
-            "extras": [],
             "hashes": [
                 "sha256:57f32b1f6838facb8c004c89467840367ad38e9e535f8252091345dba500b4f2",
                 "sha256:5c63c149eb6b8fe1e32a0215b1cef96fabdba04f705d8efb9174b1ccf5b49d49"
