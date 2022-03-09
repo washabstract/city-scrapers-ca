@@ -15,12 +15,6 @@ class SfBosSpider(CityScrapersSpider):
     start_urls = ["https://sfbos.org/events/calendar"]
 
     def parse(self, response):
-        """
-        `parse` should always `yield` Meeting items.
-
-        Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
-        needs.
-        """
         meeting_table = response.css(".views-table tbody")
         default_address = response.css("footer div.sf311::text").get().strip()
         for item in meeting_table.css("tr"):
@@ -48,7 +42,6 @@ class SfBosSpider(CityScrapersSpider):
             )
 
     def _parse_event(self, response, meeting, item):
-        """Parse or generate event contents from event yield."""
         event_contents = None
         if "files" in response.url:
             event_contents = response.url
@@ -91,34 +84,27 @@ class SfBosSpider(CityScrapersSpider):
         return meeting
 
     def _parse_title(self, item):
-        """Parse or generate meeting title."""
         return item.css("td.views-field-title a::text").get()
 
     def _parse_classification(self, item):
-        """Parse or generate classification from allowed options."""
         for classification in CLASSIFICATIONS:
             if classification in item.css("td.views-field-title a::text").get():
                 return classification
         return NOT_CLASSIFIED
 
     def _parse_start(self, item):
-        """Parse start datetime as a naive datetime object."""
         return datetime_parse(item.css("span.date-display-single::text").get())
 
     def _parse_end(self, item):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
         return None
 
     def _parse_time_notes(self, item):
-        """Parse any additional notes on the timing of the meeting"""
         return ""
 
     def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
         return False
 
     def _parse_location(self, item, default_address):
-        """Parse or generate location."""
         loc_str = item.css("td.views-field-field-event-location-premise").get().strip()
         if "cancel" in loc_str.lower():
             return {
@@ -144,5 +130,4 @@ class SfBosSpider(CityScrapersSpider):
             }
 
     def _parse_source(self, response):
-        """Parse or generate source."""
         return response.url

@@ -1,10 +1,11 @@
 from datetime import datetime
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
-from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse as dateparse
 from dateutil.parser._parser import ParserError
+
+from city_scrapers.items import Meeting
 
 
 class WestHollywoodSpider(CityScrapersSpider):
@@ -17,12 +18,6 @@ class WestHollywoodSpider(CityScrapersSpider):
     ]
 
     def parse(self, response):
-        """
-        `parse` should always `yield` Meeting items.
-
-        Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
-        needs.
-        """
         for item in response.xpath("//tr[@class='odd'] | //tr[@class='even'] ")[1:]:
             meeting = Meeting(
                 title=self._parse_title(item),
@@ -34,6 +29,8 @@ class WestHollywoodSpider(CityScrapersSpider):
                 location=self._parse_location(item),
                 links=self._parse_links(item),
                 source=self._parse_source(response),
+                created=datetime.now(),
+                updated=datetime.now(),
             )
 
             meeting["classification"] = self._parse_classification(
@@ -45,7 +42,6 @@ class WestHollywoodSpider(CityScrapersSpider):
             yield meeting
 
     def _parse_title(self, item):
-        """Parse or generate meeting title."""
         title = item.xpath(".//td[@headers='Name']//text()")
         if len(title) < 1:
             return ""
@@ -53,18 +49,15 @@ class WestHollywoodSpider(CityScrapersSpider):
         return title[0].extract().strip()
 
     def _parse_description(self, item):
-        """Parse or generate meeting description."""
         return ""
 
     def _parse_classification(self, item, title):
-        """Parse or generate classification from allowed options."""
         for classification in CLASSIFICATIONS:
             if classification.lower() in title.lower():
                 return classification
         return NOT_CLASSIFIED
 
     def _parse_start(self, item, response):
-        """Parse start datetime as a naive datetime object."""
         date = item.xpath(
             ".//td[@headers='Date Regular-City-Council-Meeting']/text() |"
             ".//td[@headers='Date Planning-Commission-Meeting']/text()"
@@ -84,23 +77,18 @@ class WestHollywoodSpider(CityScrapersSpider):
             return datetime(1, 1, 1, 0, 0)
 
     def _parse_end(self, item):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
         return None
 
     def _parse_time_notes(self, item):
-        """Parse any additional notes on the timing of the meeting"""
         return ""
 
     def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
         return False
 
     def _parse_location(self, item):
-        """Parse or generate location."""
         return {}
 
     def _parse_links(self, item):
-        """Parse or generate links."""
         links = item.xpath(".//td/a[@href]")
         if len(links) < 1:
             return ""
@@ -150,5 +138,4 @@ class WestHollywoodSpider(CityScrapersSpider):
         return result
 
     def _parse_source(self, response):
-        """Parse or generate source."""
         return response.url

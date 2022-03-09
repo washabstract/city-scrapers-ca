@@ -107,5 +107,4 @@ class LaPlanningSpider(CityScrapersSpider):
         return links if links else [{"href": "", "title": ""}]
 
     def _parse_source(self, response):
-        """Parse or generate source."""
         return response.url

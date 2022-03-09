@@ -21,12 +21,6 @@ class LaCityGovernmentSpider(CityScrapersSpider):
     ]
 
     def parse(self, response):
-        """
-        `parse` should always `yield` Meeting items.
-
-        Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
-        needs.
-        """
         json_response = response.json()
         for item in json_response:
             meeting = Meeting(
@@ -50,14 +44,12 @@ class LaCityGovernmentSpider(CityScrapersSpider):
             yield meeting
 
     def _parse_title(self, item):
-        """Parse or generate meeting title."""
         title = ""
         if "title" in item and item["title"]:
             title = unescape(item["title"])
         return title.strip()
 
     def _parse_description(self, item):
-        """Parse or generate meeting description."""
         description = ""
         if "allowPublicSpeaker" in item:
             allowPublicSpeaker = (
@@ -76,14 +68,12 @@ class LaCityGovernmentSpider(CityScrapersSpider):
         return description.strip()
 
     def _parse_classification(self, item):
-        """Parse or generate classification from allowed options."""
         for classification in CLASSIFICATIONS:
             if classification in unescape(item["title"]):
                 return classification
         return NOT_CLASSIFIED
 
     def _parse_start(self, item):
-        """Parse start datetime as a naive datetime object."""
         start_str = ""
         if "date" in item:
             start_str += item["date"] + " "
@@ -93,26 +83,21 @@ class LaCityGovernmentSpider(CityScrapersSpider):
         return start.replace(tzinfo=None)
 
     def _parse_end(self, item):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
         return None
 
     def _parse_time_notes(self, item):
-        """Parse any additional notes on the timing of the meeting"""
         return ""
 
     def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
         return False
 
     def _parse_location(self, item):
-        """Parse or generate location."""
         return {
             "address": "",
             "name": "",
         }
 
     def _parse_links(self, item):
-        """Parse or generate links."""
         links = []
         if "documentList" in item:
             for doc in item["documentList"]:
@@ -138,5 +123,4 @@ class LaCityGovernmentSpider(CityScrapersSpider):
         return links
 
     def _parse_source(self, response):
-        """Parse or generate source."""
         return response.url

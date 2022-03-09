@@ -2,8 +2,9 @@ import re
 from datetime import datetime
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
-from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import LegistarSpider
+
+from city_scrapers.items import Meeting
 
 
 class CulverCitySpider(LegistarSpider):
@@ -15,12 +16,6 @@ class CulverCitySpider(LegistarSpider):
     link_types = []
 
     def parse_legistar(self, events):
-        """
-        `parse_legistar` should always `yield` Meeting items.
-
-        Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
-        needs.
-        """
         for event in events:
             meeting = Meeting(
                 title=event["Name"]["label"],
@@ -33,6 +28,8 @@ class CulverCitySpider(LegistarSpider):
                 location=self._parse_location(event),
                 links=self.legistar_links(event),
                 source=self.legistar_source(event),
+                created=datetime.now(),
+                updated=datetime.now(),
             )
 
             meeting["status"] = self._get_status(meeting)
@@ -41,12 +38,6 @@ class CulverCitySpider(LegistarSpider):
             yield meeting
 
     def legistar_start(self, item):
-        """Pulls the start time from a Legistar item
-
-        :param item: Scraped item from Legistar
-        :return: Meeting start datetime
-        """
-
         start_date = item.get("Meeting Date")
         start_time = item.get("Meeting Time")
         if start_date and start_time:
@@ -55,7 +46,7 @@ class CulverCitySpider(LegistarSpider):
                     f"{start_date} {start_time}", "%m/%d/%Y %I:%M %p"
                 )
             except ValueError:
-                return datetime.strptime(start_date, "%m/%d/%Y")
+                pass
         if start_date:
             try:
                 return datetime.strptime(start_date, "%m/%d/%Y")
@@ -63,11 +54,9 @@ class CulverCitySpider(LegistarSpider):
                 return None  # this will cause an error down the line anyway, so idk
 
     def _parse_description(self, item):
-        """Parse or generate meeting description."""
         return ""
 
     def _parse_classification(self, item):
-        """Parse or generate classification from allowed options."""
         title = item["Name"]["label"].title()
         for classification in CLASSIFICATIONS:
             if classification in title:
@@ -75,20 +64,24 @@ class CulverCitySpider(LegistarSpider):
         return NOT_CLASSIFIED
 
     def _parse_end(self, item):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
         return None
 
     def _parse_time_notes(self, item):
-        """Parse any additional notes on the timing of the meeting"""
         return ""
 
     def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
         return False
 
     def _parse_location(self, item):
-        """Parse or generate location."""
         location = item["Meeting Location"]
+        if type(location) != str:
+            print("THIS IS THE LOCATION TYPE >>" + str(type(location)) + "<<")
+            print("THIS IS THE LOCATION >>" + str(location) + "<<")
+        if type(location) is dict:
+            return {
+                "address": location.get("url", ""),
+                "name": location.get("label", ""),
+            }
         clean_location = re.sub("\r\n", " ", location)
         clean_location = re.sub("\xa0", " ", clean_location)
         is_address = bool(re.findall("[0-9]+", clean_location))

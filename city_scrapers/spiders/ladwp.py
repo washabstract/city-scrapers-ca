@@ -15,12 +15,6 @@ class LadwpSpider(CityScrapersSpider):
     start_urls = ["http://ladwp.granicus.com/ViewPublisher.php?view_id=2"]
 
     def parse(self, response):
-        """
-        `parse` should always `yield` Meeting items.
-
-        Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
-        needs.
-        """
         for item in response.xpath("//tr[@class='listingRow']"):
             meeting = Meeting(
                 title=self._parse_title(item),
@@ -32,6 +26,8 @@ class LadwpSpider(CityScrapersSpider):
                 location=self._parse_location(item),
                 links=self._parse_links(item),
                 source=self._parse_source(response),
+                created=datetime.now(),
+                updated=datetime.now(),
             )
 
             meeting["end"] = self._parse_end(item, meeting["start"])
@@ -41,23 +37,18 @@ class LadwpSpider(CityScrapersSpider):
             yield meeting
 
     def _parse_title(self, item):
-        """Parse or generate meeting title."""
         title = item.xpath("./td[@headers='Name']/text()")
         if len(title) < 1:
             return ""
         return title[0].extract().strip()
 
     def _parse_description(self, item):
-        """Parse or generate meeting description."""
         return ""
 
     def _parse_classification(self, item):
-        """Parse or generate classification from allowed options."""
         return BOARD
 
     def _parse_start(self, item):
-        """Parse start datetime as a naive datetime object.
-        Start time defaults to 10AM"""
         date = item.xpath(
             "./td[@headers='Date']/text()|"
             "./td[@headers='Date Board-of-Commissioners-Meeting-']/text()"
@@ -74,7 +65,6 @@ class LadwpSpider(CityScrapersSpider):
             return datetime(1, 1, 1, 0, 0)
 
     def _parse_end(self, item, start):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
         if (start == datetime(1, 1, 1, 0, 0)) | (start is None):
             return None
 
@@ -101,19 +91,15 @@ class LadwpSpider(CityScrapersSpider):
         return start + length
 
     def _parse_time_notes(self, item):
-        """Parse any additional notes on the timing of the meeting"""
         return ""
 
     def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
         return False
 
     def _parse_location(self, item):
-        """Parse or generate location."""
         return None
 
     def _parse_links(self, item):
-        """Parse or generate links."""
         links = item.xpath(".//a")
         if len(links) < 1:
             return ""
@@ -157,5 +143,4 @@ class LadwpSpider(CityScrapersSpider):
         return result
 
     def _parse_source(self, response):
-        """Parse or generate source."""
         return response.url

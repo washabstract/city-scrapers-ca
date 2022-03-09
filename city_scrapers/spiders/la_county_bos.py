@@ -16,12 +16,6 @@ class LaCountyBosSpider(CityScrapersSpider):
     start_urls = ["http://bos.lacounty.gov/Board-Meeting/Board-Agendas"]
 
     def parse(self, response):
-        """
-        `parse` should always `yield` Meeting items.
-
-        Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
-        needs.
-        """
         sections = self._parse_sections(response)
         for item in sections:
             meeting = Meeting(
@@ -73,13 +67,11 @@ class LaCountyBosSpider(CityScrapersSpider):
         return items
 
     def _parse_title(self, item):
-        """Parse or generate meeting title."""
         item = item[0]
         m = re.search("Agenda for the (.+) of", item.css("li::text").get())
         return m.group(1)
 
     def _parse_description(self, item):
-        """Parse or generate meeting description."""
         agenda = urljoin(self.start_urls[0], item[0].css("a::attr('href')").get())
         if item[1]:
             supplemental_agenda = urljoin(
@@ -91,37 +83,30 @@ class LaCountyBosSpider(CityScrapersSpider):
         return f"Meeting Agenda: {agenda}"
 
     def _parse_classification(self, item):
-        """Parse or generate classification from allowed options."""
         return BOARD
 
     def _parse_start(self, item):
-        """Parse start datetime as a naive datetime object."""
         item = item[0]
         agenda_text = " ".join([text.strip() for text in item.css("li::text").getall()])
         m = re.search(r"of (.+\.)", agenda_text)
         return dateparse(m.group(1))
 
     def _parse_end(self, item):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
         return None
 
     def _parse_time_notes(self, item):
-        """Parse any additional notes on the timing of the meeting"""
         return ""
 
     def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
         return False
 
     def _parse_location(self, item):
-        """Parse or generate location."""
         return {
             "address": "500 West Temple Street, Los Angeles, California 90012",
             "name": "Kenneth Hahn Hall of Administration",
         }
 
     def _parse_links(self, item):
-        """Parse or generate links."""
         links = [
             {
                 "href": urljoin(
@@ -142,5 +127,4 @@ class LaCountyBosSpider(CityScrapersSpider):
         return links
 
     def _parse_source(self, response):
-        """Parse or generate source."""
         return response.url

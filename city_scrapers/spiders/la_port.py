@@ -43,9 +43,6 @@ class LaPortSpider(CityScrapersSpider):
             yield meeting
 
     def _get_time_location(self, item, links):
-        """Meeting page url processing.  Scrapes start time and location from meeting
-        agenda page
-        """
         # If there is a meeeting agenda link, scrape location and time from that
         if (len(links) > 0) and (links[0]["title"] == "Agenda"):
             url = links[0]["href"]
@@ -81,9 +78,6 @@ class LaPortSpider(CityScrapersSpider):
         return BOARD
 
     def _parse_start(self, item, response):
-        """Calendar page does not have times.  Times can be found in agenda.
-        If time cannot be scraoped, defaults to 00:00
-        """
         # Try to find the date in the second block of text
         #   If it cannot be found, check the entire intro block
         #   otherwise, just return default 00:00 start time
@@ -123,7 +117,6 @@ class LaPortSpider(CityScrapersSpider):
 
     def _parse_links(self, item):
         links = []
-        """Parse or generate links."""
         # For upcoming meetings
         row = item.xpath("td[@class='listItem']")
 
@@ -164,7 +157,6 @@ class LaPortSpider(CityScrapersSpider):
         return links
 
     def _parse_location(self, item, response):
-        """The location can be found in the agenda (url extracted from _parse_links)"""
         items = response.xpath(
             "//div[@id='contentBody']//div[@id='section-about']//strong"
         )
