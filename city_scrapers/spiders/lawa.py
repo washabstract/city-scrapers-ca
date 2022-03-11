@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from city_scrapers_core.constants import COMMITTEE, BOARD
+from city_scrapers_core.constants import BOARD, COMMITTEE
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse as dateparse
