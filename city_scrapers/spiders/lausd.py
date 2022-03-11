@@ -1,10 +1,11 @@
 from datetime import datetime
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
-from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse as dateparse
 from dateutil.parser._parser import ParserError
+
+from city_scrapers.items import Meeting
 
 
 class LausdSpider(CityScrapersSpider):
@@ -31,6 +32,8 @@ class LausdSpider(CityScrapersSpider):
                 location=self._parse_location(item),
                 links=self._parse_links(item),
                 source=self._parse_source(response),
+                created=datetime.now(),
+                updated=datetime.now(),
             )
 
             meeting["classification"] = self._parse_classification(
