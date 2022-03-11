@@ -15,12 +15,6 @@ class LausdSpider(CityScrapersSpider):
     start_urls = ["http://laschoolboard.org/LAUSDBdMtgAgendas"]
 
     def parse(self, response):
-        """
-        `parse` should always `yield` Meeting items.
-
-        Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
-        needs.
-        """
         for item in response.xpath("//div[@id='squeeze-content']//tbody/tr")[1:]:
             meeting = Meeting(
                 title=self._parse_title(item),
@@ -45,25 +39,21 @@ class LausdSpider(CityScrapersSpider):
             yield meeting
 
     def _parse_title(self, item):
-        """Parse or generate meeting title."""
         cols = item.xpath("./td/text()")
         if len(cols) < 2:
             return ""
         return cols[1].extract().strip()
 
     def _parse_description(self, item):
-        """Parse or generate meeting description."""
         return ""
 
     def _parse_classification(self, item, title):
-        """Parse or generate classification from allowed options."""
         for classification in CLASSIFICATIONS:
             if classification.lower() in title.lower():
                 return classification
         return NOT_CLASSIFIED
 
     def _parse_start(self, item):
-        """Parse start datetime as a naive datetime object."""
         cols = item.xpath("./td/a/text()")
         if len(cols) < 1:
             return datetime(1, 1, 1, 0, 0)
@@ -75,23 +65,18 @@ class LausdSpider(CityScrapersSpider):
             return datetime(1, 1, 1, 0, 0)
 
     def _parse_end(self, item):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
         return None
 
     def _parse_time_notes(self, item):
-        """Parse any additional notes on the timing of the meeting"""
         return ""
 
     def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
         return False
 
     def _parse_location(self, item):
-        """Parse or generate location."""
         return {}
 
     def _parse_links(self, item):
-        """Parse or generate links."""
         result = []
         cols = item.xpath("./td/a")
         if len(cols) < 2:
@@ -115,5 +100,4 @@ class LausdSpider(CityScrapersSpider):
         return result
 
     def _parse_source(self, response):
-        """Parse or generate source."""
         return response.url
