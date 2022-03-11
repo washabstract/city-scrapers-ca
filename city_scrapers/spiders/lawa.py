@@ -77,7 +77,9 @@ class LawaSpider(CityScrapersSpider):
 
         date_text = date[0].extract().strip()
 
-        if "audit" in date_tag.lower():
+        if "special" in date_tag.lower():
+            pass
+        elif "audit" in date_tag.lower():
             date_text = date_text + " 12:30pm"
         elif "security" in date_tag.lower():
             date_text = date_text + " 12pm"
