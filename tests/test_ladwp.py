@@ -62,8 +62,14 @@ def test_status():
 
 
 def test_location():
-    assert parsed_items[0]["location"] == {"address": "", "name": "",}
-    assert parsed_items[2]["location"] == {"address": "", "name": "",}
+    assert parsed_items[0]["location"] == {
+        "address": "",
+        "name": "",
+    }
+    assert parsed_items[2]["location"] == {
+        "address": "",
+        "name": "",
+    }
 
 
 def test_source():
