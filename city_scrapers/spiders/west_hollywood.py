@@ -86,14 +86,17 @@ class WestHollywoodSpider(CityScrapersSpider):
         return False
 
     def _parse_location(self, item):
-        return {}
+        return {
+            "address": "",
+            "name": "",
+        }
 
     def _parse_links(self, item):
+        result = []
         links = item.xpath(".//td/a[@href]")
         if len(links) < 1:
-            return ""
+            return result
 
-        result = []
         for link in links[1:]:
             # try the href tag for link
             temp = link.xpath("./@href")

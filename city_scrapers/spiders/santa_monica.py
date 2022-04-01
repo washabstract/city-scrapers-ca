@@ -85,7 +85,10 @@ class SantaMonicaSpider(CityScrapersSpider):
         return False
 
     def _parse_location(self, item):
-        return {}
+        return {
+            "address": "",
+            "name": "",
+        }
 
     def _parse_links(self, item):
         links = item.xpath(".//a[@class='']")
