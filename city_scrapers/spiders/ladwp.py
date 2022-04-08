@@ -98,14 +98,17 @@ class LadwpSpider(CityScrapersSpider):
         return False
 
     def _parse_location(self, item):
-        return None
+        return {
+            "address": "",
+            "name": "",
+        }
 
     def _parse_links(self, item):
+        result = []
         links = item.xpath(".//a")
         if len(links) < 1:
-            return ""
+            return result
 
-        result = []
         for link in links:
             href = link.xpath("./@href")
             if len(href) < 1:

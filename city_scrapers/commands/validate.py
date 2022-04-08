@@ -19,7 +19,7 @@ class Command(ScrapyCommand):
 
     def add_options(self, parser):
         ScrapyCommand.add_options(self, parser)
-        parser.add_argument(
+        parser.add_option(
             "--all",
             dest="all",
             action="store_true",

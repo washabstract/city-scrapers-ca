@@ -74,7 +74,10 @@ class LausdSpider(CityScrapersSpider):
         return False
 
     def _parse_location(self, item):
-        return {}
+        return {
+            "address": "",
+            "name": "",
+        }
 
     def _parse_links(self, item):
         result = []

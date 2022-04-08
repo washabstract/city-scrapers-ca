@@ -75,9 +75,6 @@ class LaMetroLegSpider(LegistarSpider):
 
     def _parse_location(self, item):
         location = item["Meeting Location"]
-        if type(location) != str:
-            print("THIS IS THE LOCATION TYPE >>" + str(type(location)) + "<<")
-            print("THIS IS THE LOCATION >>" + str(location) + "<<")
         if type(location) is dict:
             return {
                 "address": location.get("url", ""),
