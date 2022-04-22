@@ -99,8 +99,13 @@ class LaPortSpider(CityScrapersSpider):
                 "//div[@id='contentBody']//div[@id='section-about']//strong"
             )
             if len(items) > 2:
-                starttime = "".join(items[2].xpath("text()").getall())
-                return dateparse(starttime, fuzzy=True, ignoretz=True)
+                text = "".join(items[2].xpath("text()").getall()).lower()
+                text.replace("covid-19", " ")
+                beg = text.find("no sooner than")
+                if beg < 0:
+                    return dateparse(text, fuzzy=True, ignoretz=True)
+                else:
+                    return dateparse(text[:beg + 23], fuzzy=True, ignoretz=True)
             elif len(items) > 0:
                 raise ValueError
             return datetime(1, 1, 2, 0, 0)
