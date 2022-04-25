@@ -97,8 +97,6 @@ def test_all_day(parsed_items):
 
 
 def test_description(parsed_event):
-    with open("test.log", "a") as f:
-        f.write(parsed_event["description"])
     assert parsed_event["description"] == (
         '<div class="content">\n    '
         '<div class="field field-name-field-event-date field-type-datetime '
