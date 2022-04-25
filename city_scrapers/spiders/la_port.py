@@ -53,6 +53,9 @@ class LaPortSpider(CityScrapersSpider):
             meeting["start"], meeting["location"] = self._parse_start(
                 item, response
             ), self._parse_location(response)
+            
+            if meeting["start"] is None:
+                return
             meeting["status"] = self._get_status(meeting)
             meeting["id"] = self._get_id(meeting)
             yield meeting
@@ -63,9 +66,12 @@ class LaPortSpider(CityScrapersSpider):
         row = item.xpath("td[@class='listItem']/text()")
         if len(row) > 0:
             date = row[1].get()
-            meeting["start"], meeting["location"] = dateparse(date), location
+            meeting["start"], meeting["location"] = dateparse(date, fuzzy = True, ignoretz = True), location
         else:
-            meeting["start"], meeting["location"] = datetime(1, 1, 2, 0, 0), location
+            meeting["start"], meeting["location"] = None, location
+        
+        if meeting["start"] is None:
+                return
         meeting["status"] = self._get_status(meeting)
         meeting["id"] = self._get_id(meeting)
         yield meeting
@@ -99,24 +105,23 @@ class LaPortSpider(CityScrapersSpider):
                 "//div[@id='contentBody']//div[@id='section-about']//strong"
             )
             if len(items) > 2:
-                text = "".join(items[2].xpath("text()").getall()).lower()
+                text = "".join(items[2].xpath(".//text()").getall()).lower()
                 text.replace("covid-19", " ")
                 beg = text.find("no sooner than")
                 if beg < 0:
                     return dateparse(text, fuzzy=True, ignoretz=True)
                 else:
                     return dateparse(text[:beg + 23], fuzzy=True, ignoretz=True)
-            elif len(items) > 0:
+            else:
                 raise ValueError
-            return datetime(1, 1, 2, 0, 0)
         except (ParserError, ValueError):
             row = item.xpath("td[@class='listItem']/text()")
             if len(items) > 0:
                 date = row[1].get()
-                return dateparse(date)
-            return datetime(1, 1, 2, 0, 0)
+                return dateparse(date, fuzzy = True, ignoretz = True)
+            return None
         except NotSupported:
-            raise DropItem
+            return None
 
     def _parse_end(self, item):
         return None
