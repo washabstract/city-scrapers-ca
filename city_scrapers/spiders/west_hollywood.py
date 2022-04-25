@@ -61,14 +61,11 @@ class WestHollywoodSpider(CityScrapersSpider):
         return NOT_CLASSIFIED
 
     def _parse_start(self, item, response):
-        date = item.xpath(
-            ".//td[@headers='Date Regular-City-Council-Meeting']/text() |"
-            ".//td[@headers='Date Planning-Commission-Meeting']/text()"
-        )
+        date = item.xpath(".//td[contains(@headers, 'Date')]/text()")
         if len(date) < 1:
             return None
 
-        date = date[0].extract().strip()
+        date = " ".join([d.strip() for d in date.extract()]).strip()
         if "id=22" in response.url:
             date = date + " 6 PM"
         elif "id=31" in response.url:

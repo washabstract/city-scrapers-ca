@@ -44,7 +44,7 @@ class LadwpSpider(CityScrapersSpider):
         title = item.xpath("./td[@headers='Name']/text()")
         if len(title) < 1:
             return ""
-        return title[0].extract().strip()
+        return " ".join([t.strip() for t in title.extract()]).strip()
 
     def _parse_description(self, item):
         return ""
@@ -53,10 +53,7 @@ class LadwpSpider(CityScrapersSpider):
         return BOARD
 
     def _parse_start(self, item):
-        date = item.xpath(
-            "./td[@headers='Date']/text()|"
-            "./td[@headers='Date Board-of-Commissioners-Meeting-']/text()"
-        ).extract()
+        date = item.xpath(".//td[contains(@headers, 'Date')]/text()").extract()
         if len(date) < 1:
             return None
         clean_date = re.sub("\xa0", " ", date[0]).strip()
@@ -65,16 +62,14 @@ class LadwpSpider(CityScrapersSpider):
             if date.hour == 0:
                 date = date.replace(hour=10, minute=0)
             return date
-        except (ParserError):
+        except ParserError:
             return None
 
     def _parse_end(self, item, start):
         if start is None:
             return None
 
-        time = item.xpath(
-            "./td[@headers='Duration Board-of-Commissioners-Meeting-']/text()"
-        )
+        time = item.xpath(".//td[contains(@headers, 'Duration')]/text()")
         if len(time) < 1:
             return None
 
