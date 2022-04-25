@@ -1,12 +1,11 @@
 import re
 from datetime import datetime
 
-import requests
 from city_scrapers_core.constants import BOARD, COMMISSION, COMMITTEE
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse as dateparse
 from dateutil.parser._parser import ParserError
-from lxml import html
+from scrapy.exceptions import NotSupported
 
 from city_scrapers.items import Meeting
 
@@ -18,8 +17,7 @@ class LaPortSpider(CityScrapersSpider):
     start_urls = ["https://portofla.granicus.com/ViewPublisher.php?view_id=9"]
 
     def parse(self, response):
-        items = response.xpath("//tbody/tr")
-        for item in items:
+        for item in response.xpath("//tbody/tr"):
             meeting = Meeting(
                 title=self._parse_title(item),
                 description=self._parse_description(item),
@@ -33,32 +31,54 @@ class LaPortSpider(CityScrapersSpider):
                 updated=datetime.now(),
             )
 
-            meeting["start"], meeting["location"] = self._get_time_location(
-                item, meeting["links"]
+            if len(meeting["links"]) > 0 and meeting["links"][0]["title"] == "Agenda":
+                yield response.follow(
+                    meeting["links"][0]["href"],
+                    callback=self._parse_time_location,
+                    cb_kwargs={"meeting": meeting, "item": item},
+                    dont_filter=True,
+                )
+            else:
+                yield from self._parse_time_location(None, meeting, item)
+
+    def _parse_time_location(self, response, meeting, item):
+        """Meeting page url processing.  Scrapes start time and location from meeting
+        agenda page
+        """
+        if (
+            response
+            and response.body != b""
+            and b"text/html" in response.headers.get("Content-Type", "")
+        ):
+            meeting["start"], meeting["location"] = (
+                self._parse_start(item, response),
+                self._parse_location(response),
             )
 
+            if meeting["start"] is None:
+                return
             meeting["status"] = self._get_status(meeting)
             meeting["id"] = self._get_id(meeting)
-
             yield meeting
-
-    def _get_time_location(self, item, links):
-        # If there is a meeeting agenda link, scrape location and time from that
-        if (len(links) > 0) and (links[0]["title"] == "Agenda"):
-            url = links[0]["href"]
-            r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
-            if r.content != b"":
-                rs = html.fromstring(r.content)
-                return self._parse_start(item, rs), self._parse_location(item, rs)
+            return
 
         # If there is no meeting agenda link, scrape time from table
         location = {"address": "", "name": ""}
         row = item.xpath("td[@class='listItem']/text()")
         if len(row) > 0:
             date = row[1].get()
-            return dateparse(date), location
+            meeting["start"], meeting["location"] = (
+                dateparse(date, fuzzy=True, ignoretz=True),
+                location,
+            )
         else:
-            return datetime(1, 1, 1, 0, 0), location
+            meeting["start"], meeting["location"] = None, location
+
+        if meeting["start"] is None:
+            return
+        meeting["status"] = self._get_status(meeting)
+        meeting["id"] = self._get_id(meeting)
+        yield meeting
 
     def _parse_title(self, item):
         row = item.xpath("td[@class='listItem']/text()")
@@ -86,25 +106,23 @@ class LaPortSpider(CityScrapersSpider):
                 "//div[@id='contentBody']//div[@id='section-about']//strong"
             )
             if len(items) > 2:
-                starttime = items[2].text_content()
-                return dateparse(starttime, fuzzy=True, ignoretz=True)
-            elif len(items) > 0:
+                text = "".join(items[2].xpath(".//text()").getall()).lower()
+                text.replace("covid-19", " ")
+                beg = text.find("no sooner than")
+                if beg < 0:
+                    return dateparse(text, fuzzy=True, ignoretz=True)
+                else:
+                    return dateparse(text[: beg + 23], fuzzy=True, ignoretz=True)
+            else:
                 raise ValueError
-            return datetime(1, 1, 1, 0, 0)
         except (ParserError, ValueError):
-            # Selects the entire intro block of text
-            items = response.xpath("//section[@class='cms-content text-info-block']")
+            row = item.xpath("td[@class='listItem']/text()")
             if len(items) > 0:
-                starttime = items[0].text_content()
-                sample_str = re.sub(r"\s+", "", starttime)
-                try:
-                    return dateparse(sample_str, fuzzy=True)
-                except ParserError:
-                    row = item.xpath("td[@class='listItem']/text()")
-                    if len(items) > 0:
-                        date = row[1].get()
-                        return dateparse(date)
-            return datetime(1, 1, 1, 0, 0)
+                date = row[1].get()
+                return dateparse(date, fuzzy=True, ignoretz=True)
+            return None
+        except NotSupported:
+            return None
 
     def _parse_end(self, item):
         return None
@@ -156,12 +174,13 @@ class LaPortSpider(CityScrapersSpider):
 
         return links
 
-    def _parse_location(self, item, response):
+    def _parse_location(self, response):
+        """The location can be found in the agenda (url extracted from _parse_links)"""
         items = response.xpath(
             "//div[@id='contentBody']//div[@id='section-about']//strong"
         )
         if len(items) > 0:
-            location = items[0].text_content()
+            location = "".join(items[0].xpath("text()").getall())
             clean_location = re.sub("\r\n", "\n", location)
             clean_location = re.sub("\xa0", " ", clean_location)
 
