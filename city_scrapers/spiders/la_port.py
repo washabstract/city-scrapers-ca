@@ -3,8 +3,8 @@ from datetime import datetime
 
 from city_scrapers_core.constants import BOARD, COMMISSION, COMMITTEE
 from city_scrapers_core.spiders import CityScrapersSpider
+from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
-from dateutil.parser._parser import ParserError
 from scrapy.exceptions import NotSupported
 
 from city_scrapers.items import Meeting
@@ -57,6 +57,7 @@ class LaPortSpider(CityScrapersSpider):
 
             if meeting["start"] is None:
                 return
+
             meeting["status"] = self._get_status(meeting)
             meeting["id"] = self._get_id(meeting)
             yield meeting

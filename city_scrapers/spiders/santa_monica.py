@@ -4,8 +4,8 @@ from urllib.parse import urljoin
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
 from city_scrapers_core.spiders import CityScrapersSpider
+from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
-from dateutil.parser._parser import ParserError
 
 from city_scrapers.items import Meeting
 
@@ -15,8 +15,8 @@ class SantaMonicaSpider(CityScrapersSpider):
     agency = "Santa Monica City Council"
     timezone = "America/Los_Angeles"
     start_urls = [
-        "http://santamonicacityca.iqm2.com/Citizens/calendar.aspx?"
-        "From=1/1/1900&To=12/31/9999"
+        # "https://santamonicacityca.iqm2.com/Citizens/calendar.aspx?"
+        # "From=1/1/1900&To=12/31/9999"
     ]
 
     def parse(self, response):
@@ -36,6 +36,9 @@ class SantaMonicaSpider(CityScrapersSpider):
                 created=datetime.now(),
                 updated=datetime.now(),
             )
+
+            if meeting["start"] is None:
+                return
 
             meeting["classification"] = self._parse_classification(
                 item, meeting["title"]
@@ -68,12 +71,12 @@ class SantaMonicaSpider(CityScrapersSpider):
         dt = item.xpath(".//div[@class='RowLink']//text()")
         dt = dt.extract()
         if len(dt) < 1:
-            return datetime(1, 1, 1, 0, 0)
+            return None
 
         try:
             return dateparse(dt[0], fuzzy=True, ignoretz=True)
         except ParserError:
-            return datetime(1, 1, 1, 0, 0)
+            return None
 
     def _parse_end(self, item):
         return None
