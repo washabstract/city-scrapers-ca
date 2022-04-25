@@ -55,30 +55,24 @@ class SfPlanningSpider(CityScrapersSpider):
         return item.xpath('//div[@class="body"]').extract()[0]
 
     def _parse_classification(self, item):
-        """Parse or generate classification from allowed options."""
         return COMMISSION
 
     def _parse_start(self, item):
-        """Parse start datetime as a naive datetime object."""
         date = item.xpath('//h3[@class="date"]/text()').extract()[0]
         time = item.xpath('//div[@class="time"]/text()').extract()[1].strip()
         return dateparse(date + " " + time, fuzzy=True)
 
     def _parse_end(self, item):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
         return None
 
     def _parse_time_notes(self, item):
-        """Parse any additional notes on the timing of the meeting"""
         return ""
 
     def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
         time = item.xpath('//div[@class="time"]/text()').extract()[1].strip().lower()
         return "all day" in time
 
     def _parse_location(self, item):
-        """Parse or generate location."""
         location = (
             item.xpath('//div[@class="location"]/text()')
             .extract()[1]
@@ -92,7 +86,6 @@ class SfPlanningSpider(CityScrapersSpider):
         }
 
     def _parse_links(self, item):
-        """Parse or generate links."""
         links = []
         if len(item.xpath('//a[text()="AGENDA"]/@href').extract()) > 0:
             links.append(
@@ -111,5 +104,4 @@ class SfPlanningSpider(CityScrapersSpider):
         return links
 
     def _parse_source(self, response):
-        """Parse or generate source."""
         return response.url

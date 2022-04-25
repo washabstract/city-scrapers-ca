@@ -1,5 +1,7 @@
+from datetime import datetime
+
 from city_scrapers_core.constants import NOT_CLASSIFIED
-from city_scrapers_core.items import Meeting
+from city_scrapers.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 
 
@@ -28,6 +30,8 @@ class $classname(CityScrapersSpider):
                 location=self._parse_location(item),
                 links=self._parse_links(item),
                 source=self._parse_source(response),
+                created=datetime.now(),
+                updated=datetime.now(),
             )
 
             meeting["status"] = self._get_status(meeting)

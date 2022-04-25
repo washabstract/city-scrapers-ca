@@ -98,9 +98,6 @@ class LaPortSpider(CityScrapersSpider):
         return BOARD
 
     def _parse_start(self, item, response):
-        """Calendar page does not have times.  Times can be found in agenda.
-        If time cannot be scraoped, defaults to 00:00
-        """
         # Try to find the date in the second block of text
         #   If it cannot be found, check the entire intro block
         #   otherwise, just return default 00:00 start time
@@ -138,7 +135,6 @@ class LaPortSpider(CityScrapersSpider):
 
     def _parse_links(self, item):
         links = []
-        """Parse or generate links."""
         # For upcoming meetings
         row = item.xpath("td[@class='listItem']")
 
