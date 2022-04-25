@@ -50,10 +50,11 @@ class LaPortSpider(CityScrapersSpider):
             and response.body != b""
             and b"text/html" in response.headers.get("Content-Type", "")
         ):
-            meeting["start"], meeting["location"] = self._parse_start(
-                item, response
-            ), self._parse_location(response)
-            
+            meeting["start"], meeting["location"] = (
+                self._parse_start(item, response),
+                self._parse_location(response),
+            )
+
             if meeting["start"] is None:
                 return
             meeting["status"] = self._get_status(meeting)
@@ -66,12 +67,15 @@ class LaPortSpider(CityScrapersSpider):
         row = item.xpath("td[@class='listItem']/text()")
         if len(row) > 0:
             date = row[1].get()
-            meeting["start"], meeting["location"] = dateparse(date, fuzzy = True, ignoretz = True), location
+            meeting["start"], meeting["location"] = (
+                dateparse(date, fuzzy=True, ignoretz=True),
+                location,
+            )
         else:
             meeting["start"], meeting["location"] = None, location
-        
+
         if meeting["start"] is None:
-                return
+            return
         meeting["status"] = self._get_status(meeting)
         meeting["id"] = self._get_id(meeting)
         yield meeting
@@ -111,14 +115,14 @@ class LaPortSpider(CityScrapersSpider):
                 if beg < 0:
                     return dateparse(text, fuzzy=True, ignoretz=True)
                 else:
-                    return dateparse(text[:beg + 23], fuzzy=True, ignoretz=True)
+                    return dateparse(text[: beg + 23], fuzzy=True, ignoretz=True)
             else:
                 raise ValueError
         except (ParserError, ValueError):
             row = item.xpath("td[@class='listItem']/text()")
             if len(items) > 0:
                 date = row[1].get()
-                return dateparse(date, fuzzy = True, ignoretz = True)
+                return dateparse(date, fuzzy=True, ignoretz=True)
             return None
         except NotSupported:
             return None
