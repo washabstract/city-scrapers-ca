@@ -36,7 +36,7 @@ FEED_STORAGES = {
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 S3_BUCKET = os.getenv("S3_BUCKET")
-CITY_SCRAPERS_STATUS_CONTAINER = S3_BUCKET
+CITY_SCRAPERS_STATUS_BUCKET = S3_BUCKET
 
 FEED_URI = (
     "s3://{bucket}/%(year)s/%(month)s/%(day)s/%(hour_min)s/%(name)s.json"

@@ -2,8 +2,8 @@ from datetime import datetime
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
 from city_scrapers_core.spiders import CityScrapersSpider
+from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
-from dateutil.parser._parser import ParserError
 
 from city_scrapers.items import Meeting
 
@@ -32,6 +32,9 @@ class WestHollywoodSpider(CityScrapersSpider):
                 created=datetime.now(),
                 updated=datetime.now(),
             )
+
+            if meeting["start"] is None:
+                return
 
             meeting["classification"] = self._parse_classification(
                 item, meeting["title"]
@@ -63,7 +66,7 @@ class WestHollywoodSpider(CityScrapersSpider):
             ".//td[@headers='Date Planning-Commission-Meeting']/text()"
         )
         if len(date) < 1:
-            return datetime(1, 1, 1, 0, 0)
+            return None
 
         date = date[0].extract().strip()
         if "id=22" in response.url:
@@ -74,7 +77,7 @@ class WestHollywoodSpider(CityScrapersSpider):
         try:
             return dateparse(date, fuzzy=True, ignoretz=True)
         except (ParserError):
-            return datetime(1, 1, 1, 0, 0)
+            return None
 
     def _parse_end(self, item):
         return None

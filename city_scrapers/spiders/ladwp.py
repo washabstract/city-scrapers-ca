@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 
 from city_scrapers_core.constants import BOARD
 from city_scrapers_core.spiders import CityScrapersSpider
+from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
-from dateutil.parser._parser import ParserError
 
 from city_scrapers.items import Meeting
 
@@ -31,6 +31,9 @@ class LadwpSpider(CityScrapersSpider):
                 updated=datetime.now(),
             )
 
+            if meeting["start"] is None:
+                return
+
             meeting["end"] = self._parse_end(item, meeting["start"])
             meeting["status"] = self._get_status(meeting)
             meeting["id"] = self._get_id(meeting)
@@ -55,7 +58,7 @@ class LadwpSpider(CityScrapersSpider):
             "./td[@headers='Date Board-of-Commissioners-Meeting-']/text()"
         ).extract()
         if len(date) < 1:
-            return datetime(1, 1, 1, 0, 0)
+            return None
         clean_date = re.sub("\xa0", " ", date[0]).strip()
         try:
             date = dateparse(clean_date, fuzzy=True, ignoretz=True)
@@ -63,10 +66,10 @@ class LadwpSpider(CityScrapersSpider):
                 date = date.replace(hour=10, minute=0)
             return date
         except (ParserError):
-            return datetime(1, 1, 1, 0, 0)
+            return None
 
     def _parse_end(self, item, start):
-        if (start == datetime(1, 1, 1, 0, 0)) | (start is None):
+        if start is None:
             return None
 
         time = item.xpath(

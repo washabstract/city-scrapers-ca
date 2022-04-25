@@ -4,8 +4,8 @@ from datetime import datetime
 import requests
 from city_scrapers_core.constants import BOARD, COMMISSION, COMMITTEE
 from city_scrapers_core.spiders import CityScrapersSpider
+from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
-from dateutil.parser._parser import ParserError
 from lxml import html
 
 from city_scrapers.items import Meeting
@@ -37,6 +37,9 @@ class LaPortSpider(CityScrapersSpider):
                 item, meeting["links"]
             )
 
+            if meeting["start"] is None:
+                return
+
             meeting["status"] = self._get_status(meeting)
             meeting["id"] = self._get_id(meeting)
 
@@ -58,7 +61,7 @@ class LaPortSpider(CityScrapersSpider):
             date = row[1].get()
             return dateparse(date), location
         else:
-            return datetime(1, 1, 1, 0, 0), location
+            return None, location
 
     def _parse_title(self, item):
         row = item.xpath("td[@class='listItem']/text()")
@@ -90,7 +93,7 @@ class LaPortSpider(CityScrapersSpider):
                 return dateparse(starttime, fuzzy=True, ignoretz=True)
             elif len(items) > 0:
                 raise ValueError
-            return datetime(1, 1, 1, 0, 0)
+            return None
         except (ParserError, ValueError):
             # Selects the entire intro block of text
             items = response.xpath("//section[@class='cms-content text-info-block']")
@@ -104,7 +107,7 @@ class LaPortSpider(CityScrapersSpider):
                     if len(items) > 0:
                         date = row[1].get()
                         return dateparse(date)
-            return datetime(1, 1, 1, 0, 0)
+            return None
 
     def _parse_end(self, item):
         return None

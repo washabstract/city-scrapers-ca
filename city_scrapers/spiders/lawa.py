@@ -2,8 +2,8 @@ from datetime import datetime
 
 from city_scrapers_core.constants import BOARD, COMMITTEE
 from city_scrapers_core.spiders import CityScrapersSpider
+from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
-from dateutil.parser._parser import ParserError
 
 from city_scrapers.items import Meeting
 
@@ -29,6 +29,9 @@ class LawaSpider(CityScrapersSpider):
                 created=datetime.now(),
                 updated=datetime.now(),
             )
+
+            if meeting["start"] is None:
+                return
 
             meeting["classification"] = self._parse_classification(
                 item, meeting["title"]
@@ -67,7 +70,7 @@ class LawaSpider(CityScrapersSpider):
         path = "./td[@headers='Date " + date_tag + "']/text()"
         date = item.xpath(path)
         if len(date) < 1:
-            return datetime(1, 1, 1, 0, 0)
+            return None
 
         date_text = date[0].extract().strip()
 
@@ -83,7 +86,7 @@ class LawaSpider(CityScrapersSpider):
         try:
             return dateparse(date_text, fuzzy=True, ignoretz=True)
         except (ParserError):
-            return datetime(1, 1, 1, 0, 0)
+            return None
 
     def _parse_end(self, item):
         return None
