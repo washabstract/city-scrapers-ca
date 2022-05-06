@@ -100,28 +100,38 @@ class LaPortSpider(CityScrapersSpider):
 
     def _parse_start(self, item, response):
         # Try to find the date in the second block of text
-        #   If it cannot be found, check the entire intro block
-        #   otherwise, just return default 00:00 start time
+        # if the date doesnt match, or any other default case
+        #   just return default 00:00 start time
+
+        row = item.xpath("td[@class='listItem']/text()")
+        if len(row) > 0:
+            date = row[1].get()
+            date = dateparse(date, fuzzy=True, ignoretz=True)
+        else:
+            return None
+
         try:
             items = response.xpath(
                 "//div[@id='contentBody']//div[@id='section-about']//strong"
             )
             if len(items) > 2:
                 text = "".join(items[2].xpath(".//text()").getall()).lower()
-                text.replace("covid-19", " ")
+                text = text.replace("covid-19", " ")
                 beg = text.find("no sooner than")
                 if beg < 0:
-                    return dateparse(text, fuzzy=True, ignoretz=True)
+                    dt = dateparse(text, fuzzy=True, ignoretz=True)
                 else:
-                    return dateparse(text[: beg + 23], fuzzy=True, ignoretz=True)
+                    dt = dateparse(text[: beg + 23], fuzzy=True, ignoretz=True)
+
+                # Validate dt via date
+                if date.date() == dt.date():
+                    return dt
+                else:
+                    return date
             else:
                 raise ValueError
         except (ParserError, ValueError):
-            row = item.xpath("td[@class='listItem']/text()")
-            if len(items) > 0:
-                date = row[1].get()
-                return dateparse(date, fuzzy=True, ignoretz=True)
-            return None
+            return date
         except NotSupported:
             return None
 
