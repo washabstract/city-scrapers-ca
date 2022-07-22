@@ -1,8 +1,7 @@
 from datetime import datetime
 from os.path import dirname, join
 
-import pytest
-from city_scrapers_core.constants import NOT_CLASSIFIED, ADVISORY_COMMITTEE, TENTATIVE
+from city_scrapers_core.constants import ADVISORY_COMMITTEE, TENTATIVE
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
@@ -21,7 +20,10 @@ freezer.stop()
 
 
 def test_title():
-    assert parsed_items[0]["title"] == "Countywide Bicycle and Pedestrian Advisory Committee Meeting"
+    assert (
+        parsed_items[0]["title"]
+        == "Countywide Bicycle and Pedestrian Advisory Committee Meeting"
+    )
 
 
 def test_description():
@@ -36,7 +38,7 @@ def test_start():
 
 
 def test_end():
-    assert parsed_items[0]["end"] == None
+    assert parsed_items[0]["end"] is None
 
 
 def test_time_notes():
@@ -55,35 +57,32 @@ def test_status():
 
 
 def test_location():
-    assert parsed_items[0]["location"] == {
-        "name": "",
-        "address": ""
-    }
+    assert parsed_items[0]["location"] == {"name": "", "address": ""}
 
 
 def test_source():
-    assert parsed_items[0]["source"] == "https://ccta.primegov.com/api/v2/PublicPortal/ListUpcomingMeetings"
+    assert (
+        parsed_items[0]["source"]
+        == "https://ccta.primegov.com/api/v2/PublicPortal/ListUpcomingMeetings"
+    )
 
 
 def test_links():
     assert parsed_items[0]["links"] == [
         {
             "href": "https://ccta.primegov.com/Portal/Meeting?"
-                    "compiledMeetingDocumentFileId=15222",
-            "title": "HTML Packet"
+            "compiledMeetingDocumentFileId=15222",
+            "title": "HTML Packet",
         },
         {
             "href": "https://ccta.primegov.com/Public/CompiledDocument/15224",
-            "title": "Agenda"
+            "title": "Agenda",
         },
         {
             "href": "https://ccta.primegov.com/Public/CompiledDocument/15223",
-            "title": "Packet"   
+            "title": "Packet",
         },
-        {
-            "href": "https://youtube.com/watch?v=W2F0wRpVu68",
-            "title": "Video Link"
-        }
+        {"href": "https://youtube.com/watch?v=W2F0wRpVu68", "title": "Video Link"},
     ]
 
 
