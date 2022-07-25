@@ -72,13 +72,11 @@ class CcCountyBosSpider(CityScrapersSpider):
         start_str = ""
         # Checking if a link exists
         link_str = item.xpath("(.//td)[1]/a/text()").get()
-        print("link str", link_str)
         if link_str is not None:
             start_str += link_str.strip()
         else:
             # Extracting just the text
             date_str = item.xpath("(.//td)[1]/text()").get()
-            print("Date str", date_str)
             if date_str is not None:
                 start_str += date_str.strip()
         return dateparse(start_str)
