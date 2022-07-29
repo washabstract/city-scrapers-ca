@@ -1,0 +1,1241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+	<title>Agenda</title>
+
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+	<link rel="stylesheet" type="text/css" href="public/styles/global.css">
+	<link rel="stylesheet" type="text/css" href="public/styles/board_order.css">
+	<link rel="stylesheet" type="text/css" href="public/styles/buttons.css">
+
+	<style type="text/css">
+	body { background-color: #FFF; }
+	a.ai_link { text-decoration: none; }
+	dt {
+		float: left;
+		clear: left;
+		width: 15px;
+	}
+	dd {
+		padding: 0 0 0.25em 1em;	/* top, right, bottom, left */
+		margin-left: 4em;
+	}
+	div#srchEngine {
+		text-align:right;
+		width:100%;
+		background-color:#FFFFCC;
+		padding: .25em 0 .25em 0;
+		border-bottom:#000000 solid 3px;
+	}
+	div#srchEngine h4 {
+		float:left;
+		margin:2px;
+		display:inline;
+	}
+
+	table { clear: both; }
+	tr.galter td { background-color: #E8E8E8; }
+
+	#nav td,#list td { padding-left: 0.5em; }
+	#list thead td { padding-bottom: 0.5em; }
+	#list tbody td { padding: 0.5em; }
+	#nav label {
+		display: block;
+		font-weight: bold;
+		text-align: center;
+	}
+	#nav td.relative {
+		white-space: nowrap;
+		padding: 0 2em;
+	}
+	#nav { margin-bottom: 1em; }
+	
+	/* use this to style the Logged in as Note Taker message */
+	#noteTaker {
+		text-align: center !important;
+		font-weight: bold !important;
+		background-color: yellow !important;
+	}
+	</style>
+	<style type="text/css" media="print">
+	#print { display:none; }
+	div.xform { page-break-before: always; }
+	</style>
+
+	<script type="text/javascript" src="public/js/destiny.js"></script>
+	<script type="text/javascript" src="public/publish/js/adv_search.js"></script>
+	<script type="text/javascript" src="public/publish/js/agenda_publish.js"></script>
+	<script type="text/javascript" src="public/js/swagitCopy.js?v=2"></script>
+
+<script type="text/javascript">
+(function() {
+	// scoped shortcuts
+	var eva = DESTINY.Event.add,
+		get = function(e) {
+			document.forms[0].submit();
+		};
+	// proper onload
+	eva(window, 'load', function() {
+		// hook navigation, if present
+		var nav = document.getElementById('nav');
+		if (nav) {
+			var selects = nav.getElementsByTagName('select');
+			for (var i = 0, select; select = selects[i]; i++) {
+				eva(select, 'change', get);
+			}
+			// hide the (now redundant) 'Go' button
+			document.getElementById('go').style.display = 'none';
+		}
+	});
+})();
+
+/* <<(DS050707) the simple anchor tag notation wasn't working in this instance, so am using a combination of a URL variable (sent back from agenda memo), the doReturn function in the onload statement, and the global variable for returnHash */
+
+var returnHash = '';
+
+
+function doReturn() {
+	if (returnHash != '' && window.location.hash.replace(/^#/,'') != returnHash){		
+		window.location="#" + returnHash;
+	}
+}
+function popupNarr(iLine) {
+		if (! window.focus)return true;
+		var href = 'print_agenda_narrative.cfm?line=' + iLine;
+		window.open(href, 'NARRATIVE', 'width=400,height=400,scrollbars=yes,resizable=yes');
+		return false;
+}
+function printNewPopup(newlink)
+{
+	if (! window.focus)return true;
+	var href;
+	href=newlink ;
+	window.open(href,'AGENDA_ATTACHMENT','width=800,height=400,scrollbars=yes,resizable=yes');
+}
+function popupAttachments(iLink,iWindowName) {
+	if (! window.focus)return true;
+	var href = iLink
+	window.open(href, iWindowName, 'width=640,height=400,scrollbars=yes,resizable=yes');
+	return false;
+}
+function printPopup(mylink, windowname, iMode, iSeq, iAILabel, iRev)
+{
+	if (iSeq != "")
+	{
+		if (! window.focus)return true;
+		var href;
+		href= mylink + '?seq=' + iSeq + '&mode=' + iMode + '&reloaded=true';	//(DS090706) added reloaded
+		if (iRev) href += '&rev_num=' + iRev;						//(DS041806)
+		window.open(href, windowname, 'width=800,height=400,scrollbars=yes,resizable=yes');
+	}
+	else alert("Please select a meeting");
+	return false;
+}
+function printMinPopup(mylink, windowname, iMode, iSeq, iAILabel, iRev)
+{
+	if (iSeq != "")
+	{
+		if (! window.focus)return true;
+		var href;
+		href= mylink + '?seq=' + iSeq + '&mode=' + iMode + '&reloaded=true';	//(DS090706) added reloaded
+		if (iRev) href += '&rev_num=' + iRev;						//(DS041806)
+		window.open(href, windowname, 'width=800,height=400,scrollbars=yes,resizable=yes,menubar=yes');
+	}
+	else alert("Please select a meeting");
+	return false;
+}
+function printAGItem(mylink, windowname,iMode)
+{
+	if (! window.focus)
+		return true;
+	//(DS041806) add rev_num //(DS061107) override passed in mylink
+	var href = 'print_ag_memo.cfm' + '?seq=' + document.form1.disp_agmemo.value + '&rev_num=' + document.form1.disp_agmemo_rev.value + '&form=AG_MEMO';
+		href += '&reloaded=true';				// don't display the 'saving agenda item message
+	if (iMode) href += '&mode=' + iMode;
+	window.open(href, windowname, 'width=640,height=400,scrollbars=yes,resizable=yes,left=50,top=50,menubar=yes');
+	return false;
+}
+function saveExtNotes(iAction,iReturn){
+	var df = document.form1;
+	df.formaction.value = iAction;
+	df.action = iReturn;	
+	df.method = "POST";	
+	df.submit();
+	return false;
+}
+function hsNote(iID,iMode) {
+	var fldS = 'sNote' + iID,
+	    fldH = 'hNote' + iID;
+	if (iMode == 'hide') {
+		document.getElementById(fldS).style.display = "none";
+		document.getElementById(fldH).style.display = "";
+	}
+	else {
+		document.getElementById(fldS).style.display = "";
+		document.getElementById(fldH).style.display = "none";		
+	}
+}
+function countDownload(iAction,iFile){
+	var df = document.form1;
+	df.countDownload.value = iAction;
+	df.downloadFile.value = iFile;
+	df.method = "POST";	
+	df.submit();
+	return false;
+}
+</script>
+
+</head>
+<body onLoad="doReturn();">
+
+<div id="content">
+
+
+<form action="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022" method="get" name="form1">
+
+
+<table class="tableCollapsed buttons" id="nav">
+<tbody>
+	<tr>
+		<th>View Meetings</th>
+		<td><label for="m">Month</label>
+			<select name="get_month" id="m" tabindex="2" onChange="document.form1.submit();">
+			
+				<option value="1">Jan</option>
+			
+				<option value="2">Feb</option>
+			
+				<option value="3">Mar</option>
+			
+				<option value="4">Apr</option>
+			
+				<option value="5">May</option>
+			
+				<option value="6">Jun</option>
+			
+				<option value="7" selected>Jul</option>
+			
+				<option value="8">Aug</option>
+			
+				<option value="9">Sep</option>
+			
+				<option value="10">Oct</option>
+			
+				<option value="11">Nov</option>
+			
+				<option value="12">Dec</option>
+			
+			</select>
+		</td>
+		<td><label for="y">Year</label>
+			<select name="get_year" id="y" tabindex="2" onChange="document.form1.submit();">
+			
+				<option value="2099">2099</option>
+			
+				<option value="2098">2098</option>
+			
+				<option value="2097">2097</option>
+			
+				<option value="2096">2096</option>
+			
+				<option value="2095">2095</option>
+			
+				<option value="2094">2094</option>
+			
+				<option value="2093">2093</option>
+			
+				<option value="2092">2092</option>
+			
+				<option value="2091">2091</option>
+			
+				<option value="2090">2090</option>
+			
+				<option value="2089">2089</option>
+			
+				<option value="2088">2088</option>
+			
+				<option value="2087">2087</option>
+			
+				<option value="2086">2086</option>
+			
+				<option value="2085">2085</option>
+			
+				<option value="2084">2084</option>
+			
+				<option value="2083">2083</option>
+			
+				<option value="2082">2082</option>
+			
+				<option value="2081">2081</option>
+			
+				<option value="2080">2080</option>
+			
+				<option value="2079">2079</option>
+			
+				<option value="2078">2078</option>
+			
+				<option value="2077">2077</option>
+			
+				<option value="2076">2076</option>
+			
+				<option value="2075">2075</option>
+			
+				<option value="2074">2074</option>
+			
+				<option value="2073">2073</option>
+			
+				<option value="2072">2072</option>
+			
+				<option value="2071">2071</option>
+			
+				<option value="2070">2070</option>
+			
+				<option value="2069">2069</option>
+			
+				<option value="2068">2068</option>
+			
+				<option value="2067">2067</option>
+			
+				<option value="2066">2066</option>
+			
+				<option value="2065">2065</option>
+			
+				<option value="2064">2064</option>
+			
+				<option value="2063">2063</option>
+			
+				<option value="2062">2062</option>
+			
+				<option value="2061">2061</option>
+			
+				<option value="2060">2060</option>
+			
+				<option value="2059">2059</option>
+			
+				<option value="2058">2058</option>
+			
+				<option value="2057">2057</option>
+			
+				<option value="2056">2056</option>
+			
+				<option value="2055">2055</option>
+			
+				<option value="2054">2054</option>
+			
+				<option value="2053">2053</option>
+			
+				<option value="2052">2052</option>
+			
+				<option value="2051">2051</option>
+			
+				<option value="2050">2050</option>
+			
+				<option value="2049">2049</option>
+			
+				<option value="2048">2048</option>
+			
+				<option value="2047">2047</option>
+			
+				<option value="2046">2046</option>
+			
+				<option value="2045">2045</option>
+			
+				<option value="2044">2044</option>
+			
+				<option value="2043">2043</option>
+			
+				<option value="2042">2042</option>
+			
+				<option value="2041">2041</option>
+			
+				<option value="2040">2040</option>
+			
+				<option value="2039">2039</option>
+			
+				<option value="2038">2038</option>
+			
+				<option value="2037">2037</option>
+			
+				<option value="2036">2036</option>
+			
+				<option value="2035">2035</option>
+			
+				<option value="2034">2034</option>
+			
+				<option value="2033">2033</option>
+			
+				<option value="2032">2032</option>
+			
+				<option value="2031">2031</option>
+			
+				<option value="2030">2030</option>
+			
+				<option value="2029">2029</option>
+			
+				<option value="2028">2028</option>
+			
+				<option value="2027">2027</option>
+			
+				<option value="2026">2026</option>
+			
+				<option value="2025">2025</option>
+			
+				<option value="2024">2024</option>
+			
+				<option value="2023">2023</option>
+			
+				<option value="2022" selected="selected">2022</option>
+			
+				<option value="2021">2021</option>
+			
+				<option value="2020">2020</option>
+			
+				<option value="2019">2019</option>
+			
+				<option value="2018">2018</option>
+			
+				<option value="2017">2017</option>
+			
+				<option value="2016">2016</option>
+			
+				<option value="2015">2015</option>
+			
+				<option value="2014">2014</option>
+			
+				<option value="2013">2013</option>
+			
+				<option value="2012">2012</option>
+			
+				<option value="2011">2011</option>
+			
+				<option value="2010">2010</option>
+			
+				<option value="2009">2009</option>
+			
+			</select>
+		</td>
+		<td><label for="mt">Meeting Type</label>
+			<select name="mt" id="mt" tabindex="2" onChange="document.form1.submit();">
+				<option value="ALL" selected="selected">ALL</option>
+				
+				<option value="CENSUS">2020 Census Complete Count Steering Committee</option>
+				
+				<option value="CENSUSFIN">2020 Census Finance Subcommittee</option>
+				
+				<option value="CENSUSOR">2020 Census Outreach Subcommittee</option>
+				
+				<option value="BOSCOMP">Ad Hoc Committee on Board of Supervisors Compensation</option>
+				
+				<option value="COVIDEIR">AD HOC CTE ON COVID-19 ECONOMIC IMPACT AND RECOVERY</option>
+				
+				<option value="AIR">Airports Committee</option>
+				
+				<option value="BOS">Board of Supervisors</option>
+				
+				<option value="SPBOS">Board of Supervisors.</option>
+				
+				<option value="CCCFPD">CCC Fire Board of Directors</option>
+				
+				<option value="CROB">Countywide Oversight Board</option>
+				
+				<option value="ESPB">Emergency Services Policy Board</option>
+				
+				<option value="FHS">Family & Human Services Cte</option>
+				
+				<option value="FC">Finance Committee</option>
+				
+				<option value="HCJCC">Health Centers Joint Conference Committee</option>
+				
+				<option value="HCPAC">Health Centers Professional Affairs Committee</option>
+				
+				<option value="HOO">Hiring Outreach Oversight Committee</option>
+				
+				<option value="HA">Housing Authority Bd of Commissioner</option>
+				
+				<option value="ILLDUMP">Illegal Dumping Ad Hoc Committee</option>
+				
+				<option value="ISOCWS">Industrial Safety Ordinance/Comm Warning Sys Ad Hoc Cte</option>
+				
+				<option value="IOC">Internal Operations Committee</option>
+				
+				<option value="LEG">Legislation Committee</option>
+				
+				<option value="MXCAB">Measure X Community Advisory Board</option>
+				
+				<option value="NWEDI">Northern Waterfront Economic Devel Initiative Ad Hoc Cte</option>
+				
+				<option value="SALESTAX">Potential Sales Tax Measure Ad Hoc Committee</option>
+				
+				<option value="PBP">Public Protection Committee</option>
+				
+				<option value="SUSTAIN">Sustainability Committee</option>
+				
+				<option value="TWIC">Trans, Water & Infrastructure Cte</option>
+				
+				<option value="WCCHDFC">West Contra Costa Healthcare District Finance Committee</option>
+				
+			</select>
+		</td>
+		<td> 
+			<button id="go" type="submit" tabindex="2">Go</button>
+		</td>
+	</tr>
+	<tr>
+		<td class="relative">
+			<a id="go-prev" tabindex="1" title="View Previous Month" href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=6&amp;get_year=2022">&larr; Previous</a>
+			<a id="go-curr" tabindex="1" title="View Current Month"  href="agenda_publish.cfm?id=&mt=ALL">Current</a>
+			<a id="go-next" tabindex="1" title="View Next Month"     href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=8&amp;get_year=2022">Next &rarr;</a>
+		</td>
+		<th colspan="4">
+			
+			July, 2022
+		</th>
+		
+		<td class="relative"><a id="go-Subscribe" title="Subscribe" href="dsi_subscribe.cfm?mode=mtg&id=" target="_blank">SUBSCRIBE</a></td>
+		
+	</tr>
+</tbody>
+</table>
+<hr width="100%" size="2">
+
+<table class="tableCollapsed formtable" id="list">
+<colgroup>
+	<col width="15%">
+	<col width="50%">
+</colgroup>
+
+
+<thead>
+	
+	<tr>
+		<td>Agendas</td>
+		<td>Meeting</td>
+		<td>Minutes</td>
+		<td>Other Links</td>
+	</tr>
+	
+</thead>
+<tfoot>
+	<tr>
+		<td colspan="4"><hr width="100%" size="3" noshade color="#000000"></td>
+	</tr>
+</tfoot>
+<tbody class="nowrap smallText">
+
+	
+	<tr style="background-color: #E8E8E8">
+		<td> August 16, 2022<span class="red">*</span>
+							</td>
+		<td>BOARD OF SUPERVISORS</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr>
+		<td> August 9, 2022<span class="red">*</span>
+							</td>
+		<td>BOARD OF SUPERVISORS</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr style="background-color: #E8E8E8">
+		<td> August 9, 2022<span class="red">*</span>
+							</td>
+		<td>CCC FIRE PROTECTION DISTRICT BOARD OF DIRECTORS</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr>
+		<td> August 2, 2022<span class="red">*</span>
+							</td>
+		<td>BOARD OF SUPERVISORS</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr style="background-color: #E8E8E8">
+		<td> August 1, 2022<span class="red">*</span>
+							</td>
+		<td>FINANCE COMMITTEE - CANCELED</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr>
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=1994" title="View Agenda for 07/26/2022" >July 26, 2022</a>
+			</td>
+		<td>BOARD OF SUPERVISORS</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr style="background-color: #E8E8E8">
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=2003" title="View Agenda for 07/25/2022" >July 25, 2022</a>
+			</td>
+		<td>FAMILY AND HUMAN SERVICES COMMITTEE</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr>
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=2081" title="View Agenda for 07/25/2022" >July 25, 2022</a>
+			</td>
+		<td>PUBLIC PROTECTION COMMITTEE-CANCELED</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr style="background-color: #E8E8E8">
+		<td> 
+			<a href="docs/2022/MXCAB/20220720_2076/2086%5FMXCAB%207%2E20%2E2022%20Spanish%20Agenda%2Epdf" class="popup" title="View Agenda Packet for 07/20/2022">July 20, 2022</a>
+			</td>
+		<td>JUNTA ASESORA COMUNITARIA DE LA MEDIDA X (Agenda únicamente)</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr>
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=2085" title="View Agenda for 07/20/2022" >July 20, 2022</a>
+			</td>
+		<td>MEASURE X COMMUNITY ADVISORY BOARD</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr style="background-color: #E8E8E8">
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=2071" title="View Agenda for 07/13/2022" >July 13, 2022</a>
+			</td>
+		<td>FINANCE COMMITTEE - RESCHEDULED</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr>
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=1991" title="View Agenda for 07/12/2022" >July 12, 2022</a>
+			</td>
+		<td>BOARD OF SUPERVISORS</td>
+		<td>
+		
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=min&amp;seq=1981" title="View Minutes for 07/12/2022" >Minutes</a>
+			</td>
+		<td> 
+			<a href="http://contra-costa.granicus.com/MediaPlayer.php?publish_id=6e70c57a-03b8-11ed-baa3-0050569183fa" title="View Agenda Link for 07/12/2022" target="swagit">video</a>
+			</td>
+	</tr>
+	
+	<tr style="background-color: #E8E8E8">
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=1992" title="View Agenda for 07/12/2022" >July 12, 2022</a>
+			</td>
+		<td>CC HOUSING AUTHORITY BOARD OF COMMISSIONERS</td>
+		<td>
+		
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=min&amp;seq=1982" title="View Minutes for 07/12/2022" >Minutes</a>
+			</td>
+		<td> 
+			<a href="http://contra-costa.granicus.com/MediaPlayer.php?publish_id=45b71d7a-03b9-11ed-baa3-0050569183fa" title="View Agenda Link for 07/12/2022" target="swagit">video</a>
+			</td>
+	</tr>
+	
+	<tr>
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=1993" title="View Agenda for 07/12/2022" >July 12, 2022</a>
+			</td>
+		<td>CCC FIRE PROTECTION DISTRICT BOARD OF DIRECTORS</td>
+		<td>
+		
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=min&amp;seq=1983" title="View Minutes for 07/12/2022" >Minutes</a>
+			</td>
+		<td> 
+			<a href=" https://contra-costa.granicus.com/MediaPlayer.php?publish_id=d0e63303-03b9-11ed-baa3-0050569183fa" title="View Agenda Link for 07/12/2022" target="swagit">video</a>
+			</td>
+	</tr>
+	
+	<tr style="background-color: #E8E8E8">
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=2027" title="View Agenda for 07/11/2022" >July 11, 2022</a>
+			</td>
+		<td>CANCELED - TRANSPORTATION, WATER & INFRASTRUCTURE COMMITTEE</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr>
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=2018" title="View Agenda for 07/11/2022" >July 11, 2022</a>
+			</td>
+		<td>INTERNAL OPERATIONS COMMITTEE</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr style="background-color: #E8E8E8">
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=2084" title="View Agenda for 07/11/2022" >July 11, 2022</a>
+			</td>
+		<td>LEGISLATION COMMITTEE</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr>
+		<td> 
+			<a href="agenda_publish.cfm?id=&mt=ALL&amp;get_month=7&amp;get_year=2022&amp;dsp=ag&amp;seq=1959" title="View Agenda for 07/11/2022" >July 11, 2022</a>
+			</td>
+		<td>SUSTAINABILITY COMMITTEE</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr style="background-color: #E8E8E8">
+		<td> July 4, 2022<span class="red">*</span>
+							</td>
+		<td>FINANCE COMMITTEE-CANCELED</td>
+		<td>
+		&nbsp;
+			</td>
+		<td> </td>
+	</tr>
+	
+	<tr><td colspan="3">
+	<span class="red">*</span>Indicates a future date
+	</td></tr>
+	
+</tbody>
+
+</table>
+
+
+<div id="formhidden">
+
+<input type="hidden" name="countDownload" value="">
+<input type="hidden" name="downloadFile" value="">
+<input type="hidden" name="id" value="">
+
+</div>
+</form>
+
+<div class="formtable" style="background-color:#FFFFCC">
+<form action="adv_search_results.cfm?fp=ADVSRCH&id=" method="post" name="form2">
+<table class="tableCollapsed buttons" id="nav">
+<tbody>
+	<tr>
+		<td colspan="6" class="smallText bold">Search Agenda Items
+			 and Minutes </td>
+	</tr>
+	<tr>
+		<td colspan="6" class="center smallText bold">Selection Criteria</td>
+	</tr>
+	
+	<tr>
+		<td colspan="6" class="center smallText bold">
+			<input name="form_type" id="ftA" type="radio" value="AG_MEMO" checked="checked" tabindex="3">Agendas
+			<input name="form_type" id="ftM" type="radio" value="MINUTES" tabindex="3">Minutes
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan="2" class="center xsmallText bold">Starting</td>
+		<td colspan="2" class="center xsmallText bold">Ending</td>
+	</tr>
+	<tr>
+		<td class="center"><label for="beg_meetmth">Month</label>
+			<select name="beg_meetmth" id="beg_meetmth" tabindex="3">
+			
+				<option value="1">Jan</option>
+			
+				<option value="2">Feb</option>
+			
+				<option value="3">Mar</option>
+			
+				<option value="4">Apr</option>
+			
+				<option value="5">May</option>
+			
+				<option value="6">Jun</option>
+			
+				<option value="7" selected="selected">Jul</option>
+			
+				<option value="8">Aug</option>
+			
+				<option value="9">Sep</option>
+			
+				<option value="10">Oct</option>
+			
+				<option value="11">Nov</option>
+			
+				<option value="12">Dec</option>
+			
+				<option value="ALL">ALL</option>
+			</select>
+		</td>
+		<td class="center"><label for="beg_meetyr">Year</label>
+			<select name="beg_meetyr" id="beg_meetyr" tabindex="3">
+			
+				<option value="2099">2099</option>
+			
+				<option value="2098">2098</option>
+			
+				<option value="2097">2097</option>
+			
+				<option value="2096">2096</option>
+			
+				<option value="2095">2095</option>
+			
+				<option value="2094">2094</option>
+			
+				<option value="2093">2093</option>
+			
+				<option value="2092">2092</option>
+			
+				<option value="2091">2091</option>
+			
+				<option value="2090">2090</option>
+			
+				<option value="2089">2089</option>
+			
+				<option value="2088">2088</option>
+			
+				<option value="2087">2087</option>
+			
+				<option value="2086">2086</option>
+			
+				<option value="2085">2085</option>
+			
+				<option value="2084">2084</option>
+			
+				<option value="2083">2083</option>
+			
+				<option value="2082">2082</option>
+			
+				<option value="2081">2081</option>
+			
+				<option value="2080">2080</option>
+			
+				<option value="2079">2079</option>
+			
+				<option value="2078">2078</option>
+			
+				<option value="2077">2077</option>
+			
+				<option value="2076">2076</option>
+			
+				<option value="2075">2075</option>
+			
+				<option value="2074">2074</option>
+			
+				<option value="2073">2073</option>
+			
+				<option value="2072">2072</option>
+			
+				<option value="2071">2071</option>
+			
+				<option value="2070">2070</option>
+			
+				<option value="2069">2069</option>
+			
+				<option value="2068">2068</option>
+			
+				<option value="2067">2067</option>
+			
+				<option value="2066">2066</option>
+			
+				<option value="2065">2065</option>
+			
+				<option value="2064">2064</option>
+			
+				<option value="2063">2063</option>
+			
+				<option value="2062">2062</option>
+			
+				<option value="2061">2061</option>
+			
+				<option value="2060">2060</option>
+			
+				<option value="2059">2059</option>
+			
+				<option value="2058">2058</option>
+			
+				<option value="2057">2057</option>
+			
+				<option value="2056">2056</option>
+			
+				<option value="2055">2055</option>
+			
+				<option value="2054">2054</option>
+			
+				<option value="2053">2053</option>
+			
+				<option value="2052">2052</option>
+			
+				<option value="2051">2051</option>
+			
+				<option value="2050">2050</option>
+			
+				<option value="2049">2049</option>
+			
+				<option value="2048">2048</option>
+			
+				<option value="2047">2047</option>
+			
+				<option value="2046">2046</option>
+			
+				<option value="2045">2045</option>
+			
+				<option value="2044">2044</option>
+			
+				<option value="2043">2043</option>
+			
+				<option value="2042">2042</option>
+			
+				<option value="2041">2041</option>
+			
+				<option value="2040">2040</option>
+			
+				<option value="2039">2039</option>
+			
+				<option value="2038">2038</option>
+			
+				<option value="2037">2037</option>
+			
+				<option value="2036">2036</option>
+			
+				<option value="2035">2035</option>
+			
+				<option value="2034">2034</option>
+			
+				<option value="2033">2033</option>
+			
+				<option value="2032">2032</option>
+			
+				<option value="2031">2031</option>
+			
+				<option value="2030">2030</option>
+			
+				<option value="2029">2029</option>
+			
+				<option value="2028">2028</option>
+			
+				<option value="2027">2027</option>
+			
+				<option value="2026">2026</option>
+			
+				<option value="2025">2025</option>
+			
+				<option value="2024">2024</option>
+			
+				<option value="2023">2023</option>
+			
+				<option value="2022" selected="selected">2022</option>
+			
+				<option value="2021">2021</option>
+			
+				<option value="2020">2020</option>
+			
+				<option value="2019">2019</option>
+			
+				<option value="2018">2018</option>
+			
+				<option value="2017">2017</option>
+			
+				<option value="2016">2016</option>
+			
+				<option value="2015">2015</option>
+			
+				<option value="2014">2014</option>
+			
+				<option value="2013">2013</option>
+			
+				<option value="2012">2012</option>
+			
+				<option value="2011">2011</option>
+			
+				<option value="2010">2010</option>
+			
+				<option value="2009">2009</option>
+			
+			</select>
+		</td>
+		<td class="center"><label for="end_meetmth">Month</label>
+			<select name="end_meetmth" id="end_meetmth" tabindex="3">
+			
+				<option value="1">Jan</option>
+			
+				<option value="2">Feb</option>
+			
+				<option value="3">Mar</option>
+			
+				<option value="4">Apr</option>
+			
+				<option value="5">May</option>
+			
+				<option value="6">Jun</option>
+			
+				<option value="7" selected="selected">Jul</option>
+			
+				<option value="8">Aug</option>
+			
+				<option value="9">Sep</option>
+			
+				<option value="10">Oct</option>
+			
+				<option value="11">Nov</option>
+			
+				<option value="12">Dec</option>
+			
+				<option value="ALL">ALL</option>
+			</select>
+		</td>
+		<td class="center"><label for="end_meetyr">Year</label>
+			<select name="end_meetyr" id="end_meetyr" tabindex="3">
+					
+				<option value="2099">2099</option>
+					
+				<option value="2098">2098</option>
+					
+				<option value="2097">2097</option>
+					
+				<option value="2096">2096</option>
+					
+				<option value="2095">2095</option>
+					
+				<option value="2094">2094</option>
+					
+				<option value="2093">2093</option>
+					
+				<option value="2092">2092</option>
+					
+				<option value="2091">2091</option>
+					
+				<option value="2090">2090</option>
+					
+				<option value="2089">2089</option>
+					
+				<option value="2088">2088</option>
+					
+				<option value="2087">2087</option>
+					
+				<option value="2086">2086</option>
+					
+				<option value="2085">2085</option>
+					
+				<option value="2084">2084</option>
+					
+				<option value="2083">2083</option>
+					
+				<option value="2082">2082</option>
+					
+				<option value="2081">2081</option>
+					
+				<option value="2080">2080</option>
+					
+				<option value="2079">2079</option>
+					
+				<option value="2078">2078</option>
+					
+				<option value="2077">2077</option>
+					
+				<option value="2076">2076</option>
+					
+				<option value="2075">2075</option>
+					
+				<option value="2074">2074</option>
+					
+				<option value="2073">2073</option>
+					
+				<option value="2072">2072</option>
+					
+				<option value="2071">2071</option>
+					
+				<option value="2070">2070</option>
+					
+				<option value="2069">2069</option>
+					
+				<option value="2068">2068</option>
+					
+				<option value="2067">2067</option>
+					
+				<option value="2066">2066</option>
+					
+				<option value="2065">2065</option>
+					
+				<option value="2064">2064</option>
+					
+				<option value="2063">2063</option>
+					
+				<option value="2062">2062</option>
+					
+				<option value="2061">2061</option>
+					
+				<option value="2060">2060</option>
+					
+				<option value="2059">2059</option>
+					
+				<option value="2058">2058</option>
+					
+				<option value="2057">2057</option>
+					
+				<option value="2056">2056</option>
+					
+				<option value="2055">2055</option>
+					
+				<option value="2054">2054</option>
+					
+				<option value="2053">2053</option>
+					
+				<option value="2052">2052</option>
+					
+				<option value="2051">2051</option>
+					
+				<option value="2050">2050</option>
+					
+				<option value="2049">2049</option>
+					
+				<option value="2048">2048</option>
+					
+				<option value="2047">2047</option>
+					
+				<option value="2046">2046</option>
+					
+				<option value="2045">2045</option>
+					
+				<option value="2044">2044</option>
+					
+				<option value="2043">2043</option>
+					
+				<option value="2042">2042</option>
+					
+				<option value="2041">2041</option>
+					
+				<option value="2040">2040</option>
+					
+				<option value="2039">2039</option>
+					
+				<option value="2038">2038</option>
+					
+				<option value="2037">2037</option>
+					
+				<option value="2036">2036</option>
+					
+				<option value="2035">2035</option>
+					
+				<option value="2034">2034</option>
+					
+				<option value="2033">2033</option>
+					
+				<option value="2032">2032</option>
+					
+				<option value="2031">2031</option>
+					
+				<option value="2030">2030</option>
+					
+				<option value="2029">2029</option>
+					
+				<option value="2028">2028</option>
+					
+				<option value="2027">2027</option>
+					
+				<option value="2026">2026</option>
+					
+				<option value="2025">2025</option>
+					
+				<option value="2024">2024</option>
+					
+				<option value="2023">2023</option>
+					
+				<option value="2022" selected="selected">2022</option>
+					
+				<option value="2021">2021</option>
+					
+				<option value="2020">2020</option>
+					
+				<option value="2019">2019</option>
+					
+				<option value="2018">2018</option>
+					
+				<option value="2017">2017</option>
+					
+				<option value="2016">2016</option>
+					
+				<option value="2015">2015</option>
+					
+				<option value="2014">2014</option>
+					
+				<option value="2013">2013</option>
+					
+				<option value="2012">2012</option>
+					
+				<option value="2011">2011</option>
+					
+				<option value="2010">2010</option>
+					
+				<option value="2009">2009</option>
+			
+			</select>
+		</td>
+		<td class="nowrap"><label for="sstr">Search Title and Text Boxes For:
+		</label>
+			<input type="text" name="sstr" id="sstr" value="" size="35" maxlength="100">
+		</td>
+		<td class="relative"><button id="go-srchai" type="submit">Go</button></td>
+	</tr>
+	<tr>
+	</tr>
+</tbody>
+</table>
+<div>
+<input type="hidden" name="rtn_agline_rowid" value="">
+<input type="hidden" name="h_search" value="false">
+<input type="hidden" name="formaction" value="">
+<input type="hidden" name="refpg" value="">
+
+<input type="hidden" name="mt" value="ALL">
+<input type="hidden" name="id" value="">
+</div>
+</form>
+</div>
+<p style="font-family:Verdana, Arial, Helvetica, sans-serif; margin:0; padding:2px 0; text-align:center; font-size:9px;" >AgendaQuick&#169;2005 - 2022 Destiny Software Inc., All Rights Reserved</p>
+</div>
+</body>
+</html>
