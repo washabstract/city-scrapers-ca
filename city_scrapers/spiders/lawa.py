@@ -90,7 +90,7 @@ class LawaSpider(CityScrapersSpider):
             # Removes \r\n from the captured texts
             content = list(map(lambda x: re.sub(r"[\n\r]", "", x), content))
             regex = re.compile(
-                r"([0-9]{4}\s+at\s+\d{2}:\d{2}\s+(AM)?(PM)?(am)?(pm)?)"
+                r"([0-9]{4},?\s+at\s+\d{2}:\d{2}\s+(AM)?(PM)?(am)?(pm)?)"
             )  # Matches the year and time part of the string (eg. 2022 at 10:00 AM)
 
             # Getting all the indexes where we have a regex match
