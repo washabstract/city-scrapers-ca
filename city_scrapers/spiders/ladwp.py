@@ -1,10 +1,13 @@
 import re
 from datetime import datetime, timedelta
+from io import BytesIO
 
+import pdfplumber
 from city_scrapers_core.constants import BOARD
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
+from pdfminer.pdfparser import PDFSyntaxError
 
 from city_scrapers.items import Meeting
 
@@ -21,7 +24,7 @@ class LadwpSpider(CityScrapersSpider):
                 title=self._parse_title(item),
                 description=self._parse_description(item),
                 classification=self._parse_classification(item),
-                start=self._parse_start(item),
+                # start=self._parse_start(item),
                 all_day=self._parse_all_day(item),
                 time_notes=self._parse_time_notes(item),
                 location=self._parse_location(item),
@@ -31,14 +34,29 @@ class LadwpSpider(CityScrapersSpider):
                 updated=datetime.now(),
             )
 
-            if meeting["start"] is None:
-                return
+            try:
+                # Finding the parsed agenda link
+                agenda_link = [
+                    link["href"]
+                    for link in meeting["links"]
+                    if link["title"] == "Board Agenda"
+                ][0]
+                yield response.follow(
+                    agenda_link,
+                    callback=self._parse_time,
+                    cb_kwargs={"meeting": meeting, "item": item},
+                    dont_filter=True,
+                )
+            except IndexError:
+                yield from self._parse_time(None, meeting, item)
 
+    def _parse_time(self, response, meeting, item):
+        meeting["start"] = self._parse_start(item, response)
+        if meeting["start"] is not None:
             meeting["end"] = self._parse_end(item, meeting["start"])
-            meeting["status"] = self._get_status(meeting)
-            meeting["id"] = self._get_id(meeting)
-
-            yield meeting
+        meeting["status"] = self._get_status(meeting)
+        meeting["id"] = self._get_id(meeting)
+        yield meeting
 
     def _parse_title(self, item):
         title = item.xpath("./td[@headers='Name']/text()")
@@ -52,7 +70,31 @@ class LadwpSpider(CityScrapersSpider):
     def _parse_classification(self, item):
         return BOARD
 
-    def _parse_start(self, item):
+    def _parse_start(self, item, response):
+        # Attempting to extract the time of meeting through pdf meeting agenda
+        if response is not None:
+            try:
+                raw_extracted_text = ""
+                start_time = ""
+                with pdfplumber.open(BytesIO(response.body)) as pdf:
+                    # Checking all the pages of the pdf
+                    for page in pdf.pages:
+                        extracted_text = page.extract_text()
+                        raw_extracted_text += extracted_text if extracted_text else ""
+                        if page == pdf.pages[0]:
+                            start_time = re.search(
+                                r"(\n.+[0-9]{4},?\s+at\s+\d{2}:\d{2}\s+"
+                                r"(AM)?(PM)?(am)?(pm)?)",
+                                raw_extracted_text,
+                                re.M,
+                            )
+                            if start_time:
+                                start_time = start_time.group().strip()
+                                return dateparse(start_time)
+            except PDFSyntaxError:
+                # Do nothing. try to get from table headers
+                pass
+
         date = item.xpath(".//td[contains(@headers, 'Date')]/text()").extract()
         if len(date) < 1:
             return None
