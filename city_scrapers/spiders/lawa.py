@@ -48,7 +48,7 @@ class LawaSpider(CityScrapersSpider):
                     dont_filter=True,
                 )
             except IndexError:
-                yield self._parse_time(None, meeting, item)
+                yield from self._parse_time(None, meeting, item)
 
     def _parse_time(self, response, meeting, item):
         meeting["start"] = self._parse_start(item, response)
