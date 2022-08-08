@@ -80,7 +80,7 @@ class LawaSpider(CityScrapersSpider):
         indexes = []
         if response is not None:
             # Time is usually either on first center element or third div
-            # Creating a single array where we 
+            # Creating a single array where we search for year and time using regex
             content = (
                 response.xpath(".//center")[0].xpath(".//text()").getall()
                 + response.xpath(
