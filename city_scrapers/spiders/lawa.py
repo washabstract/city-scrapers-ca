@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 from city_scrapers_core.constants import BOARD, COMMITTEE
@@ -19,7 +20,6 @@ class LawaSpider(CityScrapersSpider):
             meeting = Meeting(
                 title=self._parse_title(item),
                 description=self._parse_description(item),
-                start=self._parse_start(item),
                 end=self._parse_end(item),
                 all_day=self._parse_all_day(item),
                 time_notes=self._parse_time_notes(item),
@@ -30,16 +30,31 @@ class LawaSpider(CityScrapersSpider):
                 updated=datetime.now(),
             )
 
-            if meeting["start"] is None:
-                return
-
             meeting["classification"] = self._parse_classification(
                 item, meeting["title"]
             )
-            meeting["status"] = self._get_status(meeting)
-            meeting["id"] = self._get_id(meeting)
 
-            yield meeting
+            try:
+                # Finding the parsed agenda link
+                agenda_link = [
+                    link["href"]
+                    for link in meeting["links"]
+                    if link["title"] == "Agenda"
+                ][0]
+                yield response.follow(
+                    agenda_link,
+                    callback=self._parse_time,
+                    cb_kwargs={"meeting": meeting, "item": item},
+                    dont_filter=True,
+                )
+            except IndexError:
+                yield from self._parse_time(None, meeting, item)
+
+    def _parse_time(self, response, meeting, item):
+        meeting["start"] = self._parse_start(item, response)
+        meeting["status"] = self._get_status(meeting)
+        meeting["id"] = self._get_id(meeting)
+        yield meeting
 
     def _parse_title(self, item):
         title = item.xpath("./td[@headers='Name']/text()")
@@ -56,37 +71,64 @@ class LawaSpider(CityScrapersSpider):
             return COMMITTEE
         return BOARD
 
-    def _parse_start(self, item):
+    def _parse_start(self, item, response):
         """Default start times:
         regular board meeting - 10am
         security committee - 12pm
         audit committee - 12:30pm
         special - 12am"""
-        title = item.xpath("./td[@headers='Name']/@id")
-        date_tag = ""
-        if len(title) >= 1:
-            date_tag = title[0].extract()
+        indexes = []
+        if response is not None:
+            # Time is usually either on first center element or third div
+            # Creating a single array where we search for year and time using regex
+            content = (
+                response.xpath(".//center")[0].xpath(".//text()").getall()
+                + response.xpath(
+                    ".//div[@style='text-align: center;'][3]/text()"
+                ).getall()
+            )
+            # Removes \r\n from the captured texts
+            content = list(map(lambda x: re.sub(r"[\n\r]", "", x), content))
+            regex = re.compile(
+                r"([0-9]{4},?\s+at\s+\d{2}:\d{2}\s+(AM)?(PM)?(am)?(pm)?)"
+            )  # Matches the year and time part of the string (eg. 2022 at 10:00 AM)
 
-        path = "./td[@headers='Date " + date_tag + "']/text()"
-        date = item.xpath(path)
-        if len(date) < 1:
-            return None
+            # Getting all the indexes where we have a regex match
+            indexes = [i for i, text in enumerate(content) if re.search(regex, text)]
 
-        date_text = date[0].extract().strip()
+        if len(indexes) > 0:
+            # Getting the first index
+            date_time_index = indexes[0]
+            date = content[date_time_index]
+            # Parsing the string
+            date = dateparse(date)
+            return date
+        else:
+            title = item.xpath("./td[@headers='Name']/@id")
+            date_tag = ""
+            if len(title) >= 1:
+                date_tag = title[0].extract()
 
-        if "special" in date_tag.lower():
-            pass
-        elif "audit" in date_tag.lower():
-            date_text = date_text + " 12:30pm"
-        elif "security" in date_tag.lower():
-            date_text = date_text + " 12pm"
-        elif "regular" in date_tag.lower():
-            date_text = date_text + " 10am"
+            path = "./td[@headers='Date " + date_tag + "']/text()"
+            date = item.xpath(path)
+            if len(date) < 1:
+                return None
 
-        try:
-            return dateparse(date_text, fuzzy=True, ignoretz=True)
-        except (ParserError):
-            return None
+            date_text = date[0].extract().strip()
+
+            if "special" in date_tag.lower():
+                pass
+            elif "audit" in date_tag.lower():
+                date_text = date_text + " 12:30pm"
+            elif "security" in date_tag.lower():
+                date_text = date_text + " 12pm"
+            elif "regular" in date_tag.lower():
+                date_text = date_text + " 10am"
+
+            try:
+                return dateparse(date_text, fuzzy=True, ignoretz=True)
+            except (ParserError):
+                return None
 
     def _parse_end(self, item):
         return None

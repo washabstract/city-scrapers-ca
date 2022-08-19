@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-scrapy = "==2.5.1"
+scrapy = "*"
 scrapy-sentry = "*"
 city-scrapers-core = {extras = ["aws", "gcs"], version = "*"}
 pypiwin32 = {version = "*", sys_platform = "== 'win32'"}
