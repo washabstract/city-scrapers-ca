@@ -1,12 +1,12 @@
+import re
 from datetime import datetime
 
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
-from city_scrapers.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
 
-import re
+from city_scrapers.items import Meeting
 
 
 class WalnutCreekSpider(CityScrapersSpider):
@@ -26,7 +26,6 @@ class WalnutCreekSpider(CityScrapersSpider):
             meeting = Meeting(
                 title=self._parse_title(item),
                 description=self._parse_description(item),
-                start=self._parse_start(item),
                 end=self._parse_end(item),
                 all_day=self._parse_all_day(item),
                 time_notes=self._parse_time_notes(item),
@@ -44,12 +43,29 @@ class WalnutCreekSpider(CityScrapersSpider):
                 url = meeting["links"][0]["href"]
                 yield response.follow(
                     url,
-                    callback=self._parse_location,
-                    cb_kwargs={"meeting": meeting},
+                    callback=self._parse_time_location,
+                    cb_kwargs={"meeting": meeting, "item": item},
                     dont_filter=True,
                 )
             else:
-                yield from self._parse_location(None, meeting)
+                yield from self._parse_time_location(None, meeting, item)
+
+    def _parse_time_location(self, response, meeting, item):
+        """Meeting page url processing.  Scrapes start time and location from meeting
+        agenda page
+        """
+        meeting["start"], meeting["location"] = (
+            self._parse_start(item, response),
+            self._parse_location(response, meeting),
+        )
+
+        if meeting["start"] is None:
+            return
+
+        meeting["status"] = self._get_status(meeting)
+        meeting["id"] = self._get_id(meeting)
+        yield meeting
+        return
 
     def _parse_title(self, item):
         row = item.xpath("td[@class='listItem']/text()")
@@ -66,7 +82,7 @@ class WalnutCreekSpider(CityScrapersSpider):
                 return classification
         return NOT_CLASSIFIED
 
-    def _parse_start(self, item):
+    def _parse_start(self, item, response):
         row = item.xpath("./td[@class='listItem']/text()")
         if len(row) > 1:
             date = row[1].get()
@@ -80,7 +96,25 @@ class WalnutCreekSpider(CityScrapersSpider):
                 if ("am" in time) or ("pm" in time):
                     dt = dateparse(date + time, fuzzy=True, ignoretz=True)
                 else:
+                    if (
+                        response
+                        and response.body != b""
+                        and b"text/html" in response.headers.get("Content-Type", "")
+                    ):
+                        # extract date from response via regex
+                        head = response.xpath("//hr/preceding::*/text()")
+                        head_txt = ""
+                        for line in head:
+                            if line.get().strip() != "":
+                                head_txt = head_txt + line.get() + "\n"
+                        time_reg = time_reg = r"\d?\d:\d\d\s?[ap]m"
+                        times = re.findall(time_reg, head_txt, re.IGNORECASE)
+                        if len(times) > 0:
+                            date = date + " " + times[0]
+
                     dt = dateparse(date, fuzzy=True, ignoretz=True)
+                    # Could do end time w time dif...
+
                 return dt
             except ParserError:
                 return None
@@ -157,7 +191,7 @@ class WalnutCreekSpider(CityScrapersSpider):
             and response.body != b""
             and b"text/html" in response.headers.get("Content-Type", "")
         ):
-            print("trying a good response")
+            # print("trying a good response")
             # Header: search for room name
             head = response.xpath("//hr/preceding::*/text()")
             head_txt = ""
@@ -165,7 +199,7 @@ class WalnutCreekSpider(CityScrapersSpider):
                 if line.get().strip() != "":
                     head_txt = head_txt + line.get() + "\n"
 
-            room_reg = r"council chamber|1st floor/3rd floor conference room|1st floor conference room|3rd floor conference room"
+            room_reg = r"council chamber|1st floor/3rd floor conference room|1st floor conference room|3rd floor conference room"  # noqa
             rooms = re.findall(room_reg, head_txt, re.IGNORECASE)
             if len(rooms) > 0:
                 room = rooms[0].title()
@@ -192,7 +226,7 @@ class WalnutCreekSpider(CityScrapersSpider):
                     }
 
             # search body text for zoom link
-            zoom_reg = r"(?:webinar|zoom meeting)\sid:?\s?\d{3}\s?\d{4}\s?\d{4}.+(?:password|passcode):?\s?\d{3}\s?\d{3}"
+            zoom_reg = r"(?:webinar|zoom meeting)\sid:?\s?\d{3}\s?\d{4}\s?\d{4}.+(?:password|passcode):?\s?\d{3}\s?\d{3}"  # noqa
             zooms = re.findall(zoom_reg, body_txt, re.IGNORECASE)
 
             if len(zooms) > 0:
@@ -204,13 +238,4 @@ class WalnutCreekSpider(CityScrapersSpider):
                 else:
                     location = {"address": zoom, "name": "Virtual Meeting"}
 
-        meeting["location"] = location
-
-        if meeting["start"] is None:
-            return
-
-        meeting["status"] = self._get_status(meeting)
-        meeting["id"] = self._get_id(meeting)
-
-        yield meeting
-        return
+        return location

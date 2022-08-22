@@ -2,7 +2,7 @@ from datetime import datetime
 from os.path import dirname, join
 
 import pytest
-from city_scrapers_core.constants import TENTATIVE, PASSED, COMMISSION, CITY_COUNCIL
+from city_scrapers_core.constants import CITY_COUNCIL, COMMISSION, PASSED, TENTATIVE
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
@@ -24,9 +24,10 @@ test_response_110 = file_response(
 )
 test_response_110.headers["Content-Type"] = "text/html"
 parsed_items[110] = next(
-    spider._parse_location(
+    spider._parse_time_location(
         test_response_110,
         parsed_items[110]._cb_kwargs["meeting"],
+        parsed_items[110]._cb_kwargs["item"],
     )
 )
 
@@ -35,9 +36,10 @@ test_response_1170 = file_response(
 )
 test_response_1170.headers["Content-Type"] = "text/html"
 parsed_items[1170] = next(
-    spider._parse_location(
+    spider._parse_time_location(
         test_response_1170,
         parsed_items[1170]._cb_kwargs["meeting"],
+        parsed_items[1170]._cb_kwargs["item"],
     )
 )
 
@@ -48,7 +50,8 @@ def test_title():
     assert parsed_items[0]["title"] == "Planning Commission Meeting"
     assert (
         parsed_items[110]["title"]
-        == "City Council Special Meeting, Closed Session - 4:00 PM & City Council Regular Meeting - 6:00 PM"
+        == "City Council Special Meeting, Closed Session - 4:00 PM & City Council "
+        "Regular Meeting - 6:00 PM"
     )
     assert parsed_items[1170]["title"] == "Planning Commission Meeting"
 
@@ -61,8 +64,8 @@ def test_description():
 
 def test_start():
     assert parsed_items[0]["start"] == datetime(2022, 7, 28, 19, 0)
-    assert parsed_items[110]["start"] == datetime(2022, 5, 17, 0, 0)
-    assert parsed_items[1170]["start"] == datetime(2022, 5, 12, 0, 0)
+    assert parsed_items[110]["start"] == datetime(2022, 5, 17, 16, 0)
+    assert parsed_items[1170]["start"] == datetime(2022, 5, 12, 19, 0)
 
 
 def test_end():
@@ -76,7 +79,8 @@ def test_time_notes():
     assert parsed_items[110]["time_notes"] == ""
     assert (
         parsed_items[1170]["time_notes"]
-        == "There is also a virtual option for this meeting. Zoom Meeting ID: 824 6704 7996 / Login Password: 749 941"
+        == "There is also a virtual option for this meeting. Zoom Meeting ID: "
+        "824 6704 7996 / Login Password: 749 941"
     )
 
 
@@ -87,11 +91,12 @@ def test_id():
     )
     assert (
         parsed_items[110]["id"]
-        == "walnut_creek/202205170000/x/city_council_special_meeting_closed_session_4_00_pm_city_council_regular_meeting_6_00_pm"
+        == "walnut_creek/202205171600/x/city_council_special_meeting_closed_session_"
+        "4_00_pm_city_council_regular_meeting_6_00_pm"
     )
     assert (
         parsed_items[1170]["id"]
-        == "walnut_creek/202205120000/x/planning_commission_meeting"
+        == "walnut_creek/202205121900/x/planning_commission_meeting"
     )
 
 
@@ -132,21 +137,25 @@ def test_links():
     assert parsed_items[0]["links"] == []
     assert parsed_items[110]["links"] == [
         {
-            "href": "https://walnutcreek.granicus.com/MinutesViewer.php?view_id=12&clip_id=4496",
+            "href": "https://walnutcreek.granicus.com/MinutesViewer.php?view_id=12&"
+            "clip_id=4496",
             "title": "Minutes",
         },
         {
-            "href": "https://walnutcreek.granicus.com/MediaPlayer.php?view_id=12&clip_id=4496",
+            "href": "https://walnutcreek.granicus.com/MediaPlayer.php?view_id=12&"
+            "clip_id=4496",
             "title": "Video",
         },
     ]
     assert parsed_items[1170]["links"] == [
         {
-            "href": "https://walnutcreek.granicus.com/AgendaViewer.php?view_id=12&clip_id=4494",
+            "href": "https://walnutcreek.granicus.com/AgendaViewer.php?view_id=12&"
+            "clip_id=4494",
             "title": "Agenda",
         },
         {
-            "href": "https://walnutcreek.granicus.com/MediaPlayer.php?view_id=12&clip_id=4494",
+            "href": "https://walnutcreek.granicus.com/MediaPlayer.php?view_id=12&"
+            "clip_id=4494",
             "title": "Video",
         },
     ]
