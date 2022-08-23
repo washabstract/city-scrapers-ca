@@ -16,12 +16,6 @@ class WalnutCreekSpider(CityScrapersSpider):
     start_urls = ["https://walnutcreek.granicus.com/ViewPublisher.php?view_id=12"]
 
     def parse(self, response):
-        """
-        `parse` should always `yield` Meeting items.
-
-        Change the `_parse_title`, `_parse_start`, etc methods to fit your scraping
-        needs.
-        """
         for item in response.xpath("//tbody/tr"):
             meeting = Meeting(
                 title=self._parse_title(item),
@@ -51,9 +45,6 @@ class WalnutCreekSpider(CityScrapersSpider):
                 yield from self._parse_time_location(None, meeting, item)
 
     def _parse_time_location(self, response, meeting, item):
-        """Meeting page url processing.  Scrapes start time and location from meeting
-        agenda page
-        """
         meeting["start"], meeting["location"] = (
             self._parse_start(item, response),
             self._parse_location(response, meeting),
@@ -73,7 +64,6 @@ class WalnutCreekSpider(CityScrapersSpider):
         return text.strip()
 
     def _parse_description(self, item):
-        """Parse or generate meeting description."""
         return ""
 
     def _parse_classification(self, title):
@@ -122,15 +112,12 @@ class WalnutCreekSpider(CityScrapersSpider):
             return None
 
     def _parse_end(self, item):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
         return None
 
     def _parse_time_notes(self, item):
-        """Parse any additional notes on the timing of the meeting"""
         return ""
 
     def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
         return False
 
     def _parse_links(self, item):
@@ -176,11 +163,9 @@ class WalnutCreekSpider(CityScrapersSpider):
         return links
 
     def _parse_source(self, response):
-        """Parse or generate source."""
         return response.url
 
     def _parse_location(self, response, meeting):
-        """Parse or generate location."""
         location = {
             "address": "",
             "name": "",
@@ -191,7 +176,6 @@ class WalnutCreekSpider(CityScrapersSpider):
             and response.body != b""
             and b"text/html" in response.headers.get("Content-Type", "")
         ):
-            # print("trying a good response")
             # Header: search for room name
             head = response.xpath("//hr/preceding::*/text()")
             head_txt = ""
