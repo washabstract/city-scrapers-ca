@@ -133,6 +133,7 @@ def test_classification(parsed_items):
     assert parsed_items[0]["classification"] == BOARD
     assert parsed_items[2]["classification"] == BOARD
 
+
 @pytest.mark.parametrize("item", parsed_items)
 def test_all_day(item):
     if type(item) is Meeting:
