@@ -11,7 +11,8 @@ from city_scrapers.items import Meeting
 
 class WalnutCreekSpider(CityScrapersSpider):
     name = "walnut_creek"
-    agency = "City of Walnut Creek"
+    agency = "Walnut Creek"
+    sub_agency = "City"
     timezone = "America/Los_Angeles"
     start_urls = ["https://walnutcreek.granicus.com/ViewPublisher.php?view_id=12"]
 

@@ -10,7 +10,8 @@ from city_scrapers.items import Meeting
 
 class CctaSpider(CityScrapersSpider):
     name = "ccta"
-    agency = "Contra Costa Transportation Authority"
+    agency = "Contra Costa"
+    sub_agency = "Transportation Authority"
     timezone = "America/Los_Angeles"
     start_urls = [
         (

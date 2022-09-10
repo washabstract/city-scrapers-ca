@@ -10,7 +10,8 @@ from city_scrapers.items import Meeting
 
 class SfBosSpider(CityScrapersSpider):
     name = "sf_bos"
-    agency = "San Francisco Board of Supervisors"
+    agency = "San Francisco"
+    sub_agency = "Board of Supervisors"
     timezone = "America/Los_Angeles"
     start_urls = ["https://sfbos.org/events/calendar"]
 

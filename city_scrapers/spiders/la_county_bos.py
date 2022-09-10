@@ -11,7 +11,8 @@ from city_scrapers.items import Meeting
 
 class LaCountyBosSpider(CityScrapersSpider):
     name = "la_county_bos"
-    agency = "LA County Board of Supervisors"
+    agency = "Los Angeles"
+    sub_agency = "County Board of Supervisors"
     timezone = "America/Los_Angeles"
     start_urls = ["http://bos.lacounty.gov/Board-Meeting/Board-Agendas"]
 

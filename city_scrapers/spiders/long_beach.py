@@ -9,7 +9,8 @@ from city_scrapers.items import Meeting
 
 class LongBeachSpider(LegistarSpider):
     name = "long_beach"
-    agency = "City of Long Beach"
+    agency = "Long Beach"
+    sub_agency = "City"
     timezone = "America/Los_Angeles"
     start_urls = ["http://longbeach.legistar.com/Calendar.aspx"]
     # Add the titles of any links not included in the scraped results

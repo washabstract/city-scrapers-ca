@@ -9,7 +9,8 @@ from city_scrapers.items import Meeting
 
 class LaPlanningSpider(CityScrapersSpider):
     name = "la_planning"
-    agency = "LA Planning Commission"
+    agency = "Los Angeles"
+    sub_agency = "Planning Commission"
     timezone = "America/Los_Angeles"
     start_urls = [
         "https://planning.lacity.org/dcpapi/meetings/api/all/commissions/"

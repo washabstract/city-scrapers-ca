@@ -14,7 +14,8 @@ from city_scrapers.items import Meeting
 
 class LadwpSpider(CityScrapersSpider):
     name = "ladwp"
-    agency = "LA Department of Water and Power"
+    agency = "Los Angeles"
+    sub_agency = "Department of Water and Power"
     timezone = "America/Los_Angeles"
     start_urls = ["http://ladwp.granicus.com/ViewPublisher.php?view_id=2"]
 

@@ -9,7 +9,8 @@ from city_scrapers.items import Meeting
 
 class LaMetroLegSpider(LegistarSpider):
     name = "la_metro_leg"
-    agency = "LA Metro Legistar"
+    agency = "Los Angeles"
+    sub_agency = "Metro Legistar"
     timezone = "America/Los_Angeles"
     start_urls = ["https://metro.legistar.com/Calendar.aspx"]
     # Add the titles of any links not included in the scraped results
