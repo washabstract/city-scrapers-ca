@@ -1,6 +1,6 @@
 from .diff import AzureDiffPipeline, GCSDiffPipeline, S3DiffPipeline
 from .ocd import OpenCivicDataPipeline
-from .postgres import PostgresPipeline
+from .postgres import PostgresAgencyPipeline, PostgresPipeline
 from .text_extractor import TextExtractorPipeline
 
 __all__ = [
@@ -9,5 +9,6 @@ __all__ = [
     "OpenCivicDataPipeline",
     "S3DiffPipeline",
     "TextExtractorPipeline",
+    "PostgresAgencyPipeline",
     "PostgresPipeline",
 ]
