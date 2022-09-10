@@ -47,6 +47,7 @@ class OpenCivicDataPipeline:
                     "name": spider.agency,
                     "entity_type": "organization",
                     "entity_name": spider.agency,
+                    "entity_subname": spider.sub_agency,
                     # TODO: Include an actual ID
                     "entity_id": "",
                 }
@@ -54,6 +55,7 @@ class OpenCivicDataPipeline:
             "extras": {
                 "cityscrapers.org/id": item["id"],
                 "cityscrapers.org/agency": spider.agency,
+                "cityscrapers.org/sub_agency": spider.sub_agency,
                 "cityscrapers.org/time_notes": item.get("time_notes", ""),
                 "cityscrapers.org/address": item["location"]["address"],
             },
