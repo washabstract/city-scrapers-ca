@@ -1,6 +1,6 @@
-from re import sub
 import psycopg2
 from flatdict import FlatDict
+
 
 class PostgresAgencyPipeline:
     """
@@ -12,7 +12,9 @@ class PostgresAgencyPipeline:
         self.postgres_user = user
         self.postgres_password = password
         self.postgres_database = database
-        self.hierarchy_count = {} # Format Eg. {"Los Angeles/World Airports/Meeting Name": 2}
+        self.hierarchy_count = (
+            {}
+        )  # Format Eg. {"Los Angeles/World Airports/Meeting Name": 2}
         self.delimiter = "/"
 
     @classmethod
@@ -25,7 +27,6 @@ class PostgresAgencyPipeline:
         )
 
     def get_agency_hierarchy(self, flatten=True):
-
         def get_sub_agencies(agency):
             # query to get the child agencies
             query = "SELECT * FROM agency WHERE parent_agency_id = %s;"
@@ -34,13 +35,13 @@ class PostgresAgencyPipeline:
             (sub_agencies, e) = self.sql_query(query, [agency[0]])
             if e:
                 raise (e)
-            
+
             for sub_agency in sub_agencies:
                 hier[sub_agency[1]] = {
                     "id": sub_agency[0],
-                    **get_sub_agencies(sub_agency)
+                    **get_sub_agencies(sub_agency),
                 }
-            
+
             return hier
 
         # query to get parent agencies
@@ -48,15 +49,15 @@ class PostgresAgencyPipeline:
         (parent_agencies, e) = self.sql_query(query)
         if e:
             raise (e)
-        
+
         # Building hierarchy
         hierarchy = {}
         for parent_agency in parent_agencies:
             hierarchy[parent_agency[1]] = get_sub_agencies(parent_agency)
-                
+
         if flatten:
             hierarchy = FlatDict(hierarchy, delimiter="/")
-        
+
         return hierarchy
 
     def open_spider(self, spider):
@@ -66,7 +67,7 @@ class PostgresAgencyPipeline:
             password=self.postgres_password,
             dbname=self.postgres_database,
         )
-        
+
         # Agency table
         (_, e) = self.sql_query("SELECT * FROM agency;")
         if type(e) is psycopg2.errors.UndefinedTable:
@@ -82,7 +83,7 @@ class PostgresAgencyPipeline:
                 raise (e)
         elif e:
             raise (e)
-        
+
         self.agency_hierarchy = self.get_agency_hierarchy()
 
     def process_item(self, item, spider):
@@ -99,7 +100,7 @@ class PostgresAgencyPipeline:
             self.hierarchy_count[full_path] += 1
         else:
             self.hierarchy_count[full_path] = 1
-        
+
         return item
 
     def sql_query(self, query, data=None):
@@ -116,24 +117,28 @@ class PostgresAgencyPipeline:
                         return (cursor.fetchall(), None)
                     except psycopg2.ProgrammingError:
                         return ([], None)
-    
+
     def get_or_create_agency(self, name, parent_agency_id):
         # Convert get or create
         if parent_agency_id is None:
-            query = "SELECT id FROM agency WHERE name = %s AND parent_agency_id is NULL;"
+            query = (
+                "SELECT id FROM agency WHERE name = %s AND parent_agency_id is NULL;"
+            )
             (records, e) = self.sql_query(query, (name,))
-        else:    
+        else:
             query = "SELECT id FROM agency WHERE name = %s AND parent_agency_id = %s;"
             (records, e) = self.sql_query(query, (name, parent_agency_id))
-        
+
         if e:
             raise (e)
-        
+
         if len(records) > 0:
             agency_id = records[0][0]
             return agency_id
 
-        query = "INSERT INTO agency(name, parent_agency_id) VALUES (%s, %s) RETURNING id;"
+        query = (
+            "INSERT INTO agency(name, parent_agency_id) VALUES (%s, %s) RETURNING id;"
+        )
         (records, e) = self.sql_query(query, (name, parent_agency_id))
         if e:
             raise (e)
@@ -155,27 +160,34 @@ class PostgresAgencyPipeline:
             list_depth = len(agencies_path_list) - 1
 
             for index, agency_name in enumerate(agencies_path_list):
-                    path_to_add = ""
-                    if index == list_depth:
-                        if count > 1:
-                            # Create the final sub agency of the hierarchy
-                            path_to_add = agency_name
-                            parent_agency_id = self.get_or_create_agency(agency_name, parent_agency_id)
-                        else:
-                            # Create the Other branch
-                            path_to_add = "Other"
-                            parent_agency_id = self.get_or_create_agency(path_to_add, parent_agency_id)
-                    else:
-                        # Create the agency and capture the parent_agency_id
+                path_to_add = ""
+                if index == list_depth:
+                    if count > 1:
+                        # Create the final sub agency of the hierarchy
                         path_to_add = agency_name
-                        parent_agency_id = self.get_or_create_agency(agency_name, parent_agency_id)
+                        parent_agency_id = self.get_or_create_agency(
+                            agency_name, parent_agency_id
+                        )
+                    else:
+                        # Create the Other branch
+                        path_to_add = "Other"
+                        parent_agency_id = self.get_or_create_agency(
+                            path_to_add, parent_agency_id
+                        )
+                else:
+                    # Create the agency and capture the parent_agency_id
+                    path_to_add = agency_name
+                    parent_agency_id = self.get_or_create_agency(
+                        agency_name, parent_agency_id
+                    )
 
-                    # Adding to the list of the agencies that have been created
-                    path_added.append(path_to_add)
-                    agencies_created[self.delimiter.join(path_added)] = parent_agency_id
-        
+                # Adding to the list of the agencies that have been created
+                path_added.append(path_to_add)
+                agencies_created[self.delimiter.join(path_added)] = parent_agency_id
+
         # Finally closing the connection
         self.conn.close()
+
 
 class PostgresPipeline:
     def __init__(self, host, user, password, database):
@@ -201,10 +213,10 @@ class PostgresPipeline:
             password=self.postgres_password,
             dbname=self.postgres_database,
         )
-        
+
         # Agency capturing the hierarchy
         self.agency_hierarchy = self.get_agency_hierarchy()
-        
+
         # Meeting table
         (_, e) = self.sql_query("SELECT * FROM meeting;")
         if type(e) is psycopg2.errors.UndefinedTable:
@@ -224,7 +236,7 @@ class PostgresPipeline:
                 "location_name TEXT, "
                 "location_address TEXT, "
                 "location_url TEXT, "
-                "agency_id BIGINT NOT NULL REFERENCES agency(id) DEFERRABLE INITIALLY DEFERRED, "
+                "agency_id BIGINT NOT NULL REFERENCES agency(id), "
                 "created TIMESTAMPTZ, "
                 "updated TIMESTAMPTZ "
                 ");"
@@ -234,7 +246,7 @@ class PostgresPipeline:
                 raise (e)
         elif e:
             raise (e)
-        
+
         # Link table
         (_, e) = self.sql_query("SELECT * FROM link;")
         if type(e) is psycopg2.errors.UndefinedTable:
@@ -252,9 +264,8 @@ class PostgresPipeline:
                 raise (e)
         elif e:
             raise (e)
-        
-    def get_agency_hierarchy(self, flatten=True):
 
+    def get_agency_hierarchy(self, flatten=True):
         def get_sub_agencies(agency):
             # query to get the child agencies
             query = "SELECT * FROM agency WHERE parent_agency_id = %s;"
@@ -263,13 +274,13 @@ class PostgresPipeline:
             (sub_agencies, e) = self.sql_query(query, [agency[0]])
             if e:
                 raise (e)
-            
+
             for sub_agency in sub_agencies:
                 hier[sub_agency[1]] = {
                     "id": sub_agency[0],
-                    **get_sub_agencies(sub_agency)
+                    **get_sub_agencies(sub_agency),
                 }
-            
+
             return hier
 
         # query to get parent agencies
@@ -277,17 +288,17 @@ class PostgresPipeline:
         (parent_agencies, e) = self.sql_query(query)
         if e:
             raise (e)
-        
+
         # Building hierarchy
         hierarchy = {}
         for parent_agency in parent_agencies:
             hierarchy[parent_agency[1]] = get_sub_agencies(parent_agency)
-                
+
         if flatten:
             hierarchy = FlatDict(hierarchy, delimiter="/")
-        
+
         return hierarchy
-        
+
     def close_spider(self, spider):
         self.conn.close()
 
