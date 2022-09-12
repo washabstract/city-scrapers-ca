@@ -2,20 +2,18 @@ import psycopg2
 from flatdict import FlatDict
 
 
-class PostgresAgencyPipeline:
-    """
-    Creates the appropriate agency hierarchies.
-    """
-
+class PostgresPipeline:
     def __init__(self, host, user, password, database):
         self.postgres_host = host
         self.postgres_user = user
         self.postgres_password = password
         self.postgres_database = database
-        self.hierarchy_count = (
-            {}
-        )  # Format Eg. {"Los Angeles/World Airports/Meeting Name": 2}
         self.delimiter = "/"
+        self.agency_hierarchy = {}
+        self.hierarchy_count = {}
+
+        # Format "Los Angeles/World Airports/Meeting name": [<meeting_id>]
+        self.meetings_that_need_update = {}
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -25,98 +23,6 @@ class PostgresAgencyPipeline:
             password=crawler.settings.get("POSTGRES_PASSWORD"),
             database=crawler.settings.get("POSTGRES_DATABASE"),
         )
-
-    def get_agency_hierarchy(self, flatten=True):
-        def get_sub_agencies(agency):
-            # query to get the child agencies
-            query = "SELECT * FROM agency WHERE parent_agency_id = %s;"
-            # (id, name, parent_agency_id)
-            hier = {"id": agency[0]}
-            (sub_agencies, e) = self.sql_query(query, [agency[0]])
-            if e:
-                raise (e)
-
-            for sub_agency in sub_agencies:
-                hier[sub_agency[1]] = {
-                    "id": sub_agency[0],
-                    **get_sub_agencies(sub_agency),
-                }
-
-            return hier
-
-        # query to get parent agencies
-        query = "SELECT * FROM agency WHERE parent_agency_id IS NULL;"
-        (parent_agencies, e) = self.sql_query(query)
-        if e:
-            raise (e)
-
-        # Building hierarchy
-        hierarchy = {}
-        for parent_agency in parent_agencies:
-            hierarchy[parent_agency[1]] = get_sub_agencies(parent_agency)
-
-        if flatten:
-            hierarchy = FlatDict(hierarchy, delimiter="/")
-
-        return hierarchy
-
-    def open_spider(self, spider):
-        self.conn = psycopg2.connect(
-            host=self.postgres_host,
-            user=self.postgres_user,
-            password=self.postgres_password,
-            dbname=self.postgres_database,
-        )
-
-        # Agency table
-        (_, e) = self.sql_query("SELECT * FROM agency;")
-        if type(e) is psycopg2.errors.UndefinedTable:
-            query = (
-                "CREATE TABLE agency ( "
-                "id SERIAL PRIMARY KEY, "
-                "name VARCHAR(255) NOT NULL, "
-                "parent_agency_id BIGINT REFERENCES agency(id)"
-                ");"
-            )
-            (_, e) = self.sql_query(query)
-            if e:
-                raise (e)
-        elif e:
-            raise (e)
-
-        self.agency_hierarchy = self.get_agency_hierarchy()
-
-    def process_item(self, item, spider):
-        agency = item["extras"]["cityscrapers.org/agency"]
-        sub_agency = item["extras"]["cityscrapers.org/sub_agency"]
-        meeting_name = item["name"]
-
-        full_path = [agency, sub_agency, meeting_name]
-        full_path = [path for path in full_path if path != ""]
-        full_path = self.delimiter.join(full_path)
-
-        # Adding the frequencies
-        if full_path in self.hierarchy_count:
-            self.hierarchy_count[full_path] += 1
-        else:
-            self.hierarchy_count[full_path] = 1
-
-        return item
-
-    def sql_query(self, query, data=None):
-        with self.conn:
-            with self.conn.cursor() as cursor:
-                try:
-                    cursor.execute(query, data)
-                except Exception as e:
-                    self.conn.rollback()
-                    return ([], e)
-                else:
-                    self.conn.commit()
-                    try:
-                        return (cursor.fetchall(), None)
-                    except psycopg2.ProgrammingError:
-                        return ([], None)
 
     def get_or_create_agency(self, name, parent_agency_id):
         # Convert get or create
@@ -147,65 +53,6 @@ class PostgresAgencyPipeline:
         agency_id = records[0][0]
         return agency_id
 
-    def close_spider(self, spider):
-        agencies_created = {}
-
-        # Here we can actually create create the agencies
-        for full_path, count in self.hierarchy_count.items():
-            # Resetting the parent agency
-            parent_agency_id = None
-            path_added = []
-            agencies_path_list = full_path.split(self.delimiter)
-            # The list depth will be used to determine if we will compare use the count
-            list_depth = len(agencies_path_list) - 1
-
-            for index, agency_name in enumerate(agencies_path_list):
-                path_to_add = ""
-                if index == list_depth:
-                    if count > 1:
-                        # Create the final sub agency of the hierarchy
-                        path_to_add = agency_name
-                        parent_agency_id = self.get_or_create_agency(
-                            agency_name, parent_agency_id
-                        )
-                    else:
-                        # Create the Other branch
-                        path_to_add = "Other"
-                        parent_agency_id = self.get_or_create_agency(
-                            path_to_add, parent_agency_id
-                        )
-                else:
-                    # Create the agency and capture the parent_agency_id
-                    path_to_add = agency_name
-                    parent_agency_id = self.get_or_create_agency(
-                        agency_name, parent_agency_id
-                    )
-
-                # Adding to the list of the agencies that have been created
-                path_added.append(path_to_add)
-                agencies_created[self.delimiter.join(path_added)] = parent_agency_id
-
-        # Finally closing the connection
-        self.conn.close()
-
-
-class PostgresPipeline:
-    def __init__(self, host, user, password, database):
-        self.postgres_host = host
-        self.postgres_user = user
-        self.postgres_password = password
-        self.postgres_database = database
-        self.delimiter = "/"
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        return cls(
-            host=crawler.settings.get("POSTGRES_HOST"),
-            user=crawler.settings.get("POSTGRES_USER"),
-            password=crawler.settings.get("POSTGRES_PASSWORD"),
-            database=crawler.settings.get("POSTGRES_DATABASE"),
-        )
-
     def open_spider(self, spider):
         self.conn = psycopg2.connect(
             host=self.postgres_host,
@@ -214,7 +61,23 @@ class PostgresPipeline:
             dbname=self.postgres_database,
         )
 
-        # Agency capturing the hierarchy
+        # Agency table
+        (_, e) = self.sql_query("SELECT * FROM agency;")
+        if type(e) is psycopg2.errors.UndefinedTable:
+            query = (
+                "CREATE TABLE agency ( "
+                "id SERIAL PRIMARY KEY, "
+                "name VARCHAR(255) NOT NULL, "
+                "parent_agency_id BIGINT REFERENCES agency(id)"
+                ");"
+            )
+            (_, e) = self.sql_query(query)
+            if e:
+                raise (e)
+        elif e:
+            raise (e)
+
+        # Agency capturing the hierarchy that we might have already
         self.agency_hierarchy = self.get_agency_hierarchy()
 
         # Meeting table
@@ -317,31 +180,82 @@ class PostgresPipeline:
                     except psycopg2.ProgrammingError:
                         return ([], None)
 
+    def create_sub_paths(self, agencies_path_list):
+        path_added = []
+        parent_agency_id = None
+
+        # Dropping the id part
+        if len(agencies_path_list) > 0 and agencies_path_list[-1] == "id":
+            agencies_path_list = agencies_path_list[:-1]
+
+        for agency_name in agencies_path_list:
+            path_added.append(agency_name)
+            current_path_id = f"{self.delimiter.join(path_added)}/id"
+
+            # If we already have the current path in memory we just retrieve the id
+            if current_path_id in self.agency_hierarchy:
+                parent_agency_id = self.agency_hierarchy[current_path_id]
+            else:
+                # Otherwise we create it
+                parent_agency_id = self.get_or_create_agency(
+                    agency_name, parent_agency_id
+                )
+                self.agency_hierarchy[current_path_id] = parent_agency_id
+
+        # Returning the id of the sub_agency
+        return parent_agency_id
+
+    def update_meetings(self, meeting_ids, with_agency):
+        query = "UPDATE meeting SET agency_id = %s WHERE id IN (%s)"
+        ids = ",".join([f"'{meeting_id}'" for meeting_id in meeting_ids])
+        (records, e) = self.sql_query(query, (with_agency, ids))
+        if e:
+            raise (e)
+
     def process_item(self, item, spider):
         # Building the agency path
         agency = item["extras"]["cityscrapers.org/agency"]
         sub_agency = item["extras"]["cityscrapers.org/sub_agency"]
         meeting_name = item["name"]
 
-        full_path = [agency, sub_agency, meeting_name, "id"]
-        full_path = [path for path in full_path if path != ""]
-        full_path = self.delimiter.join(full_path)
+        full_path_list = [agency, sub_agency, meeting_name, "id"]
+        full_path_list = [path for path in full_path_list if path != ""]
+        full_path = self.delimiter.join(full_path_list)
 
-        full_path_other = [agency, sub_agency, meeting_name, "Other", "id"]
-        full_path_other = [path for path in full_path_other if path != ""]
-        full_path_other = self.delimiter.join(full_path_other)
+        # Increasing the hierarchy count
+        self.hierarchy_count[full_path] = self.hierarchy_count.get(full_path, 0) + 1
+        agency_count = self.hierarchy_count.get(full_path, 0)
         agency_id = None
 
-        # checking if it exists
+        # If the specific hierarachy has been created then we keep using that one.
         if full_path in self.agency_hierarchy:
             agency_id = self.agency_hierarchy[full_path]
-        elif full_path_other in self.agency_hierarchy:
-            # Can link to the other agency
-            agency_id = self.agency_hierarchy[full_path]
+        elif agency_count > 1:
+            # We have more than one meeting with that name
+            agency_id = self.create_sub_paths(full_path_list)
+
+            # Updating the other meetings as well.
+            self.update_meetings(
+                self.meetings_that_need_update.get(full_path, []), agency_id
+            )
+            self.meetings_that_need_update[full_path] = []
         else:
-            print("Path:", full_path)
-            print("Other Path:", full_path_other)
-            raise Exception("Agency does not exist")
+            # Using the "Other" path
+            full_path_list_other = [agency, sub_agency, "Other", "id"]
+            full_path_list_other = [path for path in full_path_list_other if path != ""]
+            full_path_other = self.delimiter.join(full_path_list_other)
+
+            # Creating the paths
+            agency_id = self.agency_hierarchy.get(
+                full_path_other, self.create_sub_paths(full_path_list_other)
+            )
+            meeting_id = item["extras"]["cityscrapers.org/id"]
+
+            # Marking the meeting as possibly needing to be updated 
+            # when the count increases
+            meetings = self.meetings_that_need_update.get(full_path, [])
+            meetings.append(meeting_id)
+            self.meetings_that_need_update[full_path] = meetings
 
         data = (
             item["extras"]["cityscrapers.org/id"],
