@@ -251,7 +251,7 @@ class PostgresPipeline:
             )
             meeting_id = item["extras"]["cityscrapers.org/id"]
 
-            # Marking the meeting as possibly needing to be updated 
+            # Marking the meeting as possibly needing to be updated
             # when the count increases
             meetings = self.meetings_that_need_update.get(full_path, [])
             meetings.append(meeting_id)
