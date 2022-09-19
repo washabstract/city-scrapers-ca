@@ -13,7 +13,9 @@ class MetrolinkSpider(CityScrapersSpider):
     name = "metrolink"
     agency = "Southern California Regional Rail Authority"
     timezone = "America/Chicago"
-    start_urls = ["https://metrolink.granicus.com/ViewPublisher.php?view_id=8"]
+    start_urls = [
+        # "https://metrolink.granicus.com/ViewPublisher.php?view_id=8"
+    ]
 
     def parse(self, response):
         for item in response.xpath("//tr[@class='listingRow']"):
