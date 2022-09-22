@@ -10,7 +10,7 @@ from city_scrapers.items import Meeting
 
 
 class SanDiegoCountyLegSpider(LegistarSpider):
-    name = "san_diego_county"
+    name = "san_diego_county_leg"
     agency = "County of San Diego"
     timezone = "America/Los_Angeles"
     start_urls = ["https://sdcounty.legistar.com/Calendar.aspx"]
