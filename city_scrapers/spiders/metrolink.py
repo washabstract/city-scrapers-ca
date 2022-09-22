@@ -14,7 +14,7 @@ class MetrolinkSpider(CityScrapersSpider):
     agency = "Southern California Regional Rail Authority"
     timezone = "America/Chicago"
     start_urls = [
-        # "https://metrolink.granicus.com/ViewPublisher.php?view_id=8"
+        "https://metrolink.granicus.com/ViewPublisher.php?view_id=8"
     ]
 
     def parse(self, response):
