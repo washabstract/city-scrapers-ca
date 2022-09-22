@@ -1,0 +1,54 @@
+name: Scrape LA World Airports
+
+on:
+  schedule:
+    # Set any time that you'd like scrapers to run (in UTC)
+    - cron: "1 6 * * *"
+  workflow_dispatch:
+
+env:
+  CI: true
+  PIPENV_VENV_IN_PROJECT: true
+  SCRAPY_SETTINGS_MODULE: city_scrapers.settings.prod
+  WAYBACK_ENABLED: true
+  AUTOTHROTTLE_MAX_DELAY: 30.0
+  AUTOTHROTTLE_START_DELAY: 1.5
+  AUTOTHROTTLE_TARGET_CONCURRENCY: 3.0
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  S3_BUCKET: ${{ secrets.S3_BUCKET }}
+  SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+  POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }}
+  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Install Pipenv
+        uses: dschep/install-pipenv-action@v1
+
+      - name: Install dependencies
+        run: pipenv sync
+        env:
+          PIPENV_DEFAULT_PYTHON_VERSION: 3.8
+
+      - name: Run scrapers
+        run: |
+          export PYTHONPATH=$(pwd):$PYTHONPATH
+          pipenv run scrapy crawl lawa
+
+      - name: Combine output feeds
+        run: |
+          export PYTHONPATH=$(pwd):$PYTHONPATH
+          pipenv run scrapy combinefeeds -s LOG_ENABLED=False
