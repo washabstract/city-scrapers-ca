@@ -4,6 +4,7 @@
 [![Cron build status](https://github.com/washabstract/city-scrapers-ca/workflows/Cron/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions?query=workflow%3ACron)
 
 <details><summary>Individual Scrapers</summary>
+<p>
 [![cc_county_bos build status](https://github.com/washabstract/city-scrapers-ca/workflows/cc_county_bos.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions?query=workflow%3Acc_county_bos.yml)  
 [![ccta build status](https://github.com/washabstract/city-scrapers-ca/workflows/ccta.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions?query=workflow%3Accta.yml)  
 [![culver_city build status](https://github.com/washabstract/city-scrapers-ca/workflows/culver_city.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions?query=workflow%3Aculver_city.yml)  
@@ -24,6 +25,7 @@
 [![sf_planning build status](https://github.com/washabstract/city-scrapers-ca/workflows/sf_planning.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions?query=workflow%3Asf_planning.yml)  
 [![walnut_creek build status](https://github.com/washabstract/city-scrapers-ca/workflows/walnut_creek.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions?query=workflow%3Awalnut_creek.yml)  
 [![west_hollywood build status](https://github.com/washabstract/city-scrapers-ca/workflows/west_hollywood.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions?query=workflow%3Awest_hollywood.yml)  
+</p>
 </details>
 
 Based on the template from the [City Scrapers](https://cityscrapers.org/) project. This scrapes, standardizes, and shares public meetings from local government websites in California. You can find more information on the [project homepage](https://cityscrapers.org/) or in the original City Scrapers repo for the Chicago area: [City-Bureau/city-scrapers](https://github.com/City-Bureau/city-scrapers).
