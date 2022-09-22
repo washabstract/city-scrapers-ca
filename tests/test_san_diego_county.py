@@ -59,7 +59,8 @@ def test_time_notes():
 
 def test_id():
     assert (
-        parsed_items[0]["id"] == "san_diego_county_leg/202209270900/x/board_of_supervisors"
+        parsed_items[0]["id"]
+        == "san_diego_county_leg/202209270900/x/board_of_supervisors"
     )
     assert (
         parsed_items[2]["id"]
