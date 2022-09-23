@@ -2,12 +2,11 @@ import re
 from datetime import datetime, timedelta
 from urllib.parse import urljoin
 
-from city_scrapers_core.constants import NOT_CLASSIFIED, CITY_COUNCIL
-from city_scrapers.items import Meeting
+from city_scrapers_core.constants import CITY_COUNCIL
 from city_scrapers_core.spiders import CityScrapersSpider
-
 from dateutil.parser import parse
 
+from city_scrapers.items import Meeting
 
 
 class SanDiegoCitySpider(CityScrapersSpider):
@@ -16,9 +15,10 @@ class SanDiegoCitySpider(CityScrapersSpider):
     sub_agency = "City"
     timezone = "America/Los_Angeles"
     past_meeting_url = "https://sandiego.granicus.com/ViewPublisher.php?view_id=3"
+    upcoming_meeting_base_url = "https://sandiego.hylandcloud.com"
     start_urls = [
-        past_meeting_url, 
-        # "https://sandiego.hylandcloud.com/211agendaonlinecouncil"
+        past_meeting_url,
+        "https://sandiego.hylandcloud.com/211agendaonlinecouncil",
     ]
 
     def parse(self, response):
@@ -46,12 +46,38 @@ class SanDiegoCitySpider(CityScrapersSpider):
 
                 yield meeting
         else:
-            # Upcoming
-            pass
+            # upcoming
+            for item in response.xpath(".//div[@id='meetings-list-upcoming']/div/div"):
+                # Agenda button contains the time
+                meeting = Meeting(
+                    title=self._parse_title_upcoming(item),
+                    description=self._parse_description(item),
+                    classification=self._parse_classification(item),
+                    start=self._parse_start_upcoming(item),
+                    end=self._parse_end_upcoming(item),
+                    all_day=self._parse_all_day(item),
+                    time_notes=self._parse_time_notes(item),
+                    location=self._parse_location(item),
+                    links=self._parse_links_upcoming(item),
+                    source=self._parse_source(response),
+                    created=datetime.now(),
+                    updated=datetime.now(),
+                )
+
+                meeting["status"] = self._get_status(meeting)
+                meeting["id"] = self._get_id(meeting)
+
+                yield meeting
 
     def _parse_title(self, item):
         title = item.xpath(".//td[1]/text()").get()
         return title
+
+    def _parse_title_upcoming(self, item):
+        agenda_title = item.xpath("//div[@class='six columns']/p/text()").get()
+        if agenda_title is None:
+            agenda_title = ""
+        return agenda_title
 
     def _parse_description(self, item):
         "No description"
@@ -60,6 +86,21 @@ class SanDiegoCitySpider(CityScrapersSpider):
     def _parse_classification(self, item):
         """Parse or generate classification from allowed options."""
         return CITY_COUNCIL
+
+    def _parse_start_upcoming(self, item):
+
+        agenda_button_title = item.xpath("//a/@title").get()
+        # Use regex to parse start time
+        time_regex = r"\son\s(?P<datetime>.*)$"
+        results = re.search(time_regex, agenda_button_title)
+
+        if results:
+            start_str = results.group("datetime")
+            if start_str:
+                start = parse(start_str)
+                return start.replace(tzinfo=None)
+
+        return None
 
     def _parse_start(self, item):
         """Parse start datetime as a naive datetime object."""
@@ -83,9 +124,12 @@ class SanDiegoCitySpider(CityScrapersSpider):
                 delta = timedelta(hours=hours, minutes=mins)
                 end = start + delta
                 return end
-            except:
+            except ValueError:
                 pass
-            
+
+        return None
+
+    def _parse_end_upcoming(self, item):
         return None
 
     def _parse_time_notes(self, item):
@@ -99,7 +143,10 @@ class SanDiegoCitySpider(CityScrapersSpider):
     def _parse_location(self, item):
         """Parse or generate location."""
         return {
-            "address": "City Council Chambers - 12th Floor, 202 C Street San Diego, CA 92101",
+            "address": (
+                "City Council Chambers - 12th Floor,"
+                " 202 C Street San Diego, CA 92101"
+            ),
             "name": "City Administration Building",
         }
 
@@ -107,7 +154,7 @@ class SanDiegoCitySpider(CityScrapersSpider):
         """Parse or generate links."""
         results = []
 
-        video1 = item.xpath(".//td[4]/a/@onclick").get() # inside a window.open 
+        video1 = item.xpath(".//td[4]/a/@onclick").get()  # inside a window.open
         minutes = item.xpath(".//td[5]/a/@href").get()
         audio = item.xpath(".//td[6]/a/@href").get()
         video2 = item.xpath(".//td[7]/a/@href").get()
@@ -118,30 +165,31 @@ class SanDiegoCitySpider(CityScrapersSpider):
             video1 = re.search(url_match, video1)
             if video1:
                 video1 = video1.group("url")
-                results.append({
-                    "title": "Video",
-                    "href": urljoin("https:", video1)
-                })
-        
+                results.append({"title": "Video", "href": urljoin("https:", video1)})
+
         if minutes is not None:
-            results.append({
-                "title": "Minutes",
-                "href": urljoin("https:", minutes)
-            })
-        
+            results.append({"title": "Minutes", "href": urljoin("https:", minutes)})
+
         if audio is not None:
-            results.append({
-                "title": "Audio",
-                "href": audio
-            })
+            results.append({"title": "Audio", "href": audio})
 
         if video2 is not None:
-            results.append({
-                "title": "Video",
-                "href": video2 # No need for urljoin
-            })
+            results.append({"title": "Video", "href": video2})  # No need for urljoin
 
         return results
+
+    def _parse_links_upcoming(self, item):
+        agenda_link = item.xpath(".//a/@href").get()
+
+        if agenda_link:
+            return [
+                {
+                    "title": "Agenda",
+                    "href": urljoin(self.upcoming_meeting_base_url, agenda_link),
+                }
+            ]
+        else:
+            return []
 
     def _parse_source(self, response):
         """Parse or generate source."""
