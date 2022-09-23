@@ -2,7 +2,7 @@ import re
 from datetime import datetime, timedelta
 from urllib.parse import urljoin
 
-from city_scrapers_core.constants import CITY_COUNCIL
+from city_scrapers_core.constants import CITY_COUNCIL, COMMISSION
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse
 
@@ -14,22 +14,30 @@ class SanDiegoCitySpider(CityScrapersSpider):
     agency = "San Diego"
     sub_agency = "City"
     timezone = "America/Los_Angeles"
-    past_meeting_url = "https://sandiego.granicus.com/ViewPublisher.php?view_id=3"
-    upcoming_meeting_base_url = "https://sandiego.hylandcloud.com"
-    start_urls = [
-        past_meeting_url,
-        "https://sandiego.hylandcloud.com/211agendaonlinecouncil",
+    past_meeting_urls = [
+        # City council
+        "https://sandiego.granicus.com/ViewPublisher.php?view_id=3",
+        # Planning commission
+        "https://sandiego.granicus.com/ViewPublisher.php?view_id=8",
     ]
+    upcoming_meetings_urls = [
+        "https://sandiego.hylandcloud.com/211agendaonlinecouncil"  # City council
+    ]
+    upcoming_meeting_base_url = "https://sandiego.hylandcloud.com"
+
+    start_urls = past_meeting_urls + upcoming_meetings_urls
 
     def parse(self, response):
-        if response.url == self.past_meeting_url:
+        if response.url in self.past_meeting_urls:
             # past meetings
             for item in response.xpath(".//tbody/tr"):
                 start = self._parse_start(item)
+                title = self._parse_title(item)
+
                 meeting = Meeting(
-                    title=self._parse_title(item),
+                    title=title,
                     description=self._parse_description(item),
-                    classification=self._parse_classification(item),
+                    classification=self._parse_classification(item, title),
                     start=start,
                     end=self._parse_end(item, start),
                     all_day=self._parse_all_day(item),
@@ -49,10 +57,12 @@ class SanDiegoCitySpider(CityScrapersSpider):
             # upcoming
             for item in response.xpath(".//div[@id='meetings-list-upcoming']/div/div"):
                 # Agenda button contains the time
+                title = self._parse_title_upcoming(item)
+
                 meeting = Meeting(
-                    title=self._parse_title_upcoming(item),
+                    title=title,
                     description=self._parse_description(item),
-                    classification=self._parse_classification(item),
+                    classification=self._parse_classification(item, title),
                     start=self._parse_start_upcoming(item),
                     end=self._parse_end_upcoming(item),
                     all_day=self._parse_all_day(item),
@@ -83,9 +93,12 @@ class SanDiegoCitySpider(CityScrapersSpider):
         "No description"
         return ""
 
-    def _parse_classification(self, item):
+    def _parse_classification(self, item, title):
         """Parse or generate classification from allowed options."""
-        return CITY_COUNCIL
+        if "commission" in title.lower():
+            return COMMISSION
+        else:
+            return CITY_COUNCIL
 
     def _parse_start_upcoming(self, item):
 
@@ -153,11 +166,10 @@ class SanDiegoCitySpider(CityScrapersSpider):
     def _parse_links(self, item):
         """Parse or generate links."""
         results = []
-
         video1 = item.xpath(".//td[4]/a/@onclick").get()  # inside a window.open
-        minutes = item.xpath(".//td[5]/a/@href").get()
-        audio = item.xpath(".//td[6]/a/@href").get()
-        video2 = item.xpath(".//td[7]/a/@href").get()
+        column1 = item.xpath(".//td[5]/a")
+        column2 = item.xpath(".//td[6]/a")
+        column3 = item.xpath(".//td[7]/a")
 
         if video1 is not None:
             # Extracting the url from the onclick function
@@ -167,14 +179,17 @@ class SanDiegoCitySpider(CityScrapersSpider):
                 video1 = video1.group("url")
                 results.append({"title": "Video", "href": urljoin("https:", video1)})
 
-        if minutes is not None:
-            results.append({"title": "Minutes", "href": urljoin("https:", minutes)})
+        for column in [column1, column2, column3]:
+            if column:
+                href_text = column.xpath("text()").get()
+                href_link = column.xpath("@href").get()
 
-        if audio is not None:
-            results.append({"title": "Audio", "href": audio})
-
-        if video2 is not None:
-            results.append({"title": "Video", "href": video2})  # No need for urljoin
+                if href_text.lower() == "minutes":
+                    results.append(
+                        {"title": href_text, "href": urljoin("https:", href_link)}
+                    )
+                else:
+                    results.append({"title": href_text, "href": href_link})
 
         return results
 
