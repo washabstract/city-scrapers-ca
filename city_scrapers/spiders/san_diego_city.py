@@ -2,7 +2,7 @@ import re
 from datetime import datetime, timedelta
 from urllib.parse import urljoin
 
-from city_scrapers_core.constants import CITY_COUNCIL, COMMISSION
+from city_scrapers_core.constants import CITY_COUNCIL, COMMISSION, COMMITTEE
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse
 
@@ -21,7 +21,13 @@ class SanDiegoCitySpider(CityScrapersSpider):
         "https://sandiego.granicus.com/ViewPublisher.php?view_id=8",
     ]
     upcoming_meetings_urls = [
-        "https://sandiego.hylandcloud.com/211agendaonlinecouncil"  # City council
+        # City council
+        "https://sandiego.hylandcloud.com/211agendaonlinecouncil",
+        # Committees
+        "https://sandiego.hylandcloud.com/"
+        "211agendaonlinecomm/Meetings/Search?"
+        "dropid=4&mtids=131%2C114%2C119%2C102%"
+        "2C116%2C115%2C133%2C122%2C120%2C121%2C132%2C123%2C117%2C127%2C134%2C118",
     ]
     upcoming_meeting_base_url = "https://sandiego.hylandcloud.com"
 
@@ -55,7 +61,17 @@ class SanDiegoCitySpider(CityScrapersSpider):
                 yield meeting
         else:
             # upcoming
-            for item in response.xpath(".//div[@id='meetings-list-upcoming']/div/div"):
+            if (
+                response.url
+                == "https://sandiego.hylandcloud.com/211agendaonlinecouncil"
+            ):
+                # for council meetings
+                item_path = ".//div[@id='meetings-list-upcoming']/div/div"
+            else:
+                # for committee meeting
+                item_path = ".//div[@id='meetings-list-content']/div/div/div"
+
+            for item in response.xpath(item_path):
                 # Agenda button contains the time
                 title = self._parse_title_upcoming(item)
 
@@ -95,8 +111,11 @@ class SanDiegoCitySpider(CityScrapersSpider):
 
     def _parse_classification(self, item, title):
         """Parse or generate classification from allowed options."""
-        if "commission" in title.lower():
+        title_lower = title.lower()
+        if "commission" in title_lower:
             return COMMISSION
+        elif "committee" in title_lower:
+            return COMMITTEE
         else:
             return CITY_COUNCIL
 
@@ -194,17 +213,18 @@ class SanDiegoCitySpider(CityScrapersSpider):
         return results
 
     def _parse_links_upcoming(self, item):
-        agenda_link = item.xpath(".//a/@href").get()
-
-        if agenda_link:
-            return [
+        results = []
+        for link in item.xpath(".//a"):
+            link_href = link.xpath("./@href").get()
+            link_title = link.xpath("./text()").get()
+            results.append(
                 {
-                    "title": "Agenda",
-                    "href": urljoin(self.upcoming_meeting_base_url, agenda_link),
+                    "title": link_title,
+                    "href": urljoin(self.upcoming_meeting_base_url, link_href),
                 }
-            ]
-        else:
-            return []
+            )
+
+        return results
 
     def _parse_source(self, response):
         """Parse or generate source."""

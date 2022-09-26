@@ -1,0 +1,553 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
+	<title>Meeting Search Results - OnBase Agenda Online</title>
+	<link href="/211agendaonlinecomm/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<meta name="viewport" content="width=device-width" />
+	
+	<meta name="format-detection" content="telephone=no" />
+
+	<script src="/211agendaonlinecomm/bundles/jquery?v=9ktsOtIo0upvJP7-7FiXuOoOJe58RLFJ__wIRPL2vGo1"></script>
+
+
+	<link href="/211agendaonlinecomm/bundles/css?v=DRk4-i98xgECysKu9WVBQQzGWVS-p3dGRK3lDMW9ZTo1" rel="stylesheet"/>
+
+
+	<!-- Dynamic Stylesheet -->
+	<link href="/211agendaonlinecomm/Style" rel="stylesheet" />
+	<link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,600,800,700|Merriweather:400,700" media="all" />
+	<link rel="stylesheet" href="/211agendaonlinecomm/Content/css/cosd-onbase.css">
+</head>
+<body>
+	<div id="logo-container">
+		
+<!--<div class="logo"><img src="~/Images/cosd-logo-stacked-white-color-sails-72ppi.png" /></div>-->
+<div id="logo-container">
+<div class="logo l-constrained">
+  <div class="three columns text-center l-padding-mobile-bd l-padding-desktop-lm">
+	<a href="https://www.sandiego.gov/council-committees"><img src="/211agendaonlinecomm/Images/cosd-logo-primary-white-color-sails-72ppi.png" width="205" height="50" class="hide-on-mobile" /><img src="/211agendaonlinecomm/Images/cosd-logo-primary-white-color-sails-72ppi.png" width="200" height="auto" class="hide-on-desktop" /></a>
+  </div>
+  <div class="nine columns l-padding-mobile-hd">
+	<h1 class="heading--trim hide-on-mobile">City Council Committees Agendas and Minutes</h1>
+	<h1 class="h2 heading--trim hide-on-desktop text-center">City Council Committees Agendas and Minutes</h1>
+  </div>
+</div>
+</div>
+	</div>
+	<!--<div id="navbar" class="navbar navbar-inverse" role="navigation">
+		<div class="navbar-header">
+			<button id="btnNavToggle" class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<div class="media-collapse">
+				<span id="media-collapse-text">Hide Media</span>
+			</div>
+		</div>
+		<div class="navbar-collapse collapse navbar-responsive-collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="/211agendaonlinecomm/" id="lnkNavHome">Home</a></li>
+				<li><a href="/211agendaonlinecomm/Meetings" id="lnkNavMeetings">Meetings</a></li>
+				<li><a href="/211agendaonlinecomm/Home/Contact" id="lnkNavContact">Contact</a></li>
+			</ul>
+		</div>
+
+	</div>-->
+	<div id="navbar" class="navbar navbar-inverse l-constrained" role="navigation">
+		<div class="navbar-header">
+			<button id="btnNavToggle" class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<div class="media-collapse">
+				<span id="media-collapse-text">Hide Media</span>
+			</div>
+		</div>
+		<div class="navbar-collapse collapse navbar-responsive-collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="/211agendaonlinecomm/" id="lnkNavHome">Home</a></li>
+				<!--<li><a href="/211agendaonlinecomm/Meetings" id="lnkNavMeetings">Meetings</a></li>-->
+				<li><a href="/211agendaonlinecomm/Meetings" id="lnkNavMeetings">Meeting Search</a></li>
+				<!--<li><a href="/211agendaonlinecomm/Home/Contact" id="lnkNavContact">Contact</a></li>-->
+				<li><a href="/211agendaonlinecomm/Home/Contact" id="lnkNavContact">Committee Resources</a></li>
+			</ul>
+		</div>
+	</div>
+	<div>
+		
+		<section class="content-wrapper main-content clear-fix l-constrained">
+			
+
+
+
+
+
+
+    <div class="row l-margin-vd">
+		<div class="six columns l-padding-vd l-padding-desktop-rm border border--right no-border-on-mobile">
+			<p><strong>This website includes Committee Agendas and Minutes from September 2017 to present.</strong></p>
+		</div>
+		<div class="six columns l-padding-vd l-padding-desktop-lm">
+			<p><a href="https://www.sandiego.gov/council-committees">Search for Committee Agendas and Minutes prior to September 2017</a></p>
+		</div>
+	</div>
+	<div class="panel-group">
+		<div class="panel panel-primary">
+			<div class="panel-body" id="searchOptions">
+				<div class="search-header">
+					Search Meeting Content
+				</div>
+
+<form action="/211agendaonlinecomm/Meetings" class="form-horizontal" method="post"><input name="__RequestVerificationToken" type="hidden" value="E76h12H0VjtrtrSA6RaqveAd1NR4TFeGkLocNYsGjvlXc_gQR7Q10d8W9ZGxWD9_I3-2I8KpO0QlLAoV1fst13_0MfHdlFm4H8DQtLc7urM1" />                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" for="Keywords">Search Text</label>
+                            <div class="col-sm-10">
+								<input class="form-control" id="Keywords" name="Keywords" type="text" value="" />
+							</div>
+						</div>
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" for="MeetingTypeIDs">Meeting Type</label>
+                            <div class="col-sm-10">
+								<div class="multi-select form-control"
+									 id="MeetingTypeIDs"
+									 name="MeetingTypeIDs"
+									 noselectiontext="Select a Meeting Type"
+									 selectiontext="{0} Items Selected"
+									 checkalltext="Check All"
+									 uncheckalltext="Uncheck All"
+									 nextfocusid="DateRangeOptionID"
+									 selectedvalues="131,114,119,102,116,115,133,122,120,121,132,123,117,127,134,118">
+											<button id="btnListItem" value="131" style="display: none;">Active Transportation and Infrastructure Committee</button>
+											<button id="btnListItem" value="114" style="display: none;">Adjourned Committee</button>
+											<button id="btnListItem" value="119" style="display: none;">Audit Committee</button>
+											<button id="btnListItem" value="102" style="display: none;">Budget</button>
+											<button id="btnListItem" value="116" style="display: none;">Budget &amp; Government Efficiency Committee</button>
+											<button id="btnListItem" value="115" style="display: none;">Budget Review Committee</button>
+											<button id="btnListItem" value="133" style="display: none;">COVID-19 Response and Recovery Committee</button>
+											<button id="btnListItem" value="122" style="display: none;">Economic Development &amp; Intergovernmental Relations Committee</button>
+											<button id="btnListItem" value="120" style="display: none;">Environment Committee</button>
+											<button id="btnListItem" value="121" style="display: none;">Infrastructure Committee</button>
+											<button id="btnListItem" value="132" style="display: none;">Land Use and Housing Committee</button>
+											<button id="btnListItem" value="123" style="display: none;">Public Safety &amp; Livable Neighborhoods Committee</button>
+											<button id="btnListItem" value="117" style="display: none;">Rules Committee</button>
+											<button id="btnListItem" value="127" style="display: none;">Select Committee on Homelessness</button>
+											<button id="btnListItem" value="134" style="display: none;">Select Committee on San Diego Housing Commission Oversight and Reform</button>
+											<button id="btnListItem" value="118" style="display: none;">Smart Growth &amp; Land Use Committee</button>
+								</div>
+							</div>
+						</div>
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" for="DateRangeOptionID">Date Range</label>
+                            <div class="col-sm-10">
+								<select class="form-control single-select" id="DateRangeOptionID" name="DateRangeOptionID"><option value="1">Last Year</option>
+<option value="2">Last Month</option>
+<option value="3">Last Week</option>
+<option selected="selected" value="4">Recent/Upcoming</option>
+<option value="5">This Week</option>
+<option value="6">This Month</option>
+<option value="7">This Year</option>
+<option value="8">Next Week</option>
+<option value="9">Next Month</option>
+<option value="10">Next Year</option>
+<option value="11">Custom Date Range</option>
+</select>
+							</div>
+						</div>
+						<div class="col-sm-2"></div>
+						<div id="divDatePicker" class="col-sm-10 form-group" style="display: none;">
+							<div class="col-lg-10">
+								<label for="DateRangeCustomStartDate" class="hidden">Start Date</label>
+								<input class="input-normal" id="DateRangeCustomStartDate" name="DateRangeCustomStartDate" type="text" value="" />
+								<span class="control-label">-&nbsp;</span>
+								<label for="DateRangeCustomEndDate" class="hidden">End Date</label>							
+								<input class="input-normal" id="DateRangeCustomEndDate" name="DateRangeCustomEndDate" type="text" value="" />
+							</div>
+						</div>
+					<div class="row form-group">
+						<div class="col-sm-10 col-sm-offset-2">
+							<input type="submit" id="btnSearch" value="Search" class="btn btn-primary" />
+						</div>
+					</div>
+</form>
+			</div>
+		</div>
+	</div>
+
+<!-- Can't bundle this due to the language .js files-->
+<script type="text/javascript" src="/211agendaonlinecomm/Scripts/datepicker-6.3.6.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$("#DateRangeOptionID").change(function (e)
+		{
+			showCustomDateRangePicker();
+		});
+
+		datePickerController.createDatePicker(
+		{
+			// Associate the text input to a Local date format
+			formElements: { "DateRangeCustomStartDate": "%n/%j/%Y" }
+		});
+		datePickerController.createDatePicker(
+		{
+			// Associate the text input to a Local date format
+			formElements: { "DateRangeCustomEndDate": "%n/%j/%Y" }
+		});
+
+		showCustomDateRangePicker();
+	})
+
+	function showCustomDateRangePicker()
+	{
+		if ($("#DateRangeOptionID").val() == 11)
+		{
+			$("#divDatePicker").show();
+		}
+		else
+		{
+			$("#divDatePicker").hide();
+		}
+	}
+</script>
+
+
+
+	<div class="header">Meeting Search Results</div>
+	<div id="divResults">
+		
+
+
+<script type="text/javascript">
+	var localeSortableStrings =
+	{
+		FILTER_MENU_ALL:	'All',
+		COUNT_LABEL:		'Showing {0} Meeting(s)',
+	};
+	var realCount = 0;
+</script>
+<div id="meetings-list">
+			<div>
+				<ul id="meetings-list-tabs" class="nav nav-tabs">
+
+							<li><a href="#meetings-list-2022" id="lnkMeetingYear" data-toggle="tabs">2022</a></li>
+				</ul>
+
+				<div id="meetings-list-content" class="tab-content">
+
+							<div class="tab-pane" id="meetings-list-2022">
+									<div class="border border--dark l-margin-bm">
+						<div class="row l-padding-vd l-padding-mobile-hd background-white">
+							<div class="two columns l-padding-desktop-lm">
+								<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/22/2022</strong></p>
+							</div>
+							<div class="ten columns">
+								<div class="row">
+									<div class="six columns">
+										<p class="l-margin-desktop-vs l-margin-mobile-bn">Revised - Land Use and Housing Committee Meeting - Updated 09/21/22</p>
+									</div>
+									<div class="six columns l-margin-mobile-td">
+										<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5257&amp;doctype=1&amp;site=comm"
+		   title="View Agenda for Revised - Land Use and Housing Committee Meeting - Updated 09/21/22 Land Use and Housing Committee on 9/22/2022 1:00:00 PM" id="lnkMeetingAgenda_5257">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecomm/Documents/Downloadfile/Revised_-_Land_Use_and_Housing_Committee_Meeting_-_Updated_09_21_22_5257_Agenda_9_22_2022_1_00_00_PM.pdf?documentType=1&amp;meetingId=5257" id="lnkMeetingAgendaDoc_5257" target="_blank"
+		   title="Download Agenda for Revised - Land Use and Housing Committee Meeting - Updated 09/21/22 Land Use and Housing Committee on 9/22/2022 1:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row l-padding-mobile-hd background-white">
+							<div class="two columns hide-on-mobile">
+								<p class="l-margin-vs"><span class="visuallyhidden">9/22/2022</span>&nbsp;</p>
+							</div>
+							<div class="ten columns">
+								<hr class="l-margin-vn hr--dashed">
+								<div class="row l-padding-vd">
+									<div class="six columns">
+										<p class="l-margin-desktop-vs l-margin-mobile-bd">COVID-19 Response and Recovery Committee Meeting Actions</p>
+									</div>
+									<div class="six columns">
+										<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5252&amp;doctype=1&amp;site=comm"
+		   title="View Agenda for COVID-19 Response and Recovery Committee Meeting Actions COVID-19 Response and Recovery Committee on 9/22/2022 9:00:00 AM" id="lnkMeetingAgenda_5252">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecomm/Documents/Downloadfile/COVID-19_Response_and_Recovery_Committee_Meeting_Actions_5252_Agenda_9_22_2022_9_00_00_AM.pdf?documentType=1&amp;meetingId=5252" id="lnkMeetingAgendaDoc_5252" target="_blank"
+		   title="Download Agenda for COVID-19 Response and Recovery Committee Meeting Actions COVID-19 Response and Recovery Committee on 9/22/2022 9:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5252&amp;doctype=2&amp;site=comm"
+		   id="lnkMinutes_5252" title="View Minutes for COVID-19 Response and Recovery Committee Meeting Actions COVID-19 Response and Recovery Committee on 9/22/2022 9:00:00 AM">Actions</a>
+		<!--<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Documents/DownloadFile/COVID-19_Response_and_Recovery_Committee_Meeting_Actions_5252_Minutes_9_22_2022_9_00_00_AM.pdf?documentType=2&amp;meetingId=5252" id="lnkMinutesDoc_5252" target="_blank"
+		   title="Download Minutes for COVID-19 Response and Recovery Committee Meeting Actions COVID-19 Response and Recovery Committee on 9/22/2022 9:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row l-padding-mobile-hd background-white">
+							<div class="two columns hide-on-mobile">
+								<p class="l-margin-vs"><span class="visuallyhidden">9/22/2022</span>&nbsp;</p>
+							</div>
+							<div class="ten columns">
+								<hr class="l-margin-vn hr--dashed">
+								<div class="row l-padding-vd">
+									<div class="six columns">
+										<p class="l-margin-desktop-vs l-margin-mobile-bd">COVID-19 Response and Recovery Committee Public Comment</p>
+									</div>
+									<div class="six columns">
+										<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5264&amp;doctype=1&amp;site=comm"
+		   title="View Agenda for COVID-19 Response and Recovery Committee Public Comment COVID-19 Response and Recovery Committee on 9/22/2022 9:00:00 AM" id="lnkMeetingAgenda_5264">Public Comment</a>
+		<!--<a class="btn" href="/211agendaonlinecomm/Documents/Downloadfile/COVID-19_Response_and_Recovery_Committee_Public_Comment_5264_Agenda_9_22_2022_9_00_00_AM.pdf?documentType=1&amp;meetingId=5264" id="lnkMeetingAgendaDoc_5264" target="_blank"
+		   title="Download Agenda for COVID-19 Response and Recovery Committee Public Comment COVID-19 Response and Recovery Committee on 9/22/2022 9:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+									</div>
+								</div>
+							</div>
+						</div>
+							<hr class="l-margin-vn border--dark">
+						<div class="row l-padding-vd l-padding-mobile-hd background--off-white">
+							<div class="two columns l-padding-desktop-lm">
+								<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/21/2022</strong></p>
+							</div>
+							<div class="ten columns">
+								<div class="row">
+									<div class="six columns">
+										<p class="l-margin-desktop-vs l-margin-mobile-bn">Rules Committee Meeting Actions</p>
+									</div>
+									<div class="six columns l-margin-mobile-td">
+										<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5247&amp;doctype=1&amp;site=comm"
+		   title="View Agenda for Rules Committee Meeting Actions Rules Committee on 9/21/2022 2:00:00 PM" id="lnkMeetingAgenda_5247">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecomm/Documents/Downloadfile/Rules_Committee_Meeting_Actions_5247_Agenda_9_21_2022_2_00_00_PM.pdf?documentType=1&amp;meetingId=5247" id="lnkMeetingAgendaDoc_5247" target="_blank"
+		   title="Download Agenda for Rules Committee Meeting Actions Rules Committee on 9/21/2022 2:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5247&amp;doctype=2&amp;site=comm"
+		   id="lnkMinutes_5247" title="View Minutes for Rules Committee Meeting Actions Rules Committee on 9/21/2022 2:00:00 PM">Actions</a>
+		<!--<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Documents/DownloadFile/Rules_Committee_Meeting_Actions_5247_Minutes_9_21_2022_2_00_00_PM.pdf?documentType=2&amp;meetingId=5247" id="lnkMinutesDoc_5247" target="_blank"
+		   title="Download Minutes for Rules Committee Meeting Actions Rules Committee on 9/21/2022 2:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row l-padding-mobile-hd background--off-white">
+							<div class="two columns hide-on-mobile">
+								<p class="l-margin-vs"><span class="visuallyhidden">9/21/2022</span>&nbsp;</p>
+							</div>
+							<div class="ten columns">
+								<hr class="l-margin-vn hr--dashed">
+								<div class="row l-padding-vd">
+									<div class="six columns">
+										<p class="l-margin-desktop-vs l-margin-mobile-bd">Audit Committee Meeting - Updated 09/20/22</p>
+									</div>
+									<div class="six columns">
+										<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5248&amp;doctype=1&amp;site=comm"
+		   title="View Agenda for Audit Committee Meeting - Updated 09/20/22 Audit Committee on 9/21/2022 9:00:00 AM" id="lnkMeetingAgenda_5248">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecomm/Documents/Downloadfile/Audit_Committee_Meeting_-_Updated_09_20_22_5248_Agenda_9_21_2022_9_00_00_AM.pdf?documentType=1&amp;meetingId=5248" id="lnkMeetingAgendaDoc_5248" target="_blank"
+		   title="Download Agenda for Audit Committee Meeting - Updated 09/20/22 Audit Committee on 9/21/2022 9:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+									</div>
+								</div>
+							</div>
+						</div>
+							<hr class="l-margin-vn border--dark">
+						<div class="row l-padding-vd l-padding-mobile-hd background-white">
+							<div class="two columns l-padding-desktop-lm">
+								<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/15/2022</strong></p>
+							</div>
+							<div class="ten columns">
+								<div class="row">
+									<div class="six columns">
+										<p class="l-margin-desktop-vs l-margin-mobile-bn">Revised - Environment Committee Meeting Actions</p>
+									</div>
+									<div class="six columns l-margin-mobile-td">
+										<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5239&amp;doctype=1&amp;site=comm"
+		   title="View Agenda for Revised - Environment Committee Meeting Actions Environment Committee on 9/15/2022 1:00:00 PM" id="lnkMeetingAgenda_5239">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecomm/Documents/Downloadfile/Revised_-_Environment_Committee_Meeting_Actions_5239_Agenda_9_15_2022_1_00_00_PM.pdf?documentType=1&amp;meetingId=5239" id="lnkMeetingAgendaDoc_5239" target="_blank"
+		   title="Download Agenda for Revised - Environment Committee Meeting Actions Environment Committee on 9/15/2022 1:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5239&amp;doctype=2&amp;site=comm"
+		   id="lnkMinutes_5239" title="View Minutes for Revised - Environment Committee Meeting Actions Environment Committee on 9/15/2022 1:00:00 PM">Actions</a>
+		<!--<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Documents/DownloadFile/Revised_-_Environment_Committee_Meeting_Actions_5239_Minutes_9_15_2022_1_00_00_PM.pdf?documentType=2&amp;meetingId=5239" id="lnkMinutesDoc_5239" target="_blank"
+		   title="Download Minutes for Revised - Environment Committee Meeting Actions Environment Committee on 9/15/2022 1:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row l-padding-mobile-hd background-white">
+							<div class="two columns hide-on-mobile">
+								<p class="l-margin-vs"><span class="visuallyhidden">9/15/2022</span>&nbsp;</p>
+							</div>
+							<div class="ten columns">
+								<hr class="l-margin-vn hr--dashed">
+								<div class="row l-padding-vd">
+									<div class="six columns">
+										<p class="l-margin-desktop-vs l-margin-mobile-bd">Environment Committee Meeting Public Comment</p>
+									</div>
+									<div class="six columns">
+										<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5253&amp;doctype=1&amp;site=comm"
+		   title="View Agenda for Environment Committee Meeting Public Comment Environment Committee on 9/15/2022 1:00:00 PM" id="lnkMeetingAgenda_5253">Public Comment</a>
+		<!--<a class="btn" href="/211agendaonlinecomm/Documents/Downloadfile/Environment_Committee_Meeting_Public_Comment_5253_Agenda_9_15_2022_1_00_00_PM.pdf?documentType=1&amp;meetingId=5253" id="lnkMeetingAgendaDoc_5253" target="_blank"
+		   title="Download Agenda for Environment Committee Meeting Public Comment Environment Committee on 9/15/2022 1:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+									</div>
+								</div>
+							</div>
+						</div>
+							<hr class="l-margin-vn border--dark">
+						<div class="row l-padding-vd l-padding-mobile-hd background--off-white">
+							<div class="two columns l-padding-desktop-lm">
+								<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/14/2022</strong></p>
+							</div>
+							<div class="ten columns">
+								<div class="row">
+									<div class="six columns">
+										<p class="l-margin-desktop-vs l-margin-mobile-bn">Revised - Active Transportation and Infrastructure Committee Meeting Actions</p>
+									</div>
+									<div class="six columns l-margin-mobile-td">
+										<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5238&amp;doctype=1&amp;site=comm"
+		   title="View Agenda for Revised - Active Transportation and Infrastructure Committee Meeting Actions Active Transportation and Infrastructure Committee on 9/14/2022 2:00:00 PM" id="lnkMeetingAgenda_5238">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecomm/Documents/Downloadfile/Revised_-_Active_Transportation_and_Infrastructure_Committee_Meeti_5238_Agenda_9_14_2022_2_00_00_PM.pdf?documentType=1&amp;meetingId=5238" id="lnkMeetingAgendaDoc_5238" target="_blank"
+		   title="Download Agenda for Revised - Active Transportation and Infrastructure Committee Meeting Actions Active Transportation and Infrastructure Committee on 9/14/2022 2:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5238&amp;doctype=2&amp;site=comm"
+		   id="lnkMinutes_5238" title="View Minutes for Revised - Active Transportation and Infrastructure Committee Meeting Actions Active Transportation and Infrastructure Committee on 9/14/2022 2:00:00 PM">Actions</a>
+		<!--<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Documents/DownloadFile/Revised_-_Active_Transportation_and_Infrastructure_Committee_Meet_5238_Minutes_9_14_2022_2_00_00_PM.pdf?documentType=2&amp;meetingId=5238" id="lnkMinutesDoc_5238" target="_blank"
+		   title="Download Minutes for Revised - Active Transportation and Infrastructure Committee Meeting Actions Active Transportation and Infrastructure Committee on 9/14/2022 2:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row l-padding-mobile-hd background--off-white">
+							<div class="two columns hide-on-mobile">
+								<p class="l-margin-vs"><span class="visuallyhidden">9/14/2022</span>&nbsp;</p>
+							</div>
+							<div class="ten columns">
+								<hr class="l-margin-vn hr--dashed">
+								<div class="row l-padding-vd">
+									<div class="six columns">
+										<p class="l-margin-desktop-vs l-margin-mobile-bd">Revised - Budget &amp; Government Efficiency Committee Meeting Actions</p>
+									</div>
+									<div class="six columns">
+										<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5237&amp;doctype=1&amp;site=comm"
+		   title="View Agenda for Revised - Budget &amp; Government Efficiency Committee Meeting Actions Budget &amp; Government Efficiency Committee on 9/14/2022 9:00:00 AM" id="lnkMeetingAgenda_5237">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecomm/Documents/Downloadfile/Revised_-_Budget___Government_Efficiency_Committee_Meeting_Actions_5237_Agenda_9_14_2022_9_00_00_AM.pdf?documentType=1&amp;meetingId=5237" id="lnkMeetingAgendaDoc_5237" target="_blank"
+		   title="Download Agenda for Revised - Budget &amp; Government Efficiency Committee Meeting Actions Budget &amp; Government Efficiency Committee on 9/14/2022 9:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5237&amp;doctype=2&amp;site=comm"
+		   id="lnkMinutes_5237" title="View Minutes for Revised - Budget &amp; Government Efficiency Committee Meeting Actions Budget &amp; Government Efficiency Committee on 9/14/2022 9:00:00 AM">Actions</a>
+		<!--<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Documents/DownloadFile/Revised_-_Budget___Government_Efficiency_Committee_Meeting_Actions_5237_Minutes_9_14_2022_9_00_00_AM.pdf?documentType=2&amp;meetingId=5237" id="lnkMinutesDoc_5237" target="_blank"
+		   title="Download Minutes for Revised - Budget &amp; Government Efficiency Committee Meeting Actions Budget &amp; Government Efficiency Committee on 9/14/2022 9:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+									</div>
+								</div>
+							</div>
+						</div>
+							<hr class="l-margin-vn border--dark">
+						<div class="row l-padding-vd l-padding-mobile-hd background-white">
+							<div class="two columns l-padding-desktop-lm">
+								<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/12/2022</strong></p>
+							</div>
+							<div class="ten columns">
+								<div class="row">
+									<div class="six columns">
+										<p class="l-margin-desktop-vs l-margin-mobile-bn">Select Committee on San Diego Housing Committee Oversight and Reform Meeting Actions</p>
+									</div>
+									<div class="six columns l-margin-mobile-td">
+										<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5240&amp;doctype=1&amp;site=comm"
+		   title="View Agenda for Select Committee on San Diego Housing Committee Oversight and Reform Meeting Actions Select Committee on San Diego Housing Commission Oversight and Reform on 9/12/2022 9:00:00 AM" id="lnkMeetingAgenda_5240">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecomm/Documents/Downloadfile/Select_Committee_on_San_Diego_Housing_Committee_Oversight_and_Refo_5240_Agenda_9_12_2022_9_00_00_AM.pdf?documentType=1&amp;meetingId=5240" id="lnkMeetingAgendaDoc_5240" target="_blank"
+		   title="Download Agenda for Select Committee on San Diego Housing Committee Oversight and Reform Meeting Actions Select Committee on San Diego Housing Commission Oversight and Reform on 9/12/2022 9:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Meetings/ViewMeeting?id=5240&amp;doctype=2&amp;site=comm"
+		   id="lnkMinutes_5240" title="View Minutes for Select Committee on San Diego Housing Committee Oversight and Reform Meeting Actions Select Committee on San Diego Housing Commission Oversight and Reform on 9/12/2022 9:00:00 AM">Actions</a>
+		<!--<a class="btn l-margin-mobile-bs" href="/211agendaonlinecomm/Documents/DownloadFile/Select_Committee_on_San_Diego_Housing_Committee_Oversight_and_Ref_5240_Minutes_9_12_2022_9_00_00_AM.pdf?documentType=2&amp;meetingId=5240" id="lnkMinutesDoc_5240" target="_blank"
+		   title="Download Minutes for Select Committee on San Diego Housing Committee Oversight and Reform Meeting Actions Select Committee on San Diego Housing Commission Oversight and Reform on 9/12/2022 9:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+									</div>
+								</div>
+							</div>
+						</div>
+	</div>
+
+							</div>
+				</div>
+			</div>
+<script src="/211agendaonlinecomm/bundles/meetinglisttabs?v=51hsMNIHnj_B_3yXTotEAkYgxxYtAo8UTLYAzCngnCA1"></script>
+
+	<div id="footer-results-message">
+	</div>
+</div>
+
+<script src="/211agendaonlinecomm/bundles/meetinglistsort?v=Zyu7yuvwuJ4fcqfIpoVt-6d6DcwlDK9_67_62s3mKkY1"></script>
+
+
+
+
+
+
+	</div>
+	<div class="post-meeting-grid-spacer">
+		&nbsp;
+	</div>
+
+		</section>
+	</div>
+	<div class="footer">
+		<!--<div class="container">
+			<div class="row">
+                <div class="col-md-12 no-padding-left">
+                    <img src="~/Images/OnBase_Logo.png" class="onbase-logo" />
+                    Copyright &#169; 2015-2022 Hyland Software, Inc.
+                </div>
+			</div>
+		</div>-->
+		<div class="footer__privacy l-constrained">
+			<div class="row text-center l-padding-vd background-off-white">
+				<ul>
+					<li>Copyright &#169; 2022 City of San Diego</li>
+					<li><a href="https://www.sandiego.gov/disclaimers">Disclaimers</a></li>
+					<li><a href="https://www.sandiego.gov/privacy-policy">Privacy Policy</a></li>
+					<li><a href="https://www.sandiego.gov/accessibility">Accessibility</a></li>
+					<li><a href="https://www.sandiego.gov/contact">Contact the City</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script src="/211agendaonlinecomm/bundles/corescripts?v=6h0g3m818gbdrW57_Q6xLaHjZitU5RtArUxI7lFhH9E1"></script>
+
+	<script src="/211agendaonlinecomm/Scripts/cosd-onbase.js"></script>
+
+</body>
+</html>
