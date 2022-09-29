@@ -1,10 +1,14 @@
+import pathlib
 import re
 from datetime import datetime, timedelta
+from io import BytesIO
 from urllib.parse import urljoin
 
+import pdfplumber
 from city_scrapers_core.constants import CITY_COUNCIL, COMMISSION, COMMITTEE
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import parse
+from pdfminer.pdfparser import PDFSyntaxError
 
 from city_scrapers.items import Meeting
 
@@ -20,6 +24,18 @@ class SanDiegoCitySpider(CityScrapersSpider):
         # Planning commission
         "https://sandiego.granicus.com/ViewPublisher.php?view_id=8",
     ]
+
+    city_council_upcoming = "https://sandiego.hylandcloud.com/211agendaonlinecouncil"
+    committees_upcoming = (
+        "https://sandiego.hylandcloud.com/"
+        "211agendaonlinecomm/Meetings/Search?"
+        "dropid=4&mtids=131%2C114%2C119%2C102%"
+        "2C116%2C115%2C133%2C122%2C120%2C121%2C132%2C123%2C117%2C127%2C134%2C118"
+    )
+    planning_commission_upcoming = (
+        "https://www.sandiego.gov/planning-commission/documents/agenda"
+    )
+
     upcoming_meetings_urls = [
         # City council
         "https://sandiego.hylandcloud.com/211agendaonlinecouncil",
@@ -28,6 +44,8 @@ class SanDiegoCitySpider(CityScrapersSpider):
         "211agendaonlinecomm/Meetings/Search?"
         "dropid=4&mtids=131%2C114%2C119%2C102%"
         "2C116%2C115%2C133%2C122%2C120%2C121%2C132%2C123%2C117%2C127%2C134%2C118",
+        # Planning commission
+        "https://www.sandiego.gov/planning-commission/documents/agenda",
     ]
     upcoming_meeting_base_url = "https://sandiego.hylandcloud.com"
 
@@ -61,39 +79,87 @@ class SanDiegoCitySpider(CityScrapersSpider):
                 yield meeting
         else:
             # upcoming
-            if (
-                response.url
-                == "https://sandiego.hylandcloud.com/211agendaonlinecouncil"
-            ):
-                # for council meetings
-                item_path = ".//div[@id='meetings-list-upcoming']/div/div"
+            if response.url == self.planning_commission_upcoming:
+                # parsing the agenda and then follow the link
+                for agenda_link in response.xpath(
+                    "//div[@class='field-items']/.//a/@href"
+                ).getall():
+                    # Only following pdf links
+                    if pathlib.Path(agenda_link).suffix == ".pdf":
+                        yield response.follow(
+                            agenda_link,
+                            callback=self._parse_planning,
+                            cb_kwargs={"source": response.url},
+                            dont_filter=True,
+                        )
             else:
-                # for committee meeting
-                item_path = ".//div[@id='meetings-list-content']/div/div/div"
+                if response.url == self.city_council_upcoming:
+                    # for council meetings
+                    item_path = ".//div[@id='meetings-list-upcoming']/div/div"
+                else:
+                    # for committee meeting
+                    item_path = ".//div[@id='meetings-list-content']/div/div/div"
 
-            for item in response.xpath(item_path):
-                # Agenda button contains the time
-                title = self._parse_title_upcoming(item)
+                for item in response.xpath(item_path):
+                    # Agenda button contains the time
+                    title = self._parse_title_upcoming(item)
 
-                meeting = Meeting(
-                    title=title,
-                    description=self._parse_description(item),
-                    classification=self._parse_classification(item, title),
-                    start=self._parse_start_upcoming(item),
-                    end=self._parse_end_upcoming(item),
-                    all_day=self._parse_all_day(item),
-                    time_notes=self._parse_time_notes(item),
-                    location=self._parse_location(item),
-                    links=self._parse_links_upcoming(item),
-                    source=self._parse_source(response),
-                    created=datetime.now(),
-                    updated=datetime.now(),
-                )
+                    meeting = Meeting(
+                        title=title,
+                        description=self._parse_description(item),
+                        classification=self._parse_classification(item, title),
+                        start=self._parse_start_upcoming(item),
+                        end=self._parse_end_upcoming(item),
+                        all_day=self._parse_all_day(item),
+                        time_notes=self._parse_time_notes(item),
+                        location=self._parse_location(item),
+                        links=self._parse_links_upcoming(item),
+                        source=self._parse_source(response),
+                        created=datetime.now(),
+                        updated=datetime.now(),
+                    )
 
-                meeting["status"] = self._get_status(meeting)
-                meeting["id"] = self._get_id(meeting)
+                    meeting["status"] = self._get_status(meeting)
+                    meeting["id"] = self._get_id(meeting)
 
-                yield meeting
+                    yield meeting
+
+    def _parse_planning(self, response, source):
+        if response is not None:
+            try:
+                with pdfplumber.open(BytesIO(response.body)) as pdf:
+                    if len(pdf.pages) > 0:
+                        first_page = pdf.pages[0]
+                        extracted_text = first_page.extract_text()
+                        raw_extracted_text = extracted_text if extracted_text else ""
+
+                        title = self._parse_title_planning_upcoming(raw_extracted_text)
+                        meeting = Meeting(
+                            title=title,
+                            description=self._parse_description(raw_extracted_text),
+                            classification=COMMISSION,
+                            start=self._parse_start_planning_upcoming(
+                                raw_extracted_text
+                            ),
+                            end=self._parse_end_upcoming(raw_extracted_text),
+                            all_day=self._parse_all_day(raw_extracted_text),
+                            time_notes=self._parse_time_notes(raw_extracted_text),
+                            location=self._parse_location(raw_extracted_text),
+                            links=self._parse_links_planning_upcoming(
+                                raw_extracted_text, response
+                            ),
+                            source=source,
+                            created=datetime.now(),
+                            updated=datetime.now(),
+                        )
+
+                        meeting["status"] = self._get_status(meeting)
+                        meeting["id"] = self._get_id(meeting)
+
+                        yield meeting
+            except PDFSyntaxError:
+                # Do nothing
+                pass
 
     def _parse_title(self, item):
         title = item.xpath(".//td[1]/text()").get()
@@ -104,6 +170,9 @@ class SanDiegoCitySpider(CityScrapersSpider):
         if agenda_title is None:
             agenda_title = ""
         return agenda_title
+
+    def _parse_title_planning_upcoming(self, item):
+        return "Planning Commission"
 
     def _parse_description(self, item):
         "No description"
@@ -131,6 +200,20 @@ class SanDiegoCitySpider(CityScrapersSpider):
             if start_str:
                 start = parse(start_str)
                 return start.replace(tzinfo=None)
+
+        return None
+
+    def _parse_start_planning_upcoming(self, item):
+        start_time = re.search(
+            r".+[0-9]{4},?\s+at\s+\d{,2}:\d{,2}\s+"
+            r"(A\.?M\.?)?(P\.?M\.?)?(a\.?m\.?)?(p\.?m\.?)?",
+            item,
+            re.M,
+        )
+
+        if start_time:
+            start_time = start_time.group().strip()
+            return parse(start_time).replace(tzinfo=None)
 
         return None
 
@@ -225,6 +308,15 @@ class SanDiegoCitySpider(CityScrapersSpider):
             )
 
         return results
+
+    def _parse_links_planning_upcoming(self, item, response):
+        return [
+            {
+                "title": "Agenda",
+                # the response url is the agenda link
+                "href": response.url,
+            }
+        ]
 
     def _parse_source(self, response):
         """Parse or generate source."""

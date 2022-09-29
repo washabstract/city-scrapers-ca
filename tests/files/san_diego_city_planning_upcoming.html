@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema# schema: http://schema.org/">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">(window.NREUM||(NREUM={})).init={ajax:{deny_list:["bam.nr-data.net"]}};(window.NREUM||(NREUM={})).loader_config={licenseKey:"NRJS-c3ec9bf6ff7b4fc45f8",applicationID:"617807624"};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var i=e[n]={exports:{}};t[n][0].call(i.exports,function(e){var i=t[n][1][e];return r(i||e)},i,i.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var i=0;i<n.length;i++)r(n[i]);return r}({1:[function(t,e,n){function r(){}function i(t,e,n,r){return function(){return s.recordSupportability("API/"+e+"/called"),o(t+e,[u.now()].concat(c(arguments)),n?null:this,r),n?void 0:this}}var o=t("handle"),a=t(9),c=t(10),f=t("ee").get("tracer"),u=t("loader"),s=t(4),d=NREUM;"undefined"==typeof window.newrelic&&(newrelic=d);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],l="api-",v=l+"ixn-";a(p,function(t,e){d[e]=i(l,e,!0,"api")}),d.addPageAction=i(l,"addPageAction",!0),d.setCurrentRouteName=i(l,"routeName",!0),e.exports=newrelic,d.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(t,e){var n={},r=this,i="function"==typeof e;return o(v+"tracer",[u.now(),t,n],r),function(){if(f.emit((i?"":"no-")+"fn-start",[u.now(),r,i],n),i)try{return e.apply(this,arguments)}catch(t){throw f.emit("fn-err",[arguments,this,t],n),t}finally{f.emit("fn-end",[u.now()],n)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){m[e]=i(v,e)}),newrelic.noticeError=function(t,e){"string"==typeof t&&(t=new Error(t)),s.recordSupportability("API/noticeError/called"),o("err",[t,u.now(),!1,e])}},{}],2:[function(t,e,n){function r(t){if(NREUM.init){for(var e=NREUM.init,n=t.split("."),r=0;r<n.length-1;r++)if(e=e[n[r]],"object"!=typeof e)return;return e=e[n[n.length-1]]}}e.exports={getConfiguration:r}},{}],3:[function(t,e,n){var r=!1;try{var i=Object.defineProperty({},"passive",{get:function(){r=!0}});window.addEventListener("testPassive",null,i),window.removeEventListener("testPassive",null,i)}catch(o){}e.exports=function(t){return r?{passive:!0,capture:!!t}:!!t}},{}],4:[function(t,e,n){function r(t,e){var n=[a,t,{name:t},e];return o("storeMetric",n,null,"api"),n}function i(t,e){var n=[c,t,{name:t},e];return o("storeEventMetrics",n,null,"api"),n}var o=t("handle"),a="sm",c="cm";e.exports={constants:{SUPPORTABILITY_METRIC:a,CUSTOM_METRIC:c},recordSupportability:r,recordCustom:i}},{}],5:[function(t,e,n){function r(){return c.exists&&performance.now?Math.round(performance.now()):(o=Math.max((new Date).getTime(),o))-a}function i(){return o}var o=(new Date).getTime(),a=o,c=t(11);e.exports=r,e.exports.offset=a,e.exports.getLastTimestamp=i},{}],6:[function(t,e,n){function r(t,e){var n=t.getEntries();n.forEach(function(t){"first-paint"===t.name?l("timing",["fp",Math.floor(t.startTime)]):"first-contentful-paint"===t.name&&l("timing",["fcp",Math.floor(t.startTime)])})}function i(t,e){var n=t.getEntries();if(n.length>0){var r=n[n.length-1];if(u&&u<r.startTime)return;var i=[r],o=a({});o&&i.push(o),l("lcp",i)}}function o(t){t.getEntries().forEach(function(t){t.hadRecentInput||l("cls",[t])})}function a(t){var e=navigator.connection||navigator.mozConnection||navigator.webkitConnection;if(e)return e.type&&(t["net-type"]=e.type),e.effectiveType&&(t["net-etype"]=e.effectiveType),e.rtt&&(t["net-rtt"]=e.rtt),e.downlink&&(t["net-dlink"]=e.downlink),t}function c(t){if(t instanceof y&&!w){var e=Math.round(t.timeStamp),n={type:t.type};a(n),e<=v.now()?n.fid=v.now()-e:e>v.offset&&e<=Date.now()?(e-=v.offset,n.fid=v.now()-e):e=v.now(),w=!0,l("timing",["fi",e,n])}}function f(t){"hidden"===t&&(u=v.now(),l("pageHide",[u]))}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var u,s,d,p,l=t("handle"),v=t("loader"),m=t(8),g=t(3),y=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){s=new PerformanceObserver(r);try{s.observe({entryTypes:["paint"]})}catch(h){}d=new PerformanceObserver(i);try{d.observe({entryTypes:["largest-contentful-paint"]})}catch(h){}p=new PerformanceObserver(o);try{p.observe({type:"layout-shift",buffered:!0})}catch(h){}}if("addEventListener"in document){var w=!1,b=["click","keydown","mousedown","pointerdown","touchstart"];b.forEach(function(t){document.addEventListener(t,c,g(!1))})}m(f)}},{}],7:[function(t,e,n){function r(t,e){if(!i)return!1;if(t!==i)return!1;if(!e)return!0;if(!o)return!1;for(var n=o.split("."),r=e.split("."),a=0;a<r.length;a++)if(r[a]!==n[a])return!1;return!0}var i=null,o=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var c=navigator.userAgent,f=c.match(a);f&&c.indexOf("Chrome")===-1&&c.indexOf("Chromium")===-1&&(i="Safari",o=f[1])}e.exports={agent:i,version:o,match:r}},{}],8:[function(t,e,n){function r(t){function e(){t(c&&document[c]?document[c]:document[o]?"hidden":"visible")}"addEventListener"in document&&a&&document.addEventListener(a,e,i(!1))}var i=t(3);e.exports=r;var o,a,c;"undefined"!=typeof document.hidden?(o="hidden",a="visibilitychange",c="visibilityState"):"undefined"!=typeof document.msHidden?(o="msHidden",a="msvisibilitychange"):"undefined"!=typeof document.webkitHidden&&(o="webkitHidden",a="webkitvisibilitychange",c="webkitVisibilityState")},{}],9:[function(t,e,n){function r(t,e){var n=[],r="",o=0;for(r in t)i.call(t,r)&&(n[o]=e(r,t[r]),o+=1);return n}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],10:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,i=n-e||0,o=Array(i<0?0:i);++r<i;)o[r]=t[e+r];return o}e.exports=r},{}],11:[function(t,e,n){e.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(t,e,n){function r(){}function i(t){function e(t){return t&&t instanceof r?t:t?u(t,f,a):a()}function n(n,r,i,o,a){if(a!==!1&&(a=!0),!l.aborted||o){t&&a&&t(n,r,i);for(var c=e(i),f=m(n),u=f.length,s=0;s<u;s++)f[s].apply(c,r);var p=d[w[n]];return p&&p.push([b,n,r,c]),c}}function o(t,e){h[t]=m(t).concat(e)}function v(t,e){var n=h[t];if(n)for(var r=0;r<n.length;r++)n[r]===e&&n.splice(r,1)}function m(t){return h[t]||[]}function g(t){return p[t]=p[t]||i(n)}function y(t,e){l.aborted||s(t,function(t,n){e=e||"feature",w[n]=e,e in d||(d[e]=[])})}var h={},w={},b={on:o,addEventListener:o,removeEventListener:v,emit:n,get:g,listeners:m,context:e,buffer:y,abort:c,aborted:!1};return b}function o(t){return u(t,f,a)}function a(){return new r}function c(){(d.api||d.feature)&&(l.aborted=!0,d=l.backlog={})}var f="nr@context",u=t("gos"),s=t(9),d={},p={},l=e.exports=i();e.exports.getOrSetContext=o,l.backlog=d},{}],gos:[function(t,e,n){function r(t,e,n){if(i.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(o){}return t[e]=r,r}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){i.buffer([t],r),i.emit(t,e,n)}var i=t("ee").get("handle");e.exports=r,r.ee=i},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,o,function(){return i++})}var i=1,o="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!M++){var t=T.info=NREUM.info,e=m.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return u.abort();f(x,function(e,n){t[e]||(t[e]=n)});var n=a();c("mark",["onload",n+T.offset],null,"api"),c("timing",["load",n]);var r=m.createElement("script");0===t.agent.indexOf("http://")||0===t.agent.indexOf("https://")?r.src=t.agent:r.src=l+"://"+t.agent,e.parentNode.insertBefore(r,e)}}function i(){"complete"===m.readyState&&o()}function o(){c("mark",["domContent",a()+T.offset],null,"api")}var a=t(5),c=t("handle"),f=t(9),u=t("ee"),s=t(7),d=t(2),p=t(3),l=d.getConfiguration("ssl")===!1?"http":"https",v=window,m=v.document,g="addEventListener",y="attachEvent",h=v.XMLHttpRequest,w=h&&h.prototype,b=!1;NREUM.o={ST:setTimeout,SI:v.setImmediate,CT:clearTimeout,XHR:h,REQ:v.Request,EV:v.Event,PR:v.Promise,MO:v.MutationObserver};var E=""+location,x={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1216.min.js"},O=h&&w&&w[g]&&!/CriOS/.test(navigator.userAgent),T=e.exports={offset:a.getLastTimestamp(),now:a,origin:E,features:{},xhrWrappable:O,userAgent:s,disabled:b};if(!b){t(1),t(6),m[g]?(m[g]("DOMContentLoaded",o,p(!1)),v[g]("load",r,p(!1))):(m[y]("onreadystatechange",i),v[y]("onload",r)),c("mark",["firstbyte",a.getLastTimestamp()],null,"api");var M=0}},{}],"wrap-function":[function(t,e,n){function r(t,e){function n(e,n,r,f,u){function nrWrapper(){var o,a,s,p;try{a=this,o=d(arguments),s="function"==typeof r?r(o,a):r||{}}catch(l){i([l,"",[o,a,f],s],t)}c(n+"start",[o,a,f],s,u);try{return p=e.apply(a,o)}catch(v){throw c(n+"err",[o,a,v],s,u),v}finally{c(n+"end",[o,a,p],s,u)}}return a(e)?e:(n||(n=""),nrWrapper[p]=e,o(e,nrWrapper,t),nrWrapper)}function r(t,e,r,i,o){r||(r="");var c,f,u,s="-"===r.charAt(0);for(u=0;u<e.length;u++)f=e[u],c=t[f],a(c)||(t[f]=n(c,s?f+r:r,i,f,o))}function c(n,r,o,a){if(!v||e){var c=v;v=!0;try{t.emit(n,r,o,e,a)}catch(f){i([f,n,r,o],t)}v=c}}return t||(t=s),n.inPlace=r,n.flag=p,n}function i(t,e){e||(e=s);try{e.emit("internal-error",t)}catch(n){}}function o(t,e,n){if(Object.defineProperty&&Object.keys)try{var r=Object.keys(t);return r.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(o){i([o],n)}for(var a in t)l.call(t,a)&&(e[a]=t[a]);return e}function a(t){return!(t&&t instanceof Function&&t.apply&&!t[p])}function c(t,e){var n=e(t);return n[p]=t,o(t,n,s),n}function f(t,e,n){var r=t[e];t[e]=c(r,n)}function u(){for(var t=arguments.length,e=new Array(t),n=0;n<t;++n)e[n]=arguments[n];return e}var s=t("ee"),d=t(10),p="nr@original",l=Object.prototype.hasOwnProperty,v=!1;e.exports=r,e.exports.wrapFunction=c,e.exports.wrapInPlace=f,e.exports.argsToArray=u},{}]},{},["loader"]);</script>
+<link rel="shortcut icon" href="//www.sandiego.gov/sites/default/files/favicon.ico" type="image/vnd.microsoft.icon" />
+<script type="text/javascript">dataLayer = [{"entityType":"node","entityBundle":"department","entityId":"14671","entityLabel":"2022 Agendas ","entityLanguage":"und","entityTnid":"0","entityVid":"2775504","entityName":"","entityUid":"0","entityCreated":"1450285610","entityStatus":"1","entityTaxonomy":{"department":{"3081":"Planning Commission","3094":"Documents","3119":"Agendas"}},"drupalLanguage":"en","userUid":0,"deptId":"3081","deptName":"Planning Commission"}];</script>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta name="description" content="September 29, 2022 September 22, 2022 September 8, 2022 - Meeting will be held at Development Services Department August 18, 2022 August 11, 2022 August 4, 2022 July 21, 2022 July 7, 2022 - Revised June 23, 2022 Public Comment -Revised (as of 6/23/22) June 9, 2022 Public Comment - Revised  June 2, 2022 Public Comment May 19, 2022 May 5, 2022 April 21, 2022 public comment April" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style type="text/css">
+    div#mainContent .btn {
+      margin: 2px;
+    }
+  </style>
+<meta name="generator" content="Drupal 7 (https://www.drupal.org)" />
+<link rel="canonical" href="https://www.sandiego.gov/planning-commission/documents/agenda" />
+<link rel="shortlink" href="https://www.sandiego.gov/node/14671" />
+  <title>2022 Agendas | Planning Commission | City of San Diego Official Website</title>
+  <style type="text/css" media="all">
+@import url("//www.sandiego.gov/modules/system/system.base.css?rimij1");
+@import url("//www.sandiego.gov/modules/system/system.menus.css?rimij1");
+@import url("//www.sandiego.gov/modules/system/system.messages.css?rimij1");
+</style>
+<style type="text/css" media="all">
+@import url("//www.sandiego.gov/sites/all/modules/contrib/calendar/css/calendar_multiday.css?rimij1");
+@import url("//www.sandiego.gov/modules/comment/comment.css?rimij1");
+@import url("//www.sandiego.gov/sites/all/modules/contrib/date/date_repeat_field/date_repeat_field.css?rimij1");
+@import url("//www.sandiego.gov/modules/field/theme/field.css?rimij1");
+@import url("//www.sandiego.gov/modules/node/node.css?rimij1");
+@import url("//www.sandiego.gov/sites/all/modules/contrib/office_hours/office_hours.css?rimij1");
+@import url("//www.sandiego.gov/modules/poll/poll.css?rimij1");
+@import url("//www.sandiego.gov/modules/search/search.css?rimij1");
+@import url("//www.sandiego.gov/modules/user/user.css?rimij1");
+@import url("//www.sandiego.gov/sites/all/modules/contrib/extlink/css/extlink.css?rimij1");
+@import url("//www.sandiego.gov/sites/all/modules/contrib/views/css/views.css?rimij1");
+@import url("//www.sandiego.gov/sites/all/modules/contrib/media/modules/media_wysiwyg/css/media_wysiwyg.base.css?rimij1");
+</style>
+<style type="text/css" media="all">
+@import url("//www.sandiego.gov/sites/all/modules/contrib/colorbox/styles/default/colorbox_style.css?rimij1");
+@import url("//www.sandiego.gov/sites/all/modules/contrib/ctools/css/ctools.css?rimij1");
+@import url("//www.sandiego.gov/sites/all/modules/contrib/high_contrast/high_contrast.css?rimij1");
+@import url("//www.sandiego.gov/sites/all/modules/contrib/taxonomy_access/taxonomy_access.css?rimij1");
+@import url("//www.sandiego.gov/sites/all/modules/contrib/extlink_extra/extlink_extra.508.css?rimij1");
+@import url("//www.sandiego.gov/sites/all/modules/contrib/field_collection/field_collection.theme.css?rimij1");
+</style>
+<link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,600,800,700|Merriweather:400,700" media="all" />
+<link type="text/css" rel="stylesheet" href="//www.sandiego.gov//sites/all/themes/sandiego/assets/dist/css/main-admin.min.css?rimij1" media="all" />
+<link type="text/css" rel="stylesheet" href="//www.sandiego.gov/sites/all/themes/sandiego/assets/dist/css/main.min.css?rimij1" media="all" />
+
+<!--[if lte IE 8]>
+<style type="text/css" media="all">
+@import url("//www.sandiego.gov/sites/all/themes/sandiego/assets/dist/css/no-mq.min.css?rimij1");
+</style>
+<![endif]-->
+  <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var highContrast = {"link":"<a href=\"\/\" class=\"element-invisible element-focusable\" rel=\"nofollow\">Toggle high contrast<\/a>","cssFilePath":"\/\/www.sandiego.gov\/sites\/default\/files\/high_contrast_current.css"};var drupalHighContrast={};!function(){document.write("<script type='text/javascript' id='high-contrast-css-placeholder'>\x3C/script>");var e=document.getElementById("high-contrast-css-placeholder");!function(e){if("function"==typeof define&&define.amd)define(e);else if("object"==typeof exports)module.exports=e();else{var t=window.Cookies,n=window.Cookies=e();n.noConflict=function(){return window.Cookies=t,n}}}(function(){function e(){for(var e=0,t={};e<arguments.length;e++){var n=arguments[e];for(var o in n)t[o]=n[o]}return t}function t(n){function o(t,r,i){var a;if(arguments.length>1){if(i=e({path:"/"},o.defaults,i),"number"==typeof i.expires){var d=new Date;d.setMilliseconds(d.getMilliseconds()+864e5*i.expires),i.expires=d}try{a=JSON.stringify(r),/^[\{\[]/.test(a)&&(r=a)}catch(c){}return r=encodeURIComponent(String(r)),r=r.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g,decodeURIComponent),t=encodeURIComponent(String(t)),t=t.replace(/%(23|24|26|2B|5E|60|7C)/g,decodeURIComponent),t=t.replace(/[\(\)]/g,escape),document.cookie=[t,"=",r,i.expires&&"; expires="+i.expires.toUTCString(),i.path&&"; path="+i.path,i.domain&&"; domain="+i.domain,i.secure?"; secure":""].join("")}t||(a={});for(var l=document.cookie?document.cookie.split("; "):[],s=/(%[0-9A-Z]{2})+/g,u=0;u<l.length;u++){var f=l[u].split("="),h=f[0].replace(s,decodeURIComponent),g=f.slice(1).join("=");'"'===g.charAt(0)&&(g=g.slice(1,-1));try{if(g=n&&n(g,h)||g.replace(s,decodeURIComponent),this.json)try{g=JSON.parse(g)}catch(c){}if(t===h){a=g;break}t||(a[h]=g)}catch(c){}}return a}return o.get=o.set=o,o.getJSON=function(){return o.apply({json:!0},[].slice.call(arguments))},o.defaults={},o.remove=function(t,n){o(t,"",e(n,{expires:-1}))},o.withConverter=t,o}return t()});var t=function(e){var t={option:[1,"<select multiple='multiple'>","</select>"],legend:[1,"<fieldset>","</fieldset>"],area:[1,"<map>","</map>"],param:[1,"<object>","</object>"],thead:[1,"<table>","</table>"],tr:[2,"<table><tbody>","</tbody></table>"],col:[2,"<table><tbody></tbody><colgroup>","</colgroup></table>"],td:[3,"<table><tbody><tr>","</tr></tbody></table>"],_default:[1,"<div>","</div>"]};t.optgroup=t.option,t.tbody=t.tfoot=t.colgroup=t.caption=t.thead,t.th=t.td;var n=document.createElement("div"),o=/<\s*\w.*?>/g.exec(e);if(null!=o){var n,r=o[0].replace(/</g,"").replace(/>/g,""),i=t[r]||t._default;e=i[1]+e+i[2],n.innerHTML=e;for(var a=i[0]+1;a--;)n=n.lastChild}else n.innerHTML=e,n=n.lastChild;return n};!function(){function e(){if(!o.isReady){try{document.documentElement.doScroll("left")}catch(t){return void setTimeout(e,1)}o.ready()}}var t,n,o=function(e,t){},r=(window.jQuery,window.$,!1),i=[];o.fn={ready:function(e){return o.bindReady(),o.isReady?e.call(document,o):i&&i.push(e),this}},o.isReady=!1,o.ready=function(){if(!o.isReady){if(!document.body)return setTimeout(o.ready,13);if(o.isReady=!0,i){for(var e,t=0;e=i[t++];)e.call(document,o);i=null}o.fn.triggerHandler&&o(document).triggerHandler("ready")}},o.bindReady=function(){if(!r){if(r=!0,"complete"===document.readyState)return o.ready();if(document.addEventListener)document.addEventListener("DOMContentLoaded",n,!1),window.addEventListener("load",o.ready,!1);else if(document.attachEvent){document.attachEvent("onreadystatechange",n),window.attachEvent("onload",o.ready);var t=!1;try{t=null==window.frameElement}catch(i){}document.documentElement.doScroll&&t&&e()}}},t=o(document),document.addEventListener?n=function(){document.removeEventListener("DOMContentLoaded",n,!1),o.ready()}:document.attachEvent&&(n=function(){"complete"===document.readyState&&(document.detachEvent("onreadystatechange",n),o.ready())}),window.jQuery=window.$=o}();var n=function(){var e=document.getElementById("block-delta-blocks-logo"),t=highContrast.logoPath;if(document.querySelectorAll&&"undefined"!=typeof t&&null!==e){var n=e.querySelectorAll("img");"undefined"==typeof n[0].logoPathOriginal&&(n[0].logoPathOriginal=n[0].src),n[0].src=t}},o=function(){var e=document.getElementById("block-delta-blocks-logo"),t=highContrast.logoPath;if(document.querySelectorAll&&"undefined"!=typeof t&&null!==e){var n=e.querySelectorAll("img");"undefined"!=typeof n[0].logoPathOriginal&&(n[0].src=n[0].logoPathOriginal)}},r=function(){var o=highContrast.cssFilePath;if("undefined"!=typeof o){var r=document.getElementById("high-contrast-css");null===r&&(r=t('<link type="text/css" id="high-contrast-css" rel="stylesheet" href="'+o+'" media="screen" />')),e.parentNode.insertBefore(r,e.nextSibling)}n(),Cookies.set("highContrastActivated","true","/")},i=function(){var e=document.getElementById("high-contrast-css");null!==e&&e.parentNode.removeChild(e),o(),Cookies.set("highContrastActivated","false","/")},a=function(){var e=Cookies.get("highContrastActivated");return"undefined"==typeof e?!1:"false"===e?!1:!0},d=function(){a()?(i(),Cookies.set("highContrastActivated","false","/")):(r(),Cookies.set("highContrastActivated","true","/"))},c=function(){var e=highContrast.link;e=t(e),e.onclick=function(){return d(),this.blur(),!1},document.getElementById("skip-link").appendChild(e)};drupalHighContrast.enableStyles=r,drupalHighContrast.disableStyles=i,drupalHighContrast.toggleHighContrast=d,a()&&r(),$.fn.ready(function(){a()&&n(),c()})}();
+
+//--><!]]>
+</script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+window.jQuery || document.write("<script src='/sites/all/modules/contrib/jquery_update/replace/jquery/1.10/jquery.min.js'>\x3C/script>")
+//--><!]]>
+</script>
+<script type="text/javascript" src="//www.sandiego.gov/misc/jquery-extend-3.4.0.js?v=1.10.2"></script>
+<script type="text/javascript" src="//www.sandiego.gov/misc/jquery-html-prefilter-3.5.0-backport.js?v=1.10.2"></script>
+<script type="text/javascript" src="//www.sandiego.gov/misc/jquery.once.js?v=1.2"></script>
+<script type="text/javascript" src="//www.sandiego.gov/misc/drupal.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/modules/contrib/jquery_update/replace/ui/external/jquery.cookie.js?v=67fb34f6a866c40d0570"></script>
+<script type="text/javascript" src="//www.sandiego.gov/misc/form.js?v=7.92"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var require = {baseUrl:'/sites/all/themes/sandiego/assets/dist/js'};
+//--><!]]>
+</script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/modules/contrib/spamspan/spamspan.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/themes/sandiego/assets/dist/js/helpers/ajaxview.js?rimij1"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+//--><!]]>
+</script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/themes/sandiego/assets/dist/js/helpers/hero.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/themes/sandiego/assets/dist/js/helpers/modernizr-2.8.3.min.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/themes/sandiego/assets/dist/js/helpers/accessibility.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/themes/sandiego/assets/dist/js/plugins.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/libraries/colorbox/jquery.colorbox-min.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/modules/contrib/colorbox/js/colorbox.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/modules/contrib/colorbox/styles/default/colorbox_style.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/modules/contrib/colorbox/js/colorbox_load.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/modules/contrib/colorbox/js/colorbox_inline.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/modules/contrib/extlink/js/extlink.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/modules/contrib/datalayer/datalayer.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/all/modules/custom/sand_calendar/sand_calendar.js?rimij1"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","setHasJsCookie":0,"ajaxPageState":{"theme":"sandiego","theme_token":"OZWcLNzCzKub0Th3qESjiuSVtvsD7a1NCU59hHbPSCk","js":{"sites\/all\/modules\/contrib\/extlink_extra\/extlink_extra.js":1,"0":1,"1":1,"\/\/translate.google.com\/translate_a\/element.js?cb=googleTranslateElementInit":1,"\/\/www.sandiego.gov\/sites\/default\/files\/js_injector\/js_injector_49.js":1,"\/\/www.sandiego.gov\/sites\/default\/files\/js_injector\/js_injector_77.js":1,"\/\/www.sandiego.gov\/sites\/default\/files\/js_injector\/js_injector_81.js":1,"\/\/www.sandiego.gov\/sites\/default\/files\/js_injector\/js_injector_100.js":1,"\/\/www.sandiego.gov\/sites\/default\/files\/js_injector\/js_injector_104.js":1,"2":1,"\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/1.10.2\/jquery.min.js":1,"3":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery-html-prefilter-3.5.0-backport.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/external\/jquery.cookie.js":1,"misc\/form.js":1,"4":1,"sites\/all\/modules\/contrib\/spamspan\/spamspan.js":1,"sites\/all\/themes\/sandiego\/assets\/dist\/js\/helpers\/ajaxview.js":1,"5":1,"sites\/all\/themes\/sandiego\/assets\/dist\/js\/helpers\/hero.js":1,"sites\/all\/themes\/sandiego\/assets\/dist\/js\/helpers\/modernizr-2.8.3.min.js":1,"sites\/all\/themes\/sandiego\/assets\/dist\/js\/helpers\/accessibility.js":1,"sites\/all\/themes\/sandiego\/assets\/dist\/js\/plugins.js":1,"sites\/all\/libraries\/colorbox\/jquery.colorbox-min.js":1,"sites\/all\/modules\/contrib\/colorbox\/js\/colorbox.js":1,"sites\/all\/modules\/contrib\/colorbox\/styles\/default\/colorbox_style.js":1,"sites\/all\/modules\/contrib\/colorbox\/js\/colorbox_load.js":1,"sites\/all\/modules\/contrib\/colorbox\/js\/colorbox_inline.js":1,"sites\/all\/modules\/contrib\/extlink\/js\/extlink.js":1,"sites\/all\/modules\/contrib\/datalayer\/datalayer.js":1,"sites\/all\/modules\/custom\/sand_calendar\/sand_calendar.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"sites\/all\/modules\/contrib\/calendar\/css\/calendar_multiday.css":1,"modules\/comment\/comment.css":1,"sites\/all\/modules\/contrib\/date\/date_repeat_field\/date_repeat_field.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/contrib\/office_hours\/office_hours.css":1,"modules\/poll\/poll.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/contrib\/extlink\/css\/extlink.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/contrib\/media\/modules\/media_wysiwyg\/css\/media_wysiwyg.base.css":1,"sites\/all\/modules\/contrib\/colorbox\/styles\/default\/colorbox_style.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/contrib\/high_contrast\/high_contrast.css":1,"sites\/all\/modules\/contrib\/taxonomy_access\/taxonomy_access.css":1,"sites\/all\/modules\/contrib\/extlink_extra\/extlink_extra.508.css":1,"sites\/all\/modules\/contrib\/field_collection\/field_collection.theme.css":1,"\/\/fonts.googleapis.com\/css?family=Open+Sans:400,600,800,700|Merriweather:400,700":1,"\/sites\/all\/themes\/sandiego\/assets\/dist\/css\/main-admin.min.css":1,"sites\/all\/themes\/sandiego\/assets\/dist\/css\/main.min.css":1,"\/sites\/all\/themes\/sandiego\/assets\/dist\/css\/no-mq-admin.min.css":1,"sites\/all\/themes\/sandiego\/assets\/dist\/css\/no-mq.min.css":1}},"colorbox":{"transition":"elastic","speed":"350","opacity":"0.85","slideshow":true,"slideshowAuto":false,"slideshowSpeed":"3000","slideshowStart":"start slideshow","slideshowStop":"stop slideshow","current":"{current} of {total}","previous":"\u00ab Prev","next":"Next \u00bb","close":"Close","overlayClose":true,"returnFocus":true,"maxWidth":"98%","maxHeight":"98%","initialWidth":"300","initialHeight":"250","fixed":true,"scrolling":true,"mobiledetect":true,"mobiledevicewidth":"480px","file_public_path":"\/sites\/default\/files","specificPagesDefaultValue":"admin*\nimagebrowser*\nimg_assist*\nimce*\nnode\/add\/*\nnode\/*\/edit\nprint\/*\nprintpdf\/*\nsystem\/ajax\nsystem\/ajax\/*"},"better_exposed_filters":{"views":{"department_parent_no_results":{"displays":{"default":{"filters":[]}}},"department_slides":{"displays":{"block":{"filters":[]}}},"department_news_and_announcements":{"displays":{"block":{"filters":[]}}},"homepage_notifications":{"displays":{"block":{"filters":[]}}},"header_alert":{"displays":{"header_alert_block":{"filters":[]}}}}},"extlink_extra":{"extlink_alert_type":"","extlink_alert_timer":"0","extlink_alert_url":"\/now-leaving","extlink_cache_fix":1,"extlink_exclude_warning":"","extlink_508_fix":1,"extlink_508_text":" [external link]","extlink_url_override":0,"extlink_url_params":{"external_url":null,"back_url":null}},"urlIsAjaxTrusted":{"\/planning-commission\/documents\/agenda":true},"extlink":{"extTarget":"_blank","extClass":"ext","extLabel":"(link is external)","extImgClass":0,"extIconPlacement":0,"extSubdomains":1,"extExclude":"(sannet\\.gov)|(sandiego\\.gov)|(governmentjobs\\.com)|(insidesandiego\\.org)|(sddp\\.sirsi\\.net)|(sddp\\.ent\\.sirsi\\.net)|(www\\.thinkblue\\.org)|(www\\.sandiegolibrary\\.org)|(www\\.surveygizmo\\.com)|(www\\.sd2015survey\\.org)|(sandiego\\.bibliocommons\\.com)|(ebook\\.3m\\.com)|(sdpl\\.lib\\.overdrive\\.com)|(www\\.careeronlinehs\\.gale\\.com)|(sdplca\\.oneclickdigital\\.com)|(online\\.flipbuilder\\.com)|(citynet)|(getitdone\\.force\\.com)|(youtube\\.com)|(referenceusa\\.com)|(sandiego\\.maps\\.arcgis\\.com)","extInclude":"","extCssExclude":"","extCssExplicit":"","extAlert":0,"extAlertText":{"value":"\u003Cfieldset\u003E\r\n\u003Clegend\u003EYou are now leaving the City of San Diego\u0027s website\u003C\/legend\u003E\r\n\r\n\u003Cp\u003EYou will be redirected to \u003Cstrong\u003E[extlink:external-url]\u003C\/strong\u003E.\u003C\/p\u003E\r\n\u003Cp\u003ELinks to websites outside of sandiego.gov do not constitute the City\u0027s endorsement of any content, product or service. The \u003Ca href=\u0022\/disclaimers\u0022 target=\u0022_blank\u0022\u003ECity\u0027s website policies\u003C\/a\u003E may differ from those of linked websites.\u003C\/p\u003E\r\n\r\n  \r\n\u003Cp\u003E\u003Ca class=\u0022extlink-extra-go-action ext-override btn btn--md\u0022 title=\u0022Go to link\u0022 href=\u0022[extlink:external-url]\u0022\u003EContinue to External Site\u003C\/a\u003E\u003C\/p\u003E \r\n  \u003C\/fieldset\u003E","format":"full_html"},"mailtoClass":0,"mailtoLabel":"(link sends e-mail)","extUseFontAwesome":0},"dataLayer":{"languages":{"en":{"language":"en","name":"English","native":"English","direction":0,"enabled":1,"plurals":0,"formula":"","domain":"","prefix":"","weight":0,"javascript":""}}}});
+//--><!]]>
+</script>
+</head>
+<body id="body-top" class="html not-front not-logged-in no-sidebars page-node page-node- page-node-14671 node-type-department theme-sandiego role-anonymous-user" >
+  <div id="skip-link">
+    <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+  </div>
+    <script>/*(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4&appId=295948633946506";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));*/</script>
+
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!-- Add your site or application content here -->
+<div id="outer-wrap">
+    <div id="inner-wrap">
+        <header class="l-padding-mobile-hs has-alert">
+            <!-- Header Alert -->
+            <div id="header-alert">
+                  
+  <div id="block-views-header-alert-header-alert-block" class="block block-views">
+                  <div class="content">
+      <div class="view view-header-alert view-id-header_alert view-display-id-header_alert_block view-dom-id-e5190e30a82c65dd9f893ffd0e08e4b8">
+        
+  
+  
+      <div class="view-content">
+            <div class="message message--error">
+  <div class="l-constrained">
+    <p class="text-center">
+              <i class="icon-notification-circle l-margin-rs"></i>
+            <strong><a href="https://www.sandiego.gov/coronavirus">Get the latest on COVID-19</a> &nbsp;|&nbsp; <a href="/status">View status of City services</a> &nbsp;|&nbsp; <a href="/environmental-services/collection-status">Trash/Recycling Collection Status</a></strong>
+  </div>
+</div>
+
+      </div>
+  
+  
+  
+  
+  
+  
+</div>    </div>
+  </div>
+            </div>
+            <!-- End Header Alert -->
+            <div id="top-header" class="l-constrained row l-padding-td l-padding-desktop-tn">
+                <!-- quicklinks -->
+                <div class="hidden twelve columns hide-on-mobile text-right">
+                    <div class="quicklinks background--cerulean">
+                        <ul class="l-margin-bs l-margin-tn">
+                            <li class="hidden"><a href="/user">Login</a></li>
+                            <li class="hidden"><a href="">Text Size <span class="text-sm">A</span> <span class="text-nm current">A</span> <span class="text-lg">A</span></a></li>
+                            <li class="google-translate"></li>
+                            <li class="hidden"><a href="">High Contrast</a></li>
+                        </ul>
+                    </div>
+                </div><!-- // quicklinks  -->
+                <!-- logo -->
+                <div class="three columns no-gutters logo--wrap l-padding-desktop-tm">
+                    <a href="/" class="logo">
+                        <img src="/sites/all/themes/sandiego/assets/dist/img/logo.png" alt="The City of San Diego" width="205" height="50" class="hide-on-mobile">
+                        <img src="/sites/all/themes/sandiego/assets/dist/img/logo-mark-blue.png" alt="The City of San Diego" width="163" height="132" class="hide-on-desktop">
+                    </a>
+                </div> <!-- // logo -->
+                <!-- Weather -->
+                <div class="six columns text-center hide-on-mobile l-padding-desktop-tm l-margin-desktop-ts">
+                    <div class="card--weather">
+                                                    <i class="icon-cloud"></i>
+                                                                            <p class="temperature"><span class="degrees">69</span>&deg;</p>
+                                                <p><strong>San Diego <br> Weather</strong></p>
+                    </div>
+                </div> <!-- // Weather -->
+                <!-- search -->
+                <div class="three columns no-gutters l-padding-desktop-ts">
+                    <div class="quicklinks text-right l-margin-mobile-rm l-padding-mobile-ts">
+                        <div id="quicklink-divs">
+                            <div class="accessibility hide-on-mobile">
+                                <a id="accessibility" class="popup-modal" href="#accessibility_popup">Accessibility Tools</a>
+                            </div>
+                            <div class="google-translate">
+                                <div id="google_translate_element"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- accessiblity popup div -->
+                    <div id="accessibility_popup" class="white-popup accessibility-popup-position mfp-hide" title="Basic dialog">
+                        <h3>Accessibility Tools</h3>
+                        <div class="row">
+                            <div class="five columns">
+                                <span style="color:lightgrey;font-size: 24px;">&nbsp;</span>
+                                <a title="Turn audio/vision assist on/off" href="javascript:;" onclick="BrowseAloud.panel.toggleBar(true,event);return false;">Turn audio/vision assist on/off</a>
+                            </div>
+                            <div class="four columns">
+                                <span style="color:lightgrey;font-size: 24px;">|</span>
+                                <strong class="high_contrast_switcher_label">Contrast:</strong>
+
+                                <span class="high_contrast_switcher_normal">
+                        <a id="high_contrast_switcher_normal_id" title="Set contrast to normal" href="javascript:drupalHighContrast.disableStyles(); var x = isContrastHigh(); var y = x;">Default</a>
+                        </span>
+
+                                <span class="high_contrast_switcher_separator">/</span>
+
+                                <span class="high_contrast_switcher_high">
+                        <a id="high_contrast_switcher_high_id" title="Set contrast to high" href="javascript:drupalHighContrast.enableStyles();var x = isContrastHigh(); var y = x;">High</a>
+                        </span>
+                            </div>
+                            <div class="three columns">
+                                <span style="color:lightgrey;font-size: 24px;">|</span>
+                                <span>&nbsp;&nbsp;<a title="More information on accessibility" href="/accessibility">More Info</a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="block-system-main" class="block block-system">
+                        <div class="content">
+                          <form class="form--search" action="/planning-commission/documents/agenda" method="post" id="search-block-form" accept-charset="UTF-8"><div><div class="container-inline">
+      <h2 class="element-invisible">Search form</h2>
+    <div class="form-item form-type-textfield form-item-search-block-form">
+  <label class="element-invisible" for="edit-search-block-form--2">Search </label>
+ <input placeholder="Search sandiego.gov" type="text" id="edit-search-block-form--2" name="search_block_form" value="" size="15" maxlength="128" class="form-text" />
+</div>
+<div class="form-actions form-wrapper" id="edit-actions"><input class="btn form-submit" type="submit" id="edit-submit" name="op" value="Search" /></div><input type="hidden" name="form_build_id" value="form-z04WM8a2K__QEryfN9P9HOrAAvr9Xmj7PGNykDpKfrs" />
+<input type="hidden" name="form_id" value="search_block_form" />
+</div>
+</div></form>                            <ul class="visuallyhidden">
+                                <li>Check if your spelling is correct, or try removing filters.</li>
+                                <li>Remove quotes around phrases to match each word individually: <em>"blue drop"</em> will match less than <em>blue drop</em>.</li>
+                                <li>You can require or exclude terms using + and -: <em>big +blue drop</em> will require a match on <em>blue</em> while <em>big blue -drop</em> will exclude results that contain <em>drop</em>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- // search -->
+            </div>
+
+            <div id="nav-header" class="l-container navigation__wrap">
+                <div class="l-constrained">
+                    <div class="menu-btn menu-btn--open">
+                        <a id="nav-open-btn" class="menu-toggle js-menu-toggle" href="#nav"><span class="">Menu</span><span class="menu-toggle__line"></span></a>
+                    </div>
+
+                    <nav id="nav" class="main__navigation main-navigation nav-primary" role="navigation">
+
+                        <div class="nav-logo alignleft l-margin-bn l-margin-rd l-padding-ls">
+                            <a href="/" style="padding-top:5px;"><img src="/sites/all/themes/sandiego/assets/dist/img/logo-mark-blue.png" alt="City of San Diego Logo" title="Go to City of San Diego Home Page" width="50" height="auto"></a>
+                        </div>
+                        <ul>
+                            <li style="width: auto;"><a href="/" style="padding-top:18px;padding-bottom:20px;"><i class="icon-home hide-on-desktop"></i><span class="hide-on-desktop" style="font-size:18px;text-transform:uppercase;font-weight:600;">Home</span><i class="icon-home hide-on-mobile" style="font-size:24px;"></i></a></li>
+                              
+  
+<li class="has__dropdown">
+  <a href="/leisure" class="dropdown-parent">
+    <i class="icon-chevron-right hide-on-desktop"></i>Leisure <i class="icon-chevron-down hide-on-mobile"></i>
+          <span>Explore, Play + Events</span>
+      </a>
+    <div class="dropdown">
+        <div class="row hide-on-mobile nav__heading">
+      <div class="twelve columns">
+        <p class="l-margin-bn">Leisure</p>
+      </div>
+    </div>
+        <div class="row">
+            <div class="four columns hide-on-mobile">
+                <p>With its great weather, miles of sandy beaches, and major attractions, San Diego is known worldwide as one of the best tourist destinations and a great place for residents to relax year round.</p>
+              </div>
+                  <!-- Start Sub Navigation -->
+      <div class="four columns">
+        <div class="field-collection-container clearfix">
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              Parks            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/park-and-recreation/parks/regional">
+                        Regional Parks                      </a>
+                    </li>
+                  <li>
+                      <a href="/park-and-recreation/centers/map">
+                        Community Parks                      </a>
+                    </li>
+                  <li>
+                      <a href="/park-and-recreation/activities">
+                        Recreation Centers                      </a>
+                    </li>
+                  <li>
+                      <a href="/park-and-recreation/parks/permits">
+                        Book an Event                      </a>
+                    </li>
+                  <li>
+                      <a href="/leisure">
+                        More Leisure                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              Outdoors            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/leisure/beaches-and-bays">
+                        Beaches and Bays                      </a>
+                    </li>
+                  <li>
+                      <a href="/reservoir-lakes">
+                        Lakes                      </a>
+                    </li>
+                  <li>
+                      <a href="/park-and-recreation/golf">
+                        Golf                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="twelve columns">
+      <h4>
+              <a href="/leisure">
+              More Leisure              </a>
+            </h4>
+    </div>
+	  </div>
+  </div>      </div>
+      <!-- // End Sub Navigation -->    
+                  <!-- Start Featured Items -->
+      <div class="four columns hide-on-mobile">
+        <div class="field-collection-container clearfix">
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/blaboa-park_0.jpg" width="74" height="74" alt="Event 1">
+    <p>Balboa Park<a href="/park-and-recreation/parks/regional/balboa">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/torrey-pines.jpg" width="74" height="74" alt="Event 1">
+    <p>Torrey Pines Golf Course<a href="/park-and-recreation/golf/torreypines">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/special-events.jpg" width="74" height="74" alt="Event 1">
+    <p>Special Events & Filming<a href="/specialevents-filming">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/arts-culture-th.jpg" width="74" height="74" alt="Event 1">
+    <p>Arts & Culture<a href="/arts-culture">Learn More</a></p>
+  </div>
+  </div>      </div>
+      <!-- // End Featured Items -->
+          </div>
+  </div>
+  </li>
+
+  
+<li class="has__dropdown">
+  <a href="/resident-resources" class="dropdown-parent">
+    <i class="icon-chevron-right hide-on-desktop"></i>Resident Resources <i class="icon-chevron-down hide-on-mobile"></i>
+          <span>Pay Now, Parking + Help</span>
+      </a>
+    <div class="dropdown">
+        <div class="row hide-on-mobile nav__heading">
+      <div class="twelve columns">
+        <p class="l-margin-bn">Resident Resources</p>
+      </div>
+    </div>
+        <div class="row">
+            <div class="four columns hide-on-mobile">
+                <p>From neighborhoods and parks to streets and parking, find what you need in your community and report your concerns.</p>
+              </div>
+                  <!-- Start Sub Navigation -->
+      <div class="four columns">
+        <div class="field-collection-container clearfix">
+    <div class="row border">
+	    <div class="twelve columns">
+      <h4>
+              <a href="/planning/community/profiles">
+              Neighborhoods              </a>
+            </h4>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="twelve columns">
+      <h4>
+              <a href="/park-and-recreation/activities">
+              Recreational Activities              </a>
+            </h4>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="twelve columns">
+      <h4>
+              <a href="/street-div">
+              Street Maintenance              </a>
+            </h4>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="twelve columns">
+      <h4>
+              <a href="/resident-resources">
+              More Resident Resources              </a>
+            </h4>
+    </div>
+	  </div>
+  </div>      </div>
+      <!-- // End Sub Navigation -->    
+                  <!-- Start Featured Items -->
+      <div class="four columns hide-on-mobile">
+        <div class="field-collection-container clearfix">
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/waterbill.jpg" width="74" height="74" alt="Event 1">
+    <p>View/Pay Water Bill<a href="/public-utilities/customer-service/billing">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/trash-schedule.jpg" width="74" height="74" alt="Event 1">
+    <p>View Trash Collection Schedule<a href="/environmental-services/collection/schedule">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/featureparkingmeter_0.jpg" width="74" height="74" alt="Event 1">
+    <p>Parking Citations<a href="/parking/citations">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/strategic-plan-sm.jpg" width="74" height="74" alt="Event 1">
+    <p>City Strategic Plan<a href="https://performance.sandiego.gov/">Learn More</a></p>
+  </div>
+  </div>      </div>
+      <!-- // End Featured Items -->
+          </div>
+  </div>
+  </li>
+
+  
+<li class="has__dropdown">
+  <a href="/doing-business" class="dropdown-parent">
+    <i class="icon-chevron-right hide-on-desktop"></i>Doing Business <i class="icon-chevron-down hide-on-mobile"></i>
+          <span>Fix, Plan + Build</span>
+      </a>
+    <div class="dropdown">
+        <div class="row hide-on-mobile nav__heading">
+      <div class="twelve columns">
+        <p class="l-margin-bn">Doing Business</p>
+      </div>
+    </div>
+        <div class="row">
+            <div class="four columns hide-on-mobile">
+                <p>Incentives and programs are available to help launch, grow and expand your business, and provide support for homeowners and contractors to get work done.</p>
+              </div>
+                  <!-- Start Sub Navigation -->
+      <div class="four columns">
+        <div class="field-collection-container clearfix">
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              Plan            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/purchasing/bids-contracts">
+                        Bid on a Contract                      </a>
+                    </li>
+                  <li>
+                      <a href="/economic-development/industry">
+                        Explore Incentives                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              Fix            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/publicutilities/customerservices">
+                        Set Up Utilities                      </a>
+                    </li>
+                  <li>
+                      <a href="/development-services">
+                        Renovations and Remodels                      </a>
+                    </li>
+                  <li>
+                      <a href="/development-services/permits">
+                        Get Permits                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              Build            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/green-business-network">
+                        Go Green                      </a>
+                    </li>
+                  <li>
+                      <a href="/development-services/zoning">
+                        Learn about Zoning                      </a>
+                    </li>
+                  <li>
+                      <a href="/development-services/records">
+                        Track Your Project                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="twelve columns">
+      <h4>
+              <a href="/doing-business">
+              More Doing Business              </a>
+            </h4>
+    </div>
+	  </div>
+  </div>      </div>
+      <!-- // End Sub Navigation -->    
+                  <!-- Start Featured Items -->
+      <div class="four columns hide-on-mobile">
+        <div class="field-collection-container clearfix">
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/business-tax.jpg" width="74" height="74" alt="Event 1">
+    <p>Business Tax Certificate<a href="/treasurer/taxesfees/btax/btaxhow">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/development-process.jpg" width="74" height="74" alt="Event 1">
+    <p>Development Codes & Regulations<a href="/development-services/codes-regulations">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/business-steps_0.jpg" width="74" height="74" alt="Event 1">
+    <p>Ten Key Steps to Starting Your Business<a href="/economic-development/business/starting/tenkeysteps">Learn More</a></p>
+  </div>
+  </div>      </div>
+      <!-- // End Featured Items -->
+          </div>
+  </div>
+  </li>
+
+  
+<li class="has__dropdown">
+  <a href="/public-library" class="dropdown-parent">
+    <i class="icon-chevron-right hide-on-desktop"></i>Library <i class="icon-chevron-down hide-on-mobile"></i>
+          <span>Learn, Connect + Discover</span>
+      </a>
+    <div class="dropdown">
+        <div class="row hide-on-mobile nav__heading">
+      <div class="twelve columns">
+        <p class="l-margin-bn">Library</p>
+      </div>
+    </div>
+        <div class="row">
+            <div class="four columns hide-on-mobile">
+                <p>The San Diego Public Library is a popular destination that connects our diverse community to free educational and cultural resources that will enrich their lives.</p>
+              </div>
+                  <!-- Start Sub Navigation -->
+      <div class="four columns">
+        <div class="field-collection-container clearfix">
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              <a href="/public-library/news-events">
+              Programs & Events              </a>
+            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/public-library/news-events/onebook">
+                        One Book, One San Diego                      </a>
+                    </li>
+                  <li>
+                      <a href="https://sandiego.librarymarket.com/">
+                        Event Calendar                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              <a href="/public-library/services">
+              Services              </a>
+            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/public-library/services/lending/finesfees">
+                        Fines and Fees                      </a>
+                    </li>
+                  <li>
+                      <a href="/public-library/services/lending/renewhold">
+                        Renewals and Holds                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              <a href="/public-library/kidsandteens">
+              Kids and Teens              </a>
+            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/public-library/kidsandteens/hwcenter">
+                        Homework Help Center                      </a>
+                    </li>
+                  <li>
+                      <a href="/public-library/kidsandteens/parentsteachers">
+                        Parents &amp; Teachers                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              <a href="/public-library/elibrary">
+              eCollection              </a>
+            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/public-library/elibrary">
+                        eBooks                      </a>
+                    </li>
+                  <li>
+                      <a href="http://search.ebscohost.com/login.aspx?authtype=ip,cpid&amp;custid=s8329812&amp;groupid=main&amp;profile=eon">
+                        Digital Magazines                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="twelve columns">
+      <h4>
+              <a href="/public-library">
+              Library Website              </a>
+            </h4>
+    </div>
+	  </div>
+  </div>      </div>
+      <!-- // End Sub Navigation -->    
+                  <!-- Start Featured Items -->
+      <div class="four columns hide-on-mobile">
+        <div class="field-collection-container clearfix">
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/library-catalog.jpg" width="74" height="74" alt="Event 1">
+    <p>Browse the Catalog<a href="https://sandiego.bibliocommons.com/">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/library-card.jpg" width="74" height="74" alt="Event 1">
+    <p>Apply for a Library Card<a href="/public-library/services/lending/librarycard">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/library-volunteer.jpg" width="74" height="74" alt="Event 1">
+    <p>Volunteer<a href="/volunteer-program/opportunities/communityservices/library">Learn More</a></p>
+  </div>
+  </div>      </div>
+      <!-- // End Featured Items -->
+          </div>
+  </div>
+  </li>
+
+  
+<li class="has__dropdown">
+  <a href="/public-safety" class="dropdown-parent">
+    <i class="icon-chevron-right hide-on-desktop"></i>Public Safety <i class="icon-chevron-down hide-on-mobile"></i>
+          <span>Police, Fire + Lifeguards</span>
+      </a>
+    <div class="dropdown">
+        <div class="row hide-on-mobile nav__heading">
+      <div class="twelve columns">
+        <p class="l-margin-bn">Public Safety</p>
+      </div>
+    </div>
+        <div class="row">
+            <div class="four columns hide-on-mobile">
+                <p>The Police and Fire-Rescue departments work together within our communities to provide the highest level of quality service and protection. From neighborhood watch to 9-1-1 services, our team is here for you 24 hours a day, seven days a week.</p>
+              </div>
+                  <!-- Start Sub Navigation -->
+      <div class="four columns">
+        <div class="field-collection-container clearfix">
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              <a href="/police">
+              Police              </a>
+            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/police/services/file-police-report">
+                        File a Police Report                      </a>
+                    </li>
+                  <li>
+                      <a href="/police/services">
+                        Services                      </a>
+                    </li>
+                  <li>
+                      <a href="/join-san-diego-police-department">
+                        Join SDPD                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              <a href="/fire">
+              Fire              </a>
+            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/fire/services">
+                        Services &amp; Programs                      </a>
+                    </li>
+                  <li>
+                      <a href="/fire/services/fireprev">
+                        Community Risk Reduction                      </a>
+                    </li>
+                  <li>
+                      <a href="/join-fire-rescue">
+                        Join Fire-Rescue                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              <a href="/lifeguards">
+              Lifeguards              </a>
+            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/lifeguards/safety">
+                        Safety                      </a>
+                    </li>
+                  <li>
+                      <a href="/lifeguards/beaches">
+                        Beaches                      </a>
+                    </li>
+                  <li>
+                      <a href="/lifeguards/junior">
+                        Junior Lifeguards                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="twelve columns">
+      <h4>
+              <a href="/public-safety">
+              More Public Safety              </a>
+            </h4>
+    </div>
+	  </div>
+  </div>      </div>
+      <!-- // End Sub Navigation -->    
+                  <!-- Start Featured Items -->
+      <div class="four columns hide-on-mobile">
+        <div class="field-collection-container clearfix">
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/neighborhood-watch-logo.jpg" width="74" height="74" alt="Event 1">
+    <p>Neighborhood Watch<a href="/police/community/neighborhood-watch">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/alert-sd.jpg" width="74" height="74" alt="Event 1">
+    <p>Get Emergency Alerts<a href="/ohs/emergencynotification">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/flag-th.png" width="74" height="74" alt="Event 1">
+    <p>Office of Emergency Services<a href="/oes">Learn More</a></p>
+  </div>
+  </div>      </div>
+      <!-- // End Featured Items -->
+          </div>
+  </div>
+  </li>
+
+  
+<li class="has__dropdown">
+  <a href="/city-hall" class="dropdown-parent">
+    <i class="icon-chevron-right hide-on-desktop"></i>City Hall <i class="icon-chevron-down hide-on-mobile"></i>
+          <span>City Officials + Departments</span>
+      </a>
+    <div class="dropdown">
+        <div class="row hide-on-mobile nav__heading">
+      <div class="twelve columns">
+        <p class="l-margin-bn">City Hall</p>
+      </div>
+    </div>
+        <div class="row">
+            <div class="four columns hide-on-mobile">
+                <p>Learn more about City government.</p>
+              </div>
+                  <!-- Start Sub Navigation -->
+      <div class="four columns">
+        <div class="field-collection-container clearfix">
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              City Officials            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/mayor">
+                        Mayor                      </a>
+                    </li>
+                  <li>
+                      <a href="/citycouncil">
+                        Councilmembers                      </a>
+                    </li>
+                  <li>
+                      <a href="/cityattorney">
+                        City Attorney                      </a>
+                    </li>
+                  <li>
+                      <a href="/auditor">
+                        City Auditor                      </a>
+                    </li>
+                  <li>
+                      <a href="/city-clerk">
+                        City Clerk                      </a>
+                    </li>
+                  <li>
+                      <a href="/iba">
+                        Independent Budget Analyst                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="six columns l-padding-desktop-ts l-padding-desktop-rd">
+      <h4 class="heading--snug">
+              City Government            </h4>
+    </div>
+    <div class="six columns">
+      <ul>
+                  <li>
+                      <a href="/city-hall/departments">
+                        Departments                      </a>
+                    </li>
+                  <li>
+                      <a href="/city-hall/programs">
+                        Programs &amp; Initiatives                      </a>
+                    </li>
+                  <li>
+                      <a href="/boards-and-commissions">
+                        Boards &amp; Commissions                      </a>
+                    </li>
+                  <li>
+                      <a href="/city-hall/org-chart">
+                        City Org Chart                      </a>
+                    </li>
+              </ul>
+    </div>
+	  </div>
+    <div class="row border">
+	    <div class="twelve columns">
+      <h4>
+              <a href="/city-hall">
+              More City Hall              </a>
+            </h4>
+    </div>
+	  </div>
+  </div>      </div>
+      <!-- // End Sub Navigation -->    
+                  <!-- Start Featured Items -->
+      <div class="four columns hide-on-mobile">
+        <div class="field-collection-container clearfix">
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/council-meetings.jpg" width="74" height="74" alt="Event 1">
+    <p>Council Meetings<a href="https://sandiego.granicus.com/ViewPublisher.php?view_id=31">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/committee-meeting.jpg" width="74" height="74" alt="Event 1">
+    <p>Council Committees<a href="/council-committees">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/fy23cover-adopted-th.jpg" width="74" height="74" alt="Event 1">
+    <p>FY23 Adopted Budget<a href="/finance/annual">Learn More</a></p>
+  </div>
+    <div class="nav__event">
+    <img src="//www.sandiego.gov/sites/default/files/employment.jpg" width="74" height="74" alt="Event 1">
+    <p>Employment Opportunities<a href="https://www.governmentjobs.com/careers/sandiego">Learn More</a></p>
+  </div>
+  </div>      </div>
+      <!-- // End Featured Items -->
+          </div>
+  </div>
+  </li>
+                        </ul>
+                        <div class="form--search-wrap l-padding-mobile-td l-margin-desktop-rs hide-on-mobile">
+                            <a href="#" class="search-icon search-icon--open"><i class="icon-magnifier bold"></i> </a>
+                            <a href="#" class="search-icon translate-icon--open"><i class="icon-cog"></i> </a>
+                        </div>
+                    </nav>
+                    <div class="form--search-wrap l-padding-mobile-td hide-on-desktop">
+                        <a href="#" class="search-icon search-icon--open"><i class="icon-magnifier bold"></i> </a>
+                        <a href="#" class="search-icon translate-icon--open"><i class="icon-translate"></i> </a>
+                    </div>
+                </div>
+            </div>
+        </header>  
+  <div id="block-system-main" class="block block-system">
+                  <div class="content">
+      <div class="hero__wrap">
+    <div class="hero__bg hero__bg--secondary" style="background-image:url('/sites/all/themes/sandiego/assets/dist/img/skyline-v2.jpg');"></div>
+	<script>hero_put_bg_credit();</script>
+    <div class="l-constrained">
+        <div class="row">
+            <div class="twelve columns no-gutters">
+                <div class="row">
+                    <div class="twelve columns no-gutters">
+                        <div class="main__message main__message--transparent l-padding-mobile-hm">
+                            <p class="h1 main__heading">Planning Commission</p>
+                        </div>
+
+                        <nav class="sub-navigation l-padding-mobile-hd">
+                            
+  <div id="block-menu-planning-commission" class="block block-menu">
+                  <div class="content">
+      <div class="hide-on-mobile">
+                  <ul class="menu"><li class="first leaf"><a href="/planning-commission" title="">Planning Commission Home</a></li>
+<li class="leaf"><a href="/planning-commission/about" title="">About the Commission</a></li>
+<li class="last leaf"><a href="/planning-commission/documents" title="">Documents</a></li>
+</ul>        	  </div>
+      <div class="hide-on-desktop sub-navigation-mobile l-padding-hd l-padding-td l-padding-bs background-white">
+	  
+	    <div class="accordions js-toggle-accordion">
+          <div class="accordion">
+            <p class="accordion__heading"><a class="accordion__link" href="#"><i class="icon-menu l-margin-rs"></i> Site Menu  <span class="toggle-icon"> </span></a></p>
+            <div class="accordion__drawer">
+	          <ul class="menu"><li class="first leaf"><a href="/planning-commission" title="">Planning Commission Home</a></li>
+<li class="leaf"><a href="/planning-commission/about" title="">About the Commission</a></li>
+<li class="last leaf"><a href="/planning-commission/documents" title="">Documents</a></li>
+</ul>		    </div>
+          </div>
+        </div>
+		
+	  </div>
+    </div>
+  </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="l-constrained l-constrained--main l-padding-mobile-hm background-white">
+
+    <div class="row">
+        <main>
+
+            <div class="nine columns no-gutters">
+
+                <div class="entry__content l-padding-desktop-am l-padding-mobile-bd">
+                    <h1>2022 Agendas </h1>					                    <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><ul>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/dsd_pc_agenda_9-29-22.pdf" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> September 29, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_9-22-22.pdf" type="application/pdf; length=262217" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> September 22, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_9-8-22_0.pdf" type="application/pdf; length=246326" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> September 8, 2022 </a>- Meeting will be held at Development Services Department </span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_8-18-22.pdf" type="application/pdf; length=219049" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> August 18, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_8-11-22_-_adj.pdf" type="application/pdf; length=27028" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> August 11, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_8-4-22.pdf" type="application/pdf; length=224101" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> August 4, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_7-21-22.pdf" type="application/pdf; length=212691" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> July 21, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_7-7-22_0.pdf" type="application/pdf; length=215687" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> July 7, 2022 - Revised</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_6-23-22.pdf" type="application/pdf; length=229885" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> June 23, 2022</a>
+</span><ul>
+<li><img class="file-icon" alt="File" title="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" src="/modules/file/icons/x-office-spreadsheet.png" /> <a href="//www.sandiego.gov/sites/default/files/june_23_planning_commission_public_comment_form_1891-1904.xlsx" type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; length=26728">Public Comment -Revised (as of 6/23/22)</a></li>
+</ul>
+</li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_6-9-22_.pdf" type="application/pdf; length=221890" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> June 9, 2022</a>
+</span><ul>
+<li><img class="file-icon" alt="File" title="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" src="/modules/file/icons/x-office-spreadsheet.png" /> <a href="//www.sandiego.gov/sites/default/files/planning_commission_public_comment_for_june_9_2022_0.xlsx" type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; length=18584">Public Comment - Revised </a></li>
+</ul>
+</li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_6-2-22_0.pdf" type="application/pdf; length=220485" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> June 2, 2022</a>
+</span><ul>
+<li><img class="file-icon" alt="File" title="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" src="/modules/file/icons/x-office-spreadsheet.png" /> <a href="//www.sandiego.gov/sites/default/files/planning_commission_public_comment_6_2_2022.xlsx" type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; length=11675">Public Comment</a></li>
+</ul>
+</li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_5-19-22.pdf" type="application/pdf; length=220629" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> May 19, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_5-5-22.pdf" type="application/pdf; length=228945" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> May 5, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_4-21-22.pdf" type="application/pdf; length=249171" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> April 21, 2022</a>
+</span><ul>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/public_comment_for_april_21_2022.pdf" type="application/pdf; length=310823" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> public comment</a></span></li>
+</ul>
+</li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_4-7-22_.pdf" type="application/pdf; length=224049" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> April 7, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_3-24-22.pdf" type="application/pdf; length=222752" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> March 24, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_3-10-22.pdf" type="application/pdf; length=217935" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> March 10, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_adjoured_agenda_3-3-22.pdf" type="application/pdf; length=45791" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> March 3, 2022 - Adjourned</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_2-24-22.pdf" type="application/pdf; length=228915" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> February 24, 2022 </a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_2-17-22_1.pdf" type="application/pdf; length=223689" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> February 17, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_2-3-22_0.pdf" type="application/pdf; length=226294" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> February 3, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_1-27-22.pdf" type="application/pdf; length=249655" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> January 27, 2022</a></span></li>
+<li><span class="file"><a href="//www.sandiego.gov/sites/default/files/pc_agenda_1-20-22.pdf" type="application/pdf; length=223126" type="application/pdf"><span><img class="file-icon" alt="PDF icon" title="application/pdf" src="/modules/file/icons/application-pdf.png" /></span> January 20, 2022</a></span></li>
+</ul>
+</div></div></div>                </div>
+                
+            </div> <!-- Nine columns -->
+
+        </main>
+
+        <aside class="l-margin-mobile-vd l-margin-bm">
+            <div class="three columns background-off-white l-padding-vd l-padding-mobile-hd l-margin-mobile-bm">
+
+                <div class="widget l-padding-hs l-margin-bd">
+                    <h2 id="block-menu-menu-sidebar-menu-pc-documents" class="block block-menu"">Documents</h2>
+<ul class="menu"><li class="first leaf"><a href="/planning-commission/documents" title="">Documents Home</a></li>
+<li class="expanded active-trail"><a href="/planning-commission/documents/agenda" title="" class="active-trail active">Agendas</a><ul class="menu"><li class="first last leaf"><a href="/planning-commission/documents/agenda/archive" title="">Agendas Archive</a></li>
+</ul></li>
+<li class="collapsed"><a href="/planning-commission/documents/minutes" title="">Minutes</a></li>
+<li class="collapsed"><a href="/planning-commission/documents/calendars" title="">Calendars</a></li>
+<li class="last collapsed"><a href="/planning-commission/documents/pcreports" title="">Reports</a></li>
+</ul>
+                                            <div id="leftSidebar"> </div>
+<div id="rightSidebar"> </div>
+<div>
+  <div id="block-bean-dsd-newsletter-subscribe" class="block block-bean">
+                  <div class="content">
+      
+<section  about="/block/dsd-newsletter-subscribe">
+  <div class="card card__cta card__cta--graphic entity entity-bean bean-bean-graphic-cta" style="background-image:url(//www.sandiego.gov/sites/default/files/cta-dsd-subscribe.jpg);background-repeat:no-repeat;background-size: cover;" >
+    <a href="https://visitor.r20.constantcontact.com/manage/optin?v=001L8yzO-DYgLyogX8cwfGReoCytPqndbbduQxrJk7sqduDznp93MyOgbbKDwSVN9VFYXcnyGqkynWNaHidIctd8lvFnpT1gKv0iA994juCAGM%3D">
+      <p>Sign up to receive meeting agendas, news and updates.</p>
+      <span href="" class="btn btn--secondary">Subscribe Now</span>
+    </a>
+  </div>
+</section>
+    </div>
+  </div>
+</div>
+                                                        </div>
+
+            </div>
+        </aside>
+    </div> <!-- row -->
+
+</div> <!-- l-constrained -->
+    </div>
+  </div>
+<footer class="l-constrained text-center--mobile outreach-footer">
+
+    <!-- On outreach2 content type field_outreach_footer_type says if to show this row. -->
+        <div class="row">
+        <div class="three columns footer--left l-padding-ad l-padding-vm">
+                  
+  <div id="block-bean-footer-left" class="block block-bean">
+                  <div class="content">
+      <div class="entity entity-bean bean-bean-html-block clearfix" about="/block/footer-left">
+  <div class="content">
+    <div class="field field-name-field-html-block-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even">            <div class="row l-padding-desktop-ld">
+                <div class="twelve columns no-gutters">
+                    <img src="/sites/all/themes/sandiego/assets/dist/img/logo--white--sm.png" alt="The City of San Diego - logo" width="49" height="39">
+                    <ul class="socials">                        
+                        <li><a href="https://www.facebook.com/CityofSanDiego" title="Facebook"><i class="icon-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/CityofSanDiego" title="Twitter"><i class="icon-twitter"></i></a></li>
+                        <li><a href="http://www.youtube.com/user/TheCityofSanDiego" title="YouTube"><i class="icon-youtube"></i></a></li>
+			<li><a href="https://www.instagram.com/cityofsandiego/" title="Instagram"><i class="icon-instagram"></i></a></li>
+			<li><a href="https://nextdoor.com/city/feed/748155/?i=wkjkutqnzmjazcaegxre" title="Nextdoor"><i class="icon-nextdoor"></i></a></li>
+			<li><a href="https://www.linkedin.com/company/cityofsandiego" title="LinkedIn"><i class="icon-linkedin"></i></a></li>
+                    </ul>
+                    <p class="copyright">
+                    Copyrighted © 2002-2022<br>
+                    City of San Diego. All rights reserved.</p>
+                </div>
+            </div></div></div></div>  </div>
+</div>
+    </div>
+  </div>
+        </div>
+
+        <div class="nine columns no-gutters">
+                <ul class="footer--right l-padding-am row"><li class="four columns has-sub-nav" class="first expanded" data-menu-parent="menu-footer-menu-1"><p><strong>Council Districts</strong></p><ul class=""><li class="global-nav__sub-nav-items" class="first leaf" data-menu-parent="menu-footer-menu-2"><a href="/citycouncil/cd1" title="" class="global-nav__sub-nav-link">Councilmember Joe LaCava (District 1)</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/citycouncil/cd2" title="" class="global-nav__sub-nav-link">Councilmember Jennifer Campbell (District 2)</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/citycouncil/cd3" title="" class="global-nav__sub-nav-link">Councilmember Stephen Whitburn (District 3)</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/citycouncil/cd4" title="" class="global-nav__sub-nav-link">Council President Pro Tem Monica Montgomery Steppe (District 4)</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/citycouncil/cd5" title="" class="global-nav__sub-nav-link">Councilmember Marni von Wilpert (District 5)</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/citycouncil/cd6" title="" class="global-nav__sub-nav-link">Councilmember Chris Cate (District 6)</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/citycouncil/cd7" title="" class="global-nav__sub-nav-link">Councilmember Raul Campillo (District 7)</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/citycouncil/cd8" title="" class="global-nav__sub-nav-link">Councilmember Vivian Moreno (District 8)</a></li>
+<li class="global-nav__sub-nav-items" class="last leaf" data-menu-parent="menu-footer-menu-2"><a href="/citycouncil/cd9" title="" class="global-nav__sub-nav-link">Council President Sean Elo-Rivera (District 9)</a></li>
+</ul></li>
+<li class="four columns has-sub-nav" class="expanded" data-menu-parent="menu-footer-menu-1"><p><strong>City Officials & Independent Offices</strong></p><ul class=""><li class="global-nav__sub-nav-items" class="first leaf" data-menu-parent="menu-footer-menu-2"><a href="/mayor" title="" class="global-nav__sub-nav-link">Office of Mayor Todd Gloria</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/cityattorney" title="" class="global-nav__sub-nav-link">City Attorney Mara W. Elliott</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="https://www.sandiego.gov/ethics" title="" class="global-nav__sub-nav-link">Ethics Commission</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/auditor" title="" class="global-nav__sub-nav-link">Office of the City Auditor</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/city-clerk" title="" class="global-nav__sub-nav-link">Office of the City Clerk</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/treasurer" title="" class="global-nav__sub-nav-link">Office of the City Treasurer</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="/iba" title="" class="global-nav__sub-nav-link">Office of the Independent Budget Analyst</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="https://www.sandiego.gov/empopp" title="" class="global-nav__sub-nav-link">Personnel Department</a></li>
+<li class="global-nav__sub-nav-items" class="last leaf" data-menu-parent="menu-footer-menu-2"><a href="https://www.sdcers.org/" title="" class="global-nav__sub-nav-link">San Diego City Employees&#039; Retirement System</a></li>
+</ul></li>
+<li class="four columns has-sub-nav" class="last expanded" data-menu-parent="menu-footer-menu-1"><p><strong>Government Agencies</strong></p><ul class=""><li class="global-nav__sub-nav-items" class="first leaf" data-menu-parent="menu-footer-menu-2"><a href="http://www.sandiegocounty.gov/" title="" class="global-nav__sub-nav-link">County of San Diego</a></li>
+<li class="global-nav__sub-nav-items" class="leaf" data-menu-parent="menu-footer-menu-2"><a href="http://www.ca.gov/" title="" class="global-nav__sub-nav-link">State of California</a></li>
+<li class="global-nav__sub-nav-items" class="last leaf" data-menu-parent="menu-footer-menu-2"><a href="https://www.usa.gov/" title="" class="global-nav__sub-nav-link">Federal Government</a></li>
+</ul></li>
+</ul>            </div>
+        </div>
+    </div>
+    
+    
+    <div class="footer__privacy">
+        <div class="l-constrained row text-center l-padding-vd">
+            <ul>
+                <li><a href="/disclaimers">Disclaimers</a></li>
+                <li><a href="/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/accessibility">Accessibility</a></li>
+                <li><a href="/translation">Language Translation</a></li>
+                <li><a href="/contact">Contact the City</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+    </div> <!-- End #inner-wrap -->
+</div> <!-- End #outer-wrap -->
+<script data-main="/sites/all/themes/sandiego/assets/dist/js/main-built.js?v=rimij1">
+</script>
+<script type="text/javascript">var _baTheme=0, _baMode='Audio/vision assist', _baUseCookies=true, _baHideOnLoad=true;</script>
+<script type="text/javascript" src="//www.browsealoud.com/plus/scripts/ba.js"></script>
+
+<script type="text/javascript">
+window._monsido = window._monsido || {
+  token: "r9LQjmBFHFsoopI_I-jb0Q",
+    statistics: {
+    enabled: true,
+      documentTracking: {
+      enabled: true,
+        documentCls: "monsido_download",
+        documentIgnoreCls: "monsido_ignore_download",
+        documentExt: ["pdf","doc","ppt","docx","pptx"],
+      },
+    },
+  };
+</script>
+<script type="text/javascript" async src="https://app-script.monsido.com/v2/monsido-script.js"></script>
+<script type="text/javascript" src="https://resources.digital-cloud-west.medallia.com/wdcwest/12990/onsite/embed.js" async></script>
+<script type="text/javascript" src="/sites/all/themes/sandiego/assets/dist/js/lib/require.js?v=rimij1"></script>
+  <script type="text/javascript" src="//www.sandiego.gov/sites/all/modules/contrib/extlink_extra/extlink_extra.js?rimij1"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+jQuery(function () {
+
+    jQuery('a.close-mm').focus(function (e) {
+        $('.dropdown').removeClass('visible');
+    }).click(function () {
+        e.preventDefault();
+    });
+});
+var headerH = jQuery('header').outerHeight();
+var topHeaderH = jQuery('#top-header').outerHeight();
+var headerAlertH = jQuery('#header-alert').outerHeight();
+var scroll_down_target = headerH;
+var scroll_up_target = topHeaderH;
+if (jQuery('header').hasClass('has-alert')) { // account for header alert
+	scroll_up_target = topHeaderH + headerAlertH;
+	jQuery('.form--search-wrap.hide-on-desktop, .menu-btn').css('top', headerAlertH);
+}
+jQuery(window).scroll(function () {
+    if (jQuery(document).scrollTop() > scroll_down_target) {
+        //jQuery('header').addClass('header--fixed');   jQuery('.form--search, .quicklinks').css('top', (headerH - headerAlertH) + 'px');
+            jQuery('#search-block-form').hide();
+            jQuery('.quicklinks').hide();
+    } else if (jQuery(document).scrollTop() < scroll_up_target) {
+            jQuery('header').removeClass('header--fixed');
+            if (jQuery('.search-icon').css('display') == 'none') {
+                jQuery('#search-block-form').show();
+                jQuery('.quicklinks').show();
+            }
+    }
+});
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+function googleTranslateElementInit() {
+    if (jQuery('header').css('background-color') == 'rgb(0, 152, 219)') { // if header has a blue background, which indicates desktop view...
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+        changeLanguageText();
+    } else {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+        }, 'google_translate_element');
+    }
+}
+
+function changeLanguageText() {
+    var el = jQuery('.goog-te-menu-value span:first-child');
+    if (el.text() == 'Select Language') {
+        jQuery(el).html('English');
+        jQuery('#google_translate_element').fadeIn('slow');
+    } else {
+        setTimeout(changeLanguageText, 10);
+    }
+    }
+//--><!]]>
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/default/files/js_injector/js_injector_49.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/default/files/js_injector/js_injector_77.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/default/files/js_injector/js_injector_81.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/default/files/js_injector/js_injector_100.js?rimij1"></script>
+<script type="text/javascript" src="//www.sandiego.gov/sites/default/files/js_injector/js_injector_104.js?rimij1"></script>
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"NRJS-c3ec9bf6ff7b4fc45f8","applicationID":"617807624","transactionName":"blFbMBYDDUdWV0RRWlcbbBYNTUxdWVBVQBtJXEk=","queueTime":0,"applicationTime":50,"atts":"QhZYRl4ZHkk=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>

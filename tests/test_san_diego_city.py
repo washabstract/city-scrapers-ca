@@ -35,11 +35,18 @@ committee_upcoming_response = file_response(
     "%2C115%2C133%2C122%2C120%2C121%2C132%2C123%2C117%2C127%2C134%2C118",
 )
 
+# The file with the list of upcoming agendas
+planning_upcoming_response = file_response(
+    join(dirname(__file__), "files", "san_diego_city_planning_upcoming.html"),
+    url="https://www.sandiego.gov/planning-commission/documents/agenda",
+)
+
 spider = SanDiegoCitySpider()
 
 freezer = freeze_time("2022-09-20")
 freezer.start()
 
+# 11th object also contains meeting link
 parsed_items = [item for item in spider.parse(test_response)]
 parsed_items_upcoming = [item for item in spider.parse(upcoming_response)]
 parsed_items_planning_commission_archived = [
@@ -48,7 +55,40 @@ parsed_items_planning_commission_archived = [
 parsed_items_committee_upcoming = [
     item for item in spider.parse(committee_upcoming_response)
 ]
-# 11th object also contains meeting link
+parsed_items_planning_upcoming = [
+    item for item in spider.parse(planning_upcoming_response)
+]
+
+# The pdf file with the first agenda
+planning_upcoming_agenda_response_0 = file_response(
+    join(dirname(__file__), "files", "san_diego_city_planning_upcoming_follow_0.pdf"),
+    mode="rb",
+    url=parsed_items_planning_upcoming[0].url,
+)
+
+# The pdf file with the second agenda
+planning_upcoming_agenda_response_1 = file_response(
+    join(dirname(__file__), "files", "san_diego_city_planning_upcoming_follow_1.pdf"),
+    mode="rb",
+    url=parsed_items_planning_upcoming[1].url,
+)
+
+# Modifying the first two items of
+# the planning's upcoming meetings with the followed responses
+parsed_items_planning_upcoming[0] = next(
+    spider._parse_planning(
+        planning_upcoming_agenda_response_0,
+        parsed_items_planning_upcoming[0].cb_kwargs["source"],
+    )
+)
+
+parsed_items_planning_upcoming[1] = next(
+    spider._parse_planning(
+        planning_upcoming_agenda_response_1,
+        parsed_items_planning_upcoming[1].cb_kwargs["source"],
+    )
+)
+
 freezer.stop()
 
 
@@ -63,6 +103,8 @@ def test_title():
         parsed_items_committee_upcoming[0]["title"]
         == "Revised - Land Use and Housing Committee Meeting - Updated 09/21/22"
     )
+    assert parsed_items_planning_upcoming[0]["title"] == "Planning Commission"
+    assert parsed_items_planning_upcoming[1]["title"] == "Planning Commission"
 
 
 def test_description():
@@ -71,6 +113,8 @@ def test_description():
     assert parsed_items_upcoming[0]["description"] == ""
     assert parsed_items_planning_commission_archived[0]["description"] == ""
     assert parsed_items_committee_upcoming[0]["description"] == ""
+    assert parsed_items_planning_upcoming[0]["description"] == ""
+    assert parsed_items_planning_upcoming[1]["description"] == ""
 
 
 def test_start():
@@ -80,6 +124,8 @@ def test_start():
         2022, 9, 15, 0, 0
     )
     assert parsed_items_committee_upcoming[0]["start"] == datetime(2022, 9, 22, 13, 0)
+    assert parsed_items_planning_upcoming[0]["start"] == datetime(2022, 9, 29, 9, 0)
+    assert parsed_items_planning_upcoming[1]["start"] == datetime(2022, 9, 22, 9, 0)
 
 
 def test_end():
@@ -89,6 +135,8 @@ def test_end():
         2022, 9, 15, 3, 39
     )
     assert parsed_items_committee_upcoming[0]["end"] is None
+    assert parsed_items_planning_upcoming[0]["end"] is None
+    assert parsed_items_planning_upcoming[1]["end"] is None
 
 
 def test_time_notes():
@@ -97,6 +145,8 @@ def test_time_notes():
     assert parsed_items_upcoming[0]["time_notes"] == ""
     assert parsed_items_planning_commission_archived[0]["time_notes"] == ""
     assert parsed_items_committee_upcoming[0]["time_notes"] == ""
+    assert parsed_items_planning_upcoming[0]["time_notes"] == ""
+    assert parsed_items_planning_upcoming[1]["time_notes"] == ""
 
 
 def test_id():
@@ -113,6 +163,14 @@ def test_id():
         "san_diego_city/202209221300/x"
         "/revised_land_use_and_housing_committee_meeting_updated_09_21_22"
     )
+    assert (
+        parsed_items_planning_upcoming[0]["id"]
+        == "san_diego_city/202209290900/x/planning_commission"
+    )
+    assert (
+        parsed_items_planning_upcoming[1]["id"]
+        == "san_diego_city/202209220900/x/planning_commission"
+    )
 
 
 def test_status():
@@ -121,6 +179,8 @@ def test_status():
     assert parsed_items_upcoming[0]["status"] == TENTATIVE
     assert parsed_items_planning_commission_archived[0]["status"] == PASSED
     assert parsed_items_committee_upcoming[0]["status"] == TENTATIVE
+    assert parsed_items_planning_upcoming[0]["status"] == TENTATIVE
+    assert parsed_items_planning_upcoming[1]["status"] == TENTATIVE
 
 
 def test_location():
@@ -159,6 +219,20 @@ def test_location():
         ),
     }
 
+    assert parsed_items_planning_upcoming[0]["location"] == {
+        "name": "City Administration Building",
+        "address": (
+            "City Council Chambers - 12th Floor, 202 C Street San Diego, CA 92101"
+        ),
+    }
+
+    assert parsed_items_planning_upcoming[1]["location"] == {
+        "name": "City Administration Building",
+        "address": (
+            "City Council Chambers - 12th Floor, 202 C Street San Diego, CA 92101"
+        ),
+    }
+
 
 def test_source():
     assert (
@@ -181,6 +255,14 @@ def test_source():
         "https://sandiego.hylandcloud.com/211agendaonlinecomm"
         "/Meetings/Search?dropid=4&mtids=131%2C114%2C119%2C102%"
         "2C116%2C115%2C133%2C122%2C120%2C121%2C132%2C123%2C117%2C127%2C134%2C118"
+    )
+    assert (
+        parsed_items_planning_upcoming[0]["source"]
+        == "https://www.sandiego.gov/planning-commission/documents/agenda"
+    )
+    assert (
+        parsed_items_planning_upcoming[1]["source"]
+        == "https://www.sandiego.gov/planning-commission/documents/agenda"
     )
 
 
@@ -262,6 +344,22 @@ def test_links():
         },
     ]
 
+    assert parsed_items_planning_upcoming[0]["links"] == [
+        {
+            "title": "Agenda",
+            "href": "https://www.sandiego.gov/"
+            "sites/default/files/dsd_pc_agenda_9-29-22.pdf",
+        }
+    ]
+
+    assert parsed_items_planning_upcoming[1]["links"] == [
+        {
+            "title": "Agenda",
+            "href": "https://www.sandiego.gov/"
+            "sites/default/files/pc_agenda_9-22-22.pdf",
+        }
+    ]
+
 
 def test_classification():
     assert parsed_items[0]["classification"] == CITY_COUNCIL
@@ -269,6 +367,8 @@ def test_classification():
     assert parsed_items_upcoming[0]["classification"] == CITY_COUNCIL
     assert parsed_items_planning_commission_archived[0]["classification"] == COMMISSION
     assert parsed_items_committee_upcoming[0]["classification"] == COMMITTEE
+    assert parsed_items_planning_upcoming[1]["classification"] == COMMISSION
+    assert parsed_items_planning_upcoming[1]["classification"] == COMMISSION
 
 
 # @pytest.mark.parametrize("item", parsed_items)
