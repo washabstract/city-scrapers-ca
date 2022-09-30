@@ -23,6 +23,24 @@ class SanDiegoCitySpider(CityScrapersSpider):
         "https://sandiego.granicus.com/ViewPublisher.php?view_id=3",
         # Planning commission
         "https://sandiego.granicus.com/ViewPublisher.php?view_id=8",
+        # Fire Ad Hoc Committee
+        "http://sandiego.granicus.com/ViewPublisher.php?view_id=28",
+        # Audit Committee
+        "http://sandiego.granicus.com/ViewPublisher.php?view_id=24",
+        # Budget and Finance Committee
+        "http://sandiego.granicus.com/ViewPublisher.php?view_id=16",
+        # Charter Review Committee
+        "http://sandiego.granicus.com/ViewPublisher.php?view_id=25",
+        # Government Efficiency
+        "http://sandiego.granicus.com/ViewPublisher.php?view_id=13",
+        # Land use & Housing
+        "http://sandiego.granicus.com/ViewPublisher.php?view_id=12",
+        # Natural Resources & Culture
+        "http://sandiego.granicus.com/ViewPublisher.php?view_id=14",
+        # Public Safety and Neighborhood Services Committee
+        "http://sandiego.granicus.com/ViewPublisher.php?view_id=15",
+        # Rules Committee
+        "http://sandiego.granicus.com/ViewPublisher.php?view_id=11",
     ]
 
     city_council_upcoming = "https://sandiego.hylandcloud.com/211agendaonlinecouncil"
@@ -183,7 +201,12 @@ class SanDiegoCitySpider(CityScrapersSpider):
         title_lower = title.lower()
         if "commission" in title_lower:
             return COMMISSION
-        elif "committee" in title_lower:
+        elif (
+            "committee" in title_lower
+            or "government efficiency" in title_lower
+            or "natural resources" in title_lower
+            or "public safety" in title_lower
+        ):
             return COMMITTEE
         else:
             return CITY_COUNCIL

@@ -41,6 +41,51 @@ planning_upcoming_response = file_response(
     url="https://www.sandiego.gov/planning-commission/documents/agenda",
 )
 
+fire_ad_hoc_committee_response = file_response(
+    join(dirname(__file__), "files", "san_diego_city_fire_com_archived.html"),
+    url="http://sandiego.granicus.com/ViewPublisher.php?view_id=28",
+)
+
+audit_committee_response = file_response(
+    join(dirname(__file__), "files", "san_diego_city_audit_com_archived.html"),
+    url="http://sandiego.granicus.com/ViewPublisher.php?view_id=24",
+)
+
+budget_committee_response = file_response(
+    join(dirname(__file__), "files", "san_diego_city_budget_com_archived.html"),
+    url="http://sandiego.granicus.com/ViewPublisher.php?view_id=16",
+)
+
+charter_committee_response = file_response(
+    join(dirname(__file__), "files", "san_diego_city_chart_com_archived.html"),
+    url="http://sandiego.granicus.com/ViewPublisher.php?view_id=25",
+)
+
+government_committee_response = file_response(
+    join(dirname(__file__), "files", "san_diego_city_gov_com_archived.html"),
+    url="http://sandiego.granicus.com/ViewPublisher.php?view_id=13",
+)
+
+land_committee_response = file_response(
+    join(dirname(__file__), "files", "san_diego_city_land_com_archived.html"),
+    url="http://sandiego.granicus.com/ViewPublisher.php?view_id=12",
+)
+
+nrc_committee_response = file_response(
+    join(dirname(__file__), "files", "san_diego_city_nrc_com_archived.html"),
+    url="http://sandiego.granicus.com/ViewPublisher.php?view_id=14",
+)
+
+public_safety_committee_response = file_response(
+    join(dirname(__file__), "files", "san_diego_city_publicsafety_com_archived.html"),
+    url="http://sandiego.granicus.com/ViewPublisher.php?view_id=15",
+)
+
+rules_committee_response = file_response(
+    join(dirname(__file__), "files", "san_diego_city_rules_com_archived.html"),
+    url="http://sandiego.granicus.com/ViewPublisher.php?view_id=11",
+)
+
 spider = SanDiegoCitySpider()
 
 freezer = freeze_time("2022-09-20")
@@ -58,6 +103,25 @@ parsed_items_committee_upcoming = [
 parsed_items_planning_upcoming = [
     item for item in spider.parse(planning_upcoming_response)
 ]
+parsed_items_fire_archived = [
+    item for item in spider.parse(fire_ad_hoc_committee_response)
+]
+parsed_items_audit_archived = [item for item in spider.parse(audit_committee_response)]
+parsed_items_budget_archived = [
+    item for item in spider.parse(budget_committee_response)
+]
+parsed_items_charter_archived = [
+    item for item in spider.parse(charter_committee_response)
+]
+parsed_item_government_archived = [
+    item for item in spider.parse(government_committee_response)
+]
+parsed_items_land_archived = [item for item in spider.parse(land_committee_response)]
+parsed_items_nrc_archived = [item for item in spider.parse(nrc_committee_response)]
+parsed_items_publicsafety_archived = [
+    item for item in spider.parse(public_safety_committee_response)
+]
+parsed_items_rules_archived = [item for item in spider.parse(rules_committee_response)]
 
 # The pdf file with the first agenda
 planning_upcoming_agenda_response_0 = file_response(
@@ -105,6 +169,26 @@ def test_title():
     )
     assert parsed_items_planning_upcoming[0]["title"] == "Planning Commission"
     assert parsed_items_planning_upcoming[1]["title"] == "Planning Commission"
+    assert (
+        parsed_items_fire_archived[0]["title"]
+        == "Ad Hoc Committee on Fire Prevention and Recovery"
+    )
+    assert parsed_items_audit_archived[0]["title"] == "Audit Committee Meeting"
+    assert parsed_items_budget_archived[0]["title"] == "Budget and Finance Committee"
+    assert parsed_items_charter_archived[0]["title"] == "Charter Review Committee"
+    assert (
+        parsed_item_government_archived[0]["title"]
+        == "Government Efficiency & Openness (GE&O)"
+    )
+    assert parsed_items_land_archived[0]["title"] == "Land Use and Housing Committee"
+    assert (
+        parsed_items_nrc_archived[0]["title"] == "Natural Resources and Culture (NR&C)"
+    )
+    assert (
+        parsed_items_publicsafety_archived[0]["title"]
+        == "Public Safety and Neighborhood Services (PS&NS)"
+    )
+    assert parsed_items_rules_archived[0]["title"] == "Rules Committee"
 
 
 def test_description():
@@ -115,6 +199,15 @@ def test_description():
     assert parsed_items_committee_upcoming[0]["description"] == ""
     assert parsed_items_planning_upcoming[0]["description"] == ""
     assert parsed_items_planning_upcoming[1]["description"] == ""
+    assert parsed_items_fire_archived[0]["description"] == ""
+    assert parsed_items_audit_archived[0]["description"] == ""
+    assert parsed_items_budget_archived[0]["description"] == ""
+    assert parsed_items_charter_archived[0]["description"] == ""
+    assert parsed_item_government_archived[0]["description"] == ""
+    assert parsed_items_land_archived[0]["description"] == ""
+    assert parsed_items_nrc_archived[0]["description"] == ""
+    assert parsed_items_publicsafety_archived[0]["description"] == ""
+    assert parsed_items_rules_archived[0]["description"] == ""
 
 
 def test_start():
@@ -126,6 +219,17 @@ def test_start():
     assert parsed_items_committee_upcoming[0]["start"] == datetime(2022, 9, 22, 13, 0)
     assert parsed_items_planning_upcoming[0]["start"] == datetime(2022, 9, 29, 9, 0)
     assert parsed_items_planning_upcoming[1]["start"] == datetime(2022, 9, 22, 9, 0)
+    assert parsed_items_fire_archived[0]["start"] == datetime(2008, 11, 10, 0, 0)
+    assert parsed_items_audit_archived[0]["start"] == datetime(2022, 9, 21, 0, 0)
+    assert parsed_items_budget_archived[0]["start"] == datetime(2013, 11, 21, 0, 0)
+    assert parsed_items_charter_archived[0]["start"] == datetime(2016, 5, 18, 0, 0)
+    assert parsed_item_government_archived[0]["start"] == datetime(2005, 12, 5, 0, 0)
+    assert parsed_items_land_archived[0]["start"] == datetime(2022, 9, 22, 0, 0)
+    assert parsed_items_nrc_archived[0]["start"] == datetime(2013, 11, 6, 0, 0)
+    assert parsed_items_publicsafety_archived[0]["start"] == datetime(
+        2013, 10, 30, 0, 0
+    )
+    assert parsed_items_rules_archived[0]["start"] == datetime(2022, 9, 21, 0, 0)
 
 
 def test_end():
@@ -137,6 +241,15 @@ def test_end():
     assert parsed_items_committee_upcoming[0]["end"] is None
     assert parsed_items_planning_upcoming[0]["end"] is None
     assert parsed_items_planning_upcoming[1]["end"] is None
+    assert parsed_items_fire_archived[0]["end"] == datetime(2008, 11, 10, 0, 56)
+    assert parsed_items_audit_archived[0]["end"] == datetime(2022, 9, 21, 2, 18)
+    assert parsed_items_budget_archived[0]["end"] == datetime(2013, 11, 21, 0, 0)
+    assert parsed_items_charter_archived[0]["end"] == datetime(2016, 5, 18, 3, 18)
+    assert parsed_item_government_archived[0]["end"] == datetime(2005, 12, 5, 0, 44)
+    assert parsed_items_land_archived[0]["end"] == datetime(2022, 9, 22, 0, 44)
+    assert parsed_items_nrc_archived[0]["end"] == datetime(2013, 11, 6, 2, 58)
+    assert parsed_items_publicsafety_archived[0]["end"] == datetime(2013, 10, 30, 4, 2)
+    assert parsed_items_rules_archived[0]["end"] == datetime(2022, 9, 21, 1, 26)
 
 
 def test_time_notes():
@@ -147,6 +260,15 @@ def test_time_notes():
     assert parsed_items_committee_upcoming[0]["time_notes"] == ""
     assert parsed_items_planning_upcoming[0]["time_notes"] == ""
     assert parsed_items_planning_upcoming[1]["time_notes"] == ""
+    assert parsed_items_fire_archived[0]["time_notes"] == ""
+    assert parsed_items_audit_archived[0]["time_notes"] == ""
+    assert parsed_items_budget_archived[0]["time_notes"] == ""
+    assert parsed_items_charter_archived[0]["time_notes"] == ""
+    assert parsed_item_government_archived[0]["time_notes"] == ""
+    assert parsed_items_land_archived[0]["time_notes"] == ""
+    assert parsed_items_nrc_archived[0]["time_notes"] == ""
+    assert parsed_items_publicsafety_archived[0]["time_notes"] == ""
+    assert parsed_items_rules_archived[0]["time_notes"] == ""
 
 
 def test_id():
@@ -171,6 +293,18 @@ def test_id():
         parsed_items_planning_upcoming[1]["id"]
         == "san_diego_city/202209220900/x/planning_commission"
     )
+    assert (
+        parsed_items_fire_archived[0]["id"] == "san_diego_city/200811100000/x/"
+        "ad_hoc_committee_on_fire_prevention_and_recovery"
+    )
+    assert (
+        parsed_items_audit_archived[0]["id"]
+        == "san_diego_city/202209210000/x/audit_committee_meeting"
+    )
+    assert (
+        parsed_items_budget_archived[0]["id"]
+        == "san_diego_city/201311210000/x/budget_and_finance_committee"
+    )
 
 
 def test_status():
@@ -181,6 +315,16 @@ def test_status():
     assert parsed_items_committee_upcoming[0]["status"] == TENTATIVE
     assert parsed_items_planning_upcoming[0]["status"] == TENTATIVE
     assert parsed_items_planning_upcoming[1]["status"] == TENTATIVE
+    assert parsed_items_fire_archived[0]["status"] == PASSED
+    # Scraped after the freeze date
+    assert parsed_items_audit_archived[0]["status"] == TENTATIVE
+    assert parsed_items_budget_archived[0]["status"] == PASSED
+    assert parsed_items_charter_archived[0]["status"] == PASSED
+    assert parsed_item_government_archived[0]["status"] == PASSED
+    assert parsed_items_land_archived[0]["status"] == TENTATIVE
+    assert parsed_items_nrc_archived[0]["status"] == PASSED
+    assert parsed_items_publicsafety_archived[0]["status"] == PASSED
+    assert parsed_items_rules_archived[0]["status"] == TENTATIVE
 
 
 def test_location():
@@ -263,6 +407,43 @@ def test_source():
     assert (
         parsed_items_planning_upcoming[1]["source"]
         == "https://www.sandiego.gov/planning-commission/documents/agenda"
+    )
+
+    assert (
+        parsed_items_fire_archived[0]["source"]
+        == "http://sandiego.granicus.com/ViewPublisher.php?view_id=28"
+    )
+    assert (
+        parsed_items_audit_archived[0]["source"]
+        == "http://sandiego.granicus.com/ViewPublisher.php?view_id=24"
+    )
+    assert (
+        parsed_items_budget_archived[0]["source"]
+        == "http://sandiego.granicus.com/ViewPublisher.php?view_id=16"
+    )
+    assert (
+        parsed_items_charter_archived[0]["source"]
+        == "http://sandiego.granicus.com/ViewPublisher.php?view_id=25"
+    )
+    assert (
+        parsed_item_government_archived[0]["source"]
+        == "http://sandiego.granicus.com/ViewPublisher.php?view_id=13"
+    )
+    assert (
+        parsed_items_land_archived[0]["source"]
+        == "http://sandiego.granicus.com/ViewPublisher.php?view_id=12"
+    )
+    assert (
+        parsed_items_nrc_archived[0]["source"]
+        == "http://sandiego.granicus.com/ViewPublisher.php?view_id=14"
+    )
+    assert (
+        parsed_items_publicsafety_archived[0]["source"]
+        == "http://sandiego.granicus.com/ViewPublisher.php?view_id=15"
+    )
+    assert (
+        parsed_items_rules_archived[0]["source"]
+        == "http://sandiego.granicus.com/ViewPublisher.php?view_id=11"
     )
 
 
@@ -360,6 +541,140 @@ def test_links():
         }
     ]
 
+    assert parsed_items_fire_archived[0]["links"] == [
+        {
+            "title": "Video",
+            "href": "https://sandiego.granicus.com/"
+            "MediaPlayer.php?view_id=28&clip_id=2574",
+        },
+        {
+            "title": "Audio",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_4d73ae5c-9e4a-467b-a313-57d2c7d95bde.mp3",
+        },
+        {
+            "title": "Video",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_4d73ae5c-9e4a-467b-a313-57d2c7d95bde.mp4",
+        },
+    ]
+    assert parsed_items_audit_archived[0]["links"] == [
+        {
+            "title": "Video",
+            "href": "https://sandiego.granicus.com"
+            "/MediaPlayer.php?view_id=24&clip_id=8529",
+        },
+        {
+            "title": "Video",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_d051643c-23a6-45a1-b192-d78e8971c4a7.mp4",
+        },
+    ]
+    assert parsed_items_budget_archived[0]["links"] == [
+        {
+            "title": "Video",
+            "href": "https://sandiego.granicus.com"
+            "/MediaPlayer.php?view_id=16&clip_id=5963",
+        },
+        {
+            "title": "Audio",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_423dd213-5d1f-4a17-a47b-11fe9e767585.mp3",
+        },
+        {
+            "title": "Video",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_423dd213-5d1f-4a17-a47b-11fe9e767585.mp4",
+        },
+    ]
+    assert parsed_items_charter_archived[0]["links"] == [
+        {
+            "title": "Video",
+            "href": "https://sandiego.granicus.com"
+            "/MediaPlayer.php?view_id=25&clip_id=6707",
+        },
+        {
+            "title": "Video",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_bbe37559-0765-4535-90b2-86bbf42d18b0.mp4",
+        },
+    ]
+    assert parsed_item_government_archived[0]["links"] == [
+        {
+            "title": "Video",
+            "href": "https://sandiego.granicus.com"
+            "/MediaPlayer.php?view_id=13&clip_id=412",
+        },
+        {
+            "title": "Audio",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_021929f55b7fd4e36b3275ad8f912ee5.mp3",
+        },
+        {
+            "title": "Video",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_021929f55b7fd4e36b3275ad8f912ee5.mp4",
+        },
+    ]
+    assert parsed_items_land_archived[0]["links"] == [
+        {
+            "title": "Video",
+            "href": "https://sandiego.granicus.com"
+            "/MediaPlayer.php?view_id=12&clip_id=8534",
+        },
+        {
+            "title": "Video",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_ffe8723b-19eb-4ea4-aded-0152d6ccc062.mp4",
+        },
+    ]
+    assert parsed_items_nrc_archived[0]["links"] == [
+        {
+            "title": "Video",
+            "href": "https://sandiego.granicus.com"
+            "/MediaPlayer.php?view_id=14&clip_id=5951",
+        },
+        {
+            "title": "Audio",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_6395881e-b8f6-4067-9146-69b21283b018.mp3",
+        },
+        {
+            "title": "Video",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_6395881e-b8f6-4067-9146-69b21283b018.mp4",
+        },
+    ]
+    assert parsed_items_publicsafety_archived[0]["links"] == [
+        {
+            "title": "Video",
+            "href": "https://sandiego.granicus.com"
+            "/MediaPlayer.php?view_id=15&clip_id=5945",
+        },
+        {
+            "title": "Audio",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_24fd2ac5-205d-4060-96db-5e02be2cf5c0.mp3",
+        },
+        {
+            "title": "Video",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_24fd2ac5-205d-4060-96db-5e02be2cf5c0.mp4",
+        },
+    ]
+    assert parsed_items_rules_archived[0]["links"] == [
+        {
+            "title": "Video",
+            "href": "https://sandiego.granicus.com"
+            "/MediaPlayer.php?view_id=11&clip_id=8530",
+        },
+        {
+            "title": "Video",
+            "href": "http://archive-media.granicus.com:443"
+            "/OnDemand/sandiego/sandiego_8f15d3b9-7716-47bb-aa05-b1f69ee7492a.mp4",
+        },
+    ]
+
 
 def test_classification():
     assert parsed_items[0]["classification"] == CITY_COUNCIL
@@ -369,6 +684,15 @@ def test_classification():
     assert parsed_items_committee_upcoming[0]["classification"] == COMMITTEE
     assert parsed_items_planning_upcoming[1]["classification"] == COMMISSION
     assert parsed_items_planning_upcoming[1]["classification"] == COMMISSION
+    assert parsed_items_fire_archived[0]["classification"] == COMMITTEE
+    assert parsed_items_audit_archived[0]["classification"] == COMMITTEE
+    assert parsed_items_budget_archived[0]["classification"] == COMMITTEE
+    assert parsed_items_charter_archived[0]["classification"] == COMMITTEE
+    assert parsed_item_government_archived[0]["classification"] == COMMITTEE
+    assert parsed_items_land_archived[0]["classification"] == COMMITTEE
+    assert parsed_items_nrc_archived[0]["classification"] == COMMITTEE
+    assert parsed_items_publicsafety_archived[0]["classification"] == COMMITTEE
+    assert parsed_items_rules_archived[0]["classification"] == COMMITTEE
 
 
 # @pytest.mark.parametrize("item", parsed_items)
