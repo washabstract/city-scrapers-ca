@@ -17,6 +17,7 @@ class SanJoseLegSpider(LegistarSpider):
 
     def parse_legistar(self, events):
         for event in events:
+            print(event)
             meeting = Meeting(
                 title=event["Name"]["label"],
                 description=self._parse_description(event),
