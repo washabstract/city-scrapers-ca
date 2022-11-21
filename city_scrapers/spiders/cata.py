@@ -10,6 +10,32 @@ from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
 
 
+def create_meeting(self, response, item, head):
+    meeting = Meeting(
+        title=self._parse_title(item, response),
+        description=self._parse_description(item, response),
+        time_notes=self._parse_time_notes(item),
+        links=self._parse_links(item, response),
+        source=self._parse_source(response),
+        created=datetime.now(),
+        updated=datetime.now(),
+    )
+
+    # use `head`(the heading/title) to get time and location
+    meeting["start"], meeting["end"], meeting["all_day"] = self._parse_start_end_all_day(item, head, response)
+    meeting["location"] = self._parse_location(item, head, response)
+
+    meeting["classification"] = self._parse_classification(meeting["title"])
+
+    if meeting["start"] is None:
+        print("bap!")
+        return
+
+    meeting["status"] = self._get_status(meeting)
+    meeting["id"] = self._get_id(meeting)
+
+    return meeting
+
 class CataSpider(CityScrapersSpider):
     name = "cata"
     agency = "California Transportation Commission"
@@ -17,75 +43,88 @@ class CataSpider(CityScrapersSpider):
     start_urls = [
         "https://catc.ca.gov/meetings-events/commission-meetings",
         "https://catc.ca.gov/meetings-events/committee-meetings",
-        "https://catc.ca.gov/meetings-events/town-hall-meetings"]
-
+        "https://catc.ca.gov/meetings-events/equity-advisory-roundtable-meeting",
+        "https://catc.ca.gov/meetings-events/town-hall-meetings",
+        "https://catc.ca.gov/meetings-events/tri-state-meetings",
+        "https://catc.ca.gov/meetings-events/workshops"]
+    
     def parse(self, response):
-        meetings_raw = response.xpath("//div[@id='main-content']/descendant::hr/following-sibling::h3|//div[@id='main-content']/descendant::h2/following-sibling::h3|//div[@id='main-content']/descendant::section/h3")
-        # if "committee-meetings" in response.url:
-        #     h2_raw = response.xpath("//div[@id='main-content']/descendant::h2/following-sibling::h3")
-        #     meetings_raw = meetings_raw + h2_raw
-        for first in meetings_raw:
-            siblings = first.xpath("following-sibling::*")
-            i = 0
-            item = [first]
-            num_sibs = len(siblings)
-            while i < num_sibs and siblings[i].get() != "<hr>":
-                item.append(siblings[i])
-                i+=1
+        if "equity-advisory-roundtable" in response.url:
+            # extract all text and href element by element and store in a dict list
+            items = []
+            sections = response.xpath("//main[@class='main-primary']//section")
+            if len(sections) >= 3:
+                potential = sections[2].xpath("descendant::*")
+                for row in potential:
+                    text = row.xpath("text()").get()
+                    if text and text.strip() != "":
+                        #add it to the list of items
+                        href = row.xpath("@href").get()
+                        items.append({"text": text, "href": href})
+            
+            # From items list, create a dict list list
+            #   ie a list of meetings, where each meeting is a dict list
+            newitems = []
+            count = -1
+            for row in items:
+                if "Equity Advisory Roundtable Meeting" in row["text"]:
+                    newitems.append([row])
+                    count += 1
+                else:
+                    if count >= 0:
+                        newitems[count].append(row)
+            
+            for item in newitems:
+                head = item[0]["text"]
+                meeting = create_meeting(self, response, item, head)
+                yield meeting
+        
+        else:
+            hr = "//div[@id='main-content']/descendant::hr/following-sibling::h3|"
+            h2 = "//div[@id='main-content']/descendant::h2/following-sibling::h3|"
+            sect = "//div[@id='main-content']/descendant::section/h3|"
+            h1 = "//div[@id='main-content']/descendant::h1/following-sibling::h3|"
+            ul = "//div[@id='main-content']/descendant::ul/following-sibling::h3"
+            path = hr + h2 + sect + h1 + ul
+            meetings_raw = response.xpath(path)
+            
+            # Create my own `item` since all elements in a meeting are siblings
+            #   (ie no hierarchy)
+            # type(item) = selector list
+            for first in meetings_raw:
+                siblings = first.xpath("following-sibling::*")
+                i = 0
+                item = [first]
+                num_sibs = len(siblings)
+                while i < num_sibs and "<h3>" not in siblings[i].get():
+                    item.append(siblings[i])
+                    i+=1
+                
+                h = item[0].xpath(".//text()")
+                head = h.get().strip() if h else ""
 
-            # print(len(item))
-            meeting = Meeting(
-                title=self._parse_title(item, response),
-                description=self._parse_description(item, response),
-                # classification=self._parse_classification(item),
-                # start=self._parse_start(item),
-                # end=self._parse_end(item),
-                # all_day=self._parse_all_day(item),
-                time_notes=self._parse_time_notes(item),
-                # location=self._parse_location(item),
-                links=self._parse_links(item),
-                source=self._parse_source(response),
-                created=datetime.now(),
-                updated=datetime.now(),
-            )
-
-            # use the heading(the title) to get time and location
-            h = item[0].xpath("text()")
-            head = h.get().strip() if h else ""
-            # if "town-hall-meetings" in response.url:
-            #     print(head)
-            meeting["start"], meeting["end"], meeting["all_day"] = self._parse_start_end_all_day(item, head, response)
-            meeting["location"] = self._parse_location(item, head, response)
-
-            meeting["classification"] = self._parse_classification(meeting["title"])
-
-            # if meeting["start"] is None:
-            #     print("bap!")
-            #     return
-
-            # meeting["status"] = self._get_status(meeting)
-            # meeting["id"] = self._get_id(meeting)
-
-            yield meeting
+                meeting = create_meeting(self, response, item, head)
+                yield meeting
 
     def _parse_title(self, item, response):
-        if "committee-meetings" in response.url or "town-hall-" in response.url:
-            # For committee and town hall meetings: <h4> is the title
-            items = item
-            for item in items:
-                if "<h4>" in item.get():
-                    title = item.xpath("text()").getall()
-                    if len(title) > 0:
-                        if "town-hall-" in response.url:
-                            t = title[0]
-                            title = t.split("-")
-                            print(title)
-                        return title[0].strip()
-        else:
+        if "commission-meetings" in response.url:
             title = item[0].xpath("text()")
             if title:
                 title = title.get().strip()
                 return title.split(":")[0]
+        elif "equity-advisory-roundtable" in response.url:
+            return item[0]["text"]
+        else:
+            # For committee and town hall meetings: <h4> is the title
+            items = item
+            for item in items:
+                if "<h4>" in item.get():
+                    title = item.xpath(".//text()").getall()
+                    if len(title) > 0:
+                        if "town-hall-" in response.url:
+                            t = title[0]
+                            title = t.split("-")
+                        return title[0].strip()
         return ""
 
     def _parse_description(self, item, response):
@@ -134,14 +173,22 @@ class CataSpider(CityScrapersSpider):
                 start = None
             return start, end, all_day
         
+        elif "equity-advisory-roundtable" in response.url:
+            if len(item) > 1:
+                dt = item[1]["text"].split("-")[0]
+                try:
+                    start = dateparse(dt, fuzzy = "True", ignoretz = "True")
+                except ParserError:
+                    start = None
+                return start, end, all_day
+        
+        # For all other meetings
         # Find date, example format: October 12(W) - 13(TH), 2022
         # If date is a range, mark all_day=True and parse using only the start date
         # Remove the (w) weekday marker for dateparsing
         dt = re.findall(
             r"(\w+\s\d{1,2}\([A-Za-z]{1,2}\)(\s?[-&]\s?\d{1,2}\([A-Za-z]{1,2}\))?,\s\d{4})", title)
         if len(dt) > 0 and len(dt[0]) > 0:
-            if "town-hall-" in response.url:
-                print(dt[0][0])
             dt1 = re.findall(r"\s?[-&]\s?\d{1,2}\([A-Za-z]{1,2}\)", dt[0][0])
             if len(dt1) > 0:
                 # Multi-day event
@@ -211,6 +258,32 @@ class CataSpider(CityScrapersSpider):
                             name = location[0].strip()
                             address = ("".join(location[1:])).strip()
         
+        # Equity Advisory Roundtable Meeting
+        elif "equity-advisory-roundtable" in response.url:
+            if len(item) > 1:
+                title = item[1]["text"]
+                title_segs = title.split("-")
+                if len(title_segs) > 1:
+                    name = title_segs[1].strip()
+
+            if len(item) > 2:
+                for row in item[2:]:
+                    txt = row["text"].replace("\xa0", " ").strip()
+                    if row["href"] or (txt.startswith("(") and txt.endswith(")")):
+                        break
+                    address = address + txt + "\n"
+            address = address.strip()
+
+        # Tri State Meeting
+        elif "tri-state-" in response.url:
+            items = item
+            for item in items:
+                if "<div>" in item.get():
+                    location = item.xpath(".//text()").get()
+                    if location:
+                        address = address + location.strip() + "\n"
+            address = address.strip()
+        
         # Comission Meetings
         else:
             split_title = re.split(r",\s?\d{4}\s?-", title)
@@ -222,33 +295,43 @@ class CataSpider(CityScrapersSpider):
             "name": name,
         }
 
-    def _parse_links(self, item):
+    def _parse_links(self, item, response):
         links = []
 
-        # collect every link at any sublevel of each "row" in the item
-        for row in item:
-            r = row.xpath(".//a")
-            for link in r:
-                # get the title and link, with error handling
-                
-                title = link.xpath("text()").get()
-                if title:
-                    title = re.sub("\xa0", " ", title)
-                    title = title.strip()
-                else:
-                    title = ""
-                
-                try:
-                    href = link.xpath("@href").get().strip()
-                except AttributeError:
-                    href = ""
+        if "equity-advisory-roundtable" in response.url:
+            for row in item:
+                if row["href"]:
+                    href = row["href"]
+                    if href.find("https://") == -1:
+                        href = "https://catc.ca.gov" + href
+                    title = row["text"].replace("\xa0", " ").strip()
+                    links.append({"href": href, "title": title})
+        
+        else:
+            # collect every link at any sublevel of each "row" in the item
+            for row in item:
+                r = row.xpath(".//a")
+                for link in r:
+                    # get the title and link, with error handling
+                    
+                    title = link.xpath("text()").get()
+                    if title:
+                        title = re.sub("\xa0", " ", title)
+                        title = title.strip()
+                    else:
+                        title = ""
+                    
+                    try:
+                        href = link.xpath("@href").get().strip()
+                    except AttributeError:
+                        href = ""
 
-                # if it doesnt have https://, start with https://catc.ca.gov
-                if href != "" and href.find("https://") == -1:
-                    href = "https://catc.ca.gov" + href
+                    # if it doesnt have https://, start with https://catc.ca.gov
+                    if href != "" and href.find("https://") == -1:
+                        href = "https://catc.ca.gov" + href
 
-                links.append({"href": href, "title": title})
-            
+                    links.append({"href": href, "title": title})
+        
         return links
 
     def _parse_source(self, response):
@@ -256,17 +339,12 @@ class CataSpider(CityScrapersSpider):
         return response.url
 
 
-
 '''
 NOTES
-- finished committee meetings
-- sort of.  all the mid-text is put into description
-- did not bother trying to parse location
-    - might be able to easily parse "via webinar"
+- title time and links for tri state
 
 Next:
-Equity Advisory Roundtable Meeting page
-jk no this one is mean
+Location from whatever follows <h4> and is not <ul>
 
 
 '''
