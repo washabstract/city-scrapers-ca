@@ -29,7 +29,7 @@ class GranicusSpider(CityScrapersSpider):
 
     # The regex to parse the time in the agenda pdf.
     # Time is later combined with the date previously extracted from the meeting
-    time_regex = r"(\d{1,2}:\d{1,2}\s+([aApP]\.?[mM]\.?)?)"
+    time_regex = r"(\d{1,2}:\d{1,2}\s*([aApP]\.?[mM]\.?)?)"
     # The regex responsible for extracting the location from the agenda pdf
     location_regex = r""
 
@@ -115,12 +115,11 @@ class GranicusSpider(CityScrapersSpider):
                 start_datetime = start_datetime.replace(
                     hour=parsed_pdf_time.hour, minute=parsed_pdf_time.minute
                 )
-            meeting["start"] = start_datetime
-
-            # Replacing the status
-            # Replacing the id
-            meeting["status"] = self._get_status(meeting)
-            meeting["id"] = self._get_id(meeting)
+                # Replacing the status, id and end time
+                meeting["start"] = start_datetime
+                meeting["end"] = self._parse_end(item, start_datetime, None)
+                meeting["status"] = self._get_status(meeting)
+                meeting["id"] = self._get_id(meeting)
 
         yield meeting
 

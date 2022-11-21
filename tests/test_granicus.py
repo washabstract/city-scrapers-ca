@@ -240,8 +240,11 @@ def test_description():
 
 
 def test_start():
-    # TODO Testing meeting that need to get date and time through agenda
     assert baldwin_parsed_items[0]["start"] == datetime(2022, 11, 16, 17, 0)
+    assert baldwin_parsed_items[baldwin_agenda_index]["start"] == datetime(
+        2022, 11, 2, 17, 0
+    )
+
     assert beverlyhills_parsed_items[0]["start"] == datetime(2022, 11, 10, 13, 30)
     assert burbank_parsed_items[0]["start"] == datetime(2022, 11, 10, 18, 0)
     assert accessduarte_parsed_items[0]["start"] == datetime(2022, 11, 21, 19, 0)
@@ -272,7 +275,7 @@ def test_end():
         lambda item: item["end"] is not None, citygardena_parsed_items
     )
 
-    assert baldwin_end["end"] == datetime(2022, 11, 2, 0, 13)
+    assert baldwin_end["end"] == datetime(2022, 11, 2, 17, 13)
     assert beverlyhills_end["end"] == datetime(2022, 10, 27, 3, 17)
     assert burbank_end is None
     assert duarte_end["end"] == datetime(2022, 11, 8, 0, 44)
