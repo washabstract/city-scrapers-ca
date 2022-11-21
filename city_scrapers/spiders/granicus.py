@@ -1,13 +1,16 @@
 import re
 from datetime import datetime, timedelta
+from io import BytesIO
 from typing import Iterable
 from urllib.parse import urljoin, urlparse
 
+import pdfplumber
 import scrapy
 from city_scrapers_core.constants import CLASSIFICATIONS, NOT_CLASSIFIED
 from city_scrapers_core.spiders import CityScrapersSpider
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
+from pdfminer.pdfparser import PDFSyntaxError
 
 from city_scrapers.items import Meeting
 
@@ -22,11 +25,24 @@ class GranicusSpider(CityScrapersSpider):
 
     timezone = "America/Los_Angeles"
     classifications = dict([(c.lower(), c) for c in CLASSIFICATIONS])
+    location = {"address": "", "name": ""}
 
-    def __init__(self, name=None, agency=None, sub_agency=None, *args, **kwargs):
+    # The regex to parse the time in the agenda pdf.
+    # Time is later combined with the date previously extracted from the meeting
+    time_regex = r"(\d{1,2}:\d{1,2}\s+([aApP]\.?[mM]\.?)?)"
+    # The regex responsible for extracting the location from the agenda pdf
+    location_regex = r""
+
+    def __init__(
+        self, name=None, agency=None, sub_agency=None, location=None, *args, **kwargs
+    ):
         self.name = name
         self.agency = agency
         self.sub_agency = sub_agency
+
+        if location is not None and type(location) == dict:
+            self.location = location
+
         super().__init__(*args, **kwargs)
 
     def parse(self, response: scrapy.http.Response) -> Iterable[scrapy.Request]:
@@ -49,7 +65,6 @@ class GranicusSpider(CityScrapersSpider):
                 title = self._parse_title(item, headers)
 
                 try:
-
                     start_datetime = self._parse_start(item, headers)
                 except ParserError:
                     # continuing if scraper cannot parse the start time
@@ -63,7 +78,7 @@ class GranicusSpider(CityScrapersSpider):
                     end=self._parse_end(item, start_datetime, headers),
                     all_day=self._parse_all_day(item),
                     time_notes=self._parse_time_notes(item),
-                    location=self._parse_location(item),
+                    location=self._parse_location(None, item),
                     links=self._parse_links(item),
                     source=self._parse_source(response),
                     created=datetime.now(),
@@ -73,7 +88,41 @@ class GranicusSpider(CityScrapersSpider):
                 meeting["status"] = self._get_status(meeting)
                 meeting["id"] = self._get_id(meeting)
 
-                yield meeting
+                # yield meeting
+
+                try:
+                    agenda_link = [
+                        link["href"]
+                        for link in meeting["links"]
+                        if link["title"] == "Agenda"
+                    ][0]
+                    yield response.follow(
+                        agenda_link,
+                        callback=self._parse_agenda,
+                        cb_kwargs={"meeting": meeting, "item": item},
+                        dont_filter=True,
+                    )
+                except IndexError:
+                    yield meeting
+
+    def _parse_agenda(self, response, meeting, item):
+        # Parsing the start time
+        if meeting["start"].hour == 0 and meeting["start"].minute == 0:
+            parsed_pdf_time = self._parse_pdf_start_time(response)
+            start_datetime = meeting["start"]
+            # Replacing the start_time from the parsed pdf
+            if parsed_pdf_time is not None:
+                start_datetime = start_datetime.replace(
+                    hour=parsed_pdf_time.hour, minute=parsed_pdf_time.minute
+                )
+            meeting["start"] = start_datetime
+
+            # Replacing the status
+            # Replacing the id
+            meeting["status"] = self._get_status(meeting)
+            meeting["id"] = self._get_id(meeting)
+
+        yield meeting
 
     def _parse_title(self, item, headers):
         """Parse or generate meeting title."""
@@ -163,11 +212,13 @@ class GranicusSpider(CityScrapersSpider):
     def _parse_all_day(self, item):
         return False
 
-    def _parse_location(self, item):
-        return {
-            "address": "",
-            "name": "",
-        }
+    def _parse_location(self, response, item):
+
+        if response is not None:
+            # try to parse from pdf (Need to find a good regex)
+            pass
+
+        return self.location
 
     def _parse_links(self, item):
         results = []
@@ -218,3 +269,29 @@ class GranicusSpider(CityScrapersSpider):
 
     def _parse_source(self, response):
         return response.url
+
+    def _parse_pdf_start_time(self, response):
+        # Attempting to extract the time of meeting through pdf meeting agenda
+        if response is not None:
+            try:
+                raw_extracted_text = ""
+                start_time = ""
+                with pdfplumber.open(BytesIO(response.body)) as pdf:
+                    # Checking all the pages of the pdf
+                    for page in pdf.pages:
+                        extracted_text = page.extract_text()
+                        raw_extracted_text += extracted_text if extracted_text else ""
+                        if page == pdf.pages[0]:
+                            start_time = re.search(
+                                self.time_regex,
+                                raw_extracted_text,
+                                re.M,
+                            )
+                            if start_time is not None:
+                                start_time = start_time.group().strip()
+                                return dateparse(start_time).replace(tzinfo=None)
+            except PDFSyntaxError:
+                # Do nothing. try to get from table headers
+                pass
+
+        return None

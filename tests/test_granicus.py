@@ -12,38 +12,46 @@ from city_scrapers_core.constants import (
 from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
+from city_scrapers.items import Meeting
 from city_scrapers.spiders.granicus import GranicusSpider
 
 # Tested on Baldwin Park, Beverly Hills, Burbanl, City of Duarte, City of Gardena
+baldwin_park_start_url = "https://baldwinpark.granicus.com/ViewPublisher.php?view_id=10"
+beverlyhills_start_url = (
+    "https://beverlyhills.granicus.com/ViewPublisher.php?view_id=57"
+)
+burbank_start_url = "https://burbank.granicus.com/ViewPublisher.php?view_id=6"
+duarte_start_url = "https://accessduarte.granicus.com/ViewPublisher.php?view_id=12"
+gardena_start_url = "https://cityofgardena.granicus.com/ViewPublisher.php?view_id=6"
 
 # Baldwinpark
 baldwin_test_response = file_response(
     join(dirname(__file__), "files", "baldwinpark.html"),
-    url="https://baldwinpark.granicus.com/ViewPublisher.php?view_id=10",
+    url=baldwin_park_start_url,
 )
 
 # Beverlyhills
 test_beverly_hills_response = file_response(
     join(dirname(__file__), "files", "beverlyhills.html"),
-    url="https://beverlyhills.granicus.com/ViewPublisher.php?view_id=57",
+    url=beverlyhills_start_url,
 )
 
 # burbank
 test_burbank_response = file_response(
     join(dirname(__file__), "files", "burbank.html"),
-    url="https://burbank.granicus.com/ViewPublisher.php?view_id=6",
+    url=burbank_start_url,
 )
 
 # accessduarte
 test_duarte_response = file_response(
     join(dirname(__file__), "files", "duarte.html"),
-    url="https://accessduarte.granicus.com/ViewPublisher.php?view_id=12",
+    url=duarte_start_url,
 )
 
 # cityofgardena
 test_city_of_gardena_response = file_response(
     join(dirname(__file__), "files", "cityofgardena.html"),
-    url="https://cityofgardena.granicus.com/ViewPublisher.php?view_id=6",
+    url=gardena_start_url,
 )
 
 
@@ -51,31 +59,31 @@ baldwin_park_spider = GranicusSpider(
     name="baldwinpark",
     agency="Baldwin Park",
     sub_agency="Planning Commission",
-    start_urls=["https://baldwinpark.granicus.com/ViewPublisher.php?view_id=10"],
+    start_urls=[baldwin_park_start_url],
 )
 beverly_hills_spider = GranicusSpider(
     name="beverlyhills",
     agency="Beverly Hills",
     sub_agency="Planning Commission",
-    start_urls=["https://beverlyhills.granicus.com/ViewPublisher.php?view_id=57"],
+    start_urls=[beverlyhills_start_url],
 )
 burbank_spider = GranicusSpider(
     name="burbank",
     agency="Burbank",
     sub_agency="Planning Commission",
-    start_urls=["https://burbank.granicus.com/ViewPublisher.php?view_id=6"],
+    start_urls=[burbank_start_url],
 )
 duarte_spider = GranicusSpider(
     name="duartecity",
     agency="Duarte",
     sub_agency="Planning Commission",
-    start_urls=["https://accessduarte.granicus.com/ViewPublisher.php?view_id=12"],
+    start_urls=[duarte_start_url],
 )
 gardena_spider = GranicusSpider(
     name="gardenacity",
     agency="Gardena",
     sub_agency="Planning Commission",
-    start_urls=["https://cityofgardena.granicus.com/ViewPublisher.php?view_id=6"],
+    start_urls=[gardena_start_url],
 )
 
 
@@ -94,11 +102,107 @@ citygardena_parsed_items = [
     item for item in gardena_spider.parse(test_city_of_gardena_response)
 ]
 
-print("Len baldwin park parsed items", len(baldwin_parsed_items))
-print("Len beverly hills parsed items", len(beverlyhills_parsed_items))
-print("Len burbank parsed items", len(burbank_parsed_items))
-print("Len duarte parsed items", len(accessduarte_parsed_items))
-print("Len gardena parsed items", len(citygardena_parsed_items))
+baldwin_agenda_1 = file_response(
+    join("tests", "files", "baldwinpark_agenda_1.pdf"),
+    mode="rb",
+    url=baldwin_park_start_url,
+)
+
+beverlyhills_agenda_1 = file_response(
+    join("tests", "files", "beverlyhills_agenda_1.pdf"),
+    mode="rb",
+    url=beverlyhills_start_url,
+)
+
+burbank_agenda_1 = file_response(
+    join("tests", "files", "burbank_agenda_1.pdf"), mode="rb", url=burbank_start_url
+)
+
+duarte_agenda_1 = file_response(
+    join("tests", "files", "duarte_agenda_1.pdf"), mode="rb", url=duarte_start_url
+)
+
+gardena_agenda_1 = file_response(
+    join("tests", "files", "gardena_agenda_1.pdf"), mode="rb", url=gardena_start_url
+)
+
+# Converting all the items from Request objects to Meeting objects
+# Except the specific items we use to test the pdf agendas
+baldwin_agenda_index = 8
+baldwin_parsed_items = list(
+    map(
+        lambda item: item[1].cb_kwargs["meeting"]
+        if type(item[1]) != Meeting and item[0] != baldwin_agenda_index
+        else item[1],
+        enumerate(baldwin_parsed_items),
+    )
+)
+beverlyhills_parsed_items = [beverlyhills_parsed_items[0]] + list(
+    map(
+        lambda item: item.cb_kwargs["meeting"] if type(item) != Meeting else item,
+        beverlyhills_parsed_items[1:],
+    )
+)
+burbank_parsed_items = [burbank_parsed_items[0]] + list(
+    map(
+        lambda item: item.cb_kwargs["meeting"] if type(item) != Meeting else item,
+        burbank_parsed_items[1:],
+    )
+)
+accessduarte_parsed_items = [accessduarte_parsed_items[0]] + list(
+    map(
+        lambda item: item.cb_kwargs["meeting"] if type(item) != Meeting else item,
+        accessduarte_parsed_items[1:],
+    )
+)
+citygardena_parsed_items = [citygardena_parsed_items[0]] + list(
+    map(
+        lambda item: item.cb_kwargs["meeting"] if type(item) != Meeting else item,
+        citygardena_parsed_items[1:],
+    )
+)
+
+
+# parsing the items with the agenda
+baldwin_parsed_items[baldwin_agenda_index] = next(
+    baldwin_park_spider._parse_agenda(
+        baldwin_agenda_1,
+        baldwin_parsed_items[baldwin_agenda_index].cb_kwargs["meeting"],
+        baldwin_parsed_items[baldwin_agenda_index].cb_kwargs["item"],
+    )
+)
+
+beverlyhills_parsed_items[0] = next(
+    beverly_hills_spider._parse_agenda(
+        beverlyhills_agenda_1,
+        beverlyhills_parsed_items[0].cb_kwargs["meeting"],
+        beverlyhills_parsed_items[0].cb_kwargs["item"],
+    )
+)
+
+burbank_parsed_items[0] = next(
+    burbank_spider._parse_agenda(
+        burbank_agenda_1,
+        burbank_parsed_items[0].cb_kwargs["meeting"],
+        burbank_parsed_items[0].cb_kwargs["item"],
+    )
+)
+
+accessduarte_parsed_items[0] = next(
+    duarte_spider._parse_agenda(
+        duarte_agenda_1,
+        accessduarte_parsed_items[0].cb_kwargs["meeting"],
+        accessduarte_parsed_items[0].cb_kwargs["item"],
+    )
+)
+
+citygardena_parsed_items[0] = next(
+    gardena_spider._parse_agenda(
+        gardena_agenda_1,
+        citygardena_parsed_items[0].cb_kwargs["meeting"],
+        citygardena_parsed_items[0].cb_kwargs["item"],
+    )
+)
 
 
 freezer.stop()
