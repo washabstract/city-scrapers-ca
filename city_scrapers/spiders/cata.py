@@ -44,30 +44,49 @@ class CataSpider(CityScrapersSpider):
         "https://catc.ca.gov/meetings-events/commission-meetings",
         "https://catc.ca.gov/meetings-events/committee-meetings",
         "https://catc.ca.gov/meetings-events/equity-advisory-roundtable-meeting",
+        "https://catc.ca.gov/meetings-events/joint-carb-meetings",
         "https://catc.ca.gov/meetings-events/town-hall-meetings",
         "https://catc.ca.gov/meetings-events/tri-state-meetings",
         "https://catc.ca.gov/meetings-events/workshops"]
     
     def parse(self, response):
-        if "equity-advisory-roundtable" in response.url:
+        if "equity-advisory-roundtable" in response.url or "joint-carb" in response.url:
             # extract all text and href element by element and store in a dict list
             items = []
-            sections = response.xpath("//main[@class='main-primary']//section")
-            if len(sections) >= 3:
-                potential = sections[2].xpath("descendant::*")
-                for row in potential:
-                    text = row.xpath("text()").get()
-                    if text and text.strip() != "":
-                        #add it to the list of items
-                        href = row.xpath("@href").get()
-                        items.append({"text": text, "href": href})
+
+            potential = []
+            if "equity-advisory-roundtable" in response.url:
+                sections = response.xpath("//main[@class='main-primary']//section")
+                if len(sections) >= 3:
+                    potential = sections[2].xpath("descendant::*")
             
+            if "joint" in response.url:
+                potential = response.xpath("//main[@class='main-primary']/div/h2[2]/following-sibling::*/descendant-or-self::*")
+            
+            for row in potential:
+                text = row.xpath("text()").getall()
+                text = "".join(text)
+                if (text and 
+                text.strip() != "" and 
+                not(text.strip().startswith("(") and text.strip().endswith(")"))):
+                    #add it to the list of items
+                    href = row.xpath("@href").get()
+                    text = text.replace("\xa0", " ")
+                    text = text.strip()
+                    items.append({"text": text, "href": href})
+
             # From items list, create a dict list list
             #   ie a list of meetings, where each meeting is a dict list
             newitems = []
             count = -1
             for row in items:
-                if "Equity Advisory Roundtable Meeting" in row["text"]:
+                is_title = False
+                if "equity-advisory-roundtable" in response.url:
+                    is_title = "Equity Advisory Roundtable Meeting" in row["text"]
+                if "joint-carb" in response.url:
+                    is_title = re.search(r"\w+\s\d{1,2}\([A-Za-z]{1,2}\),\s\d{4}", row["text"])
+                
+                if is_title:
                     newitems.append([row])
                     count += 1
                 else:
@@ -80,11 +99,11 @@ class CataSpider(CityScrapersSpider):
                 yield meeting
         
         else:
-            hr = "//div[@id='main-content']/descendant::hr/following-sibling::h3|"
-            h2 = "//div[@id='main-content']/descendant::h2/following-sibling::h3|"
-            sect = "//div[@id='main-content']/descendant::section/h3|"
-            h1 = "//div[@id='main-content']/descendant::h1/following-sibling::h3|"
-            ul = "//div[@id='main-content']/descendant::ul/following-sibling::h3"
+            hr = "//main[@class='main-primary']/descendant::hr/following-sibling::h3|"
+            h2 = "//main[@class='main-primary']/descendant::h2/following-sibling::h3|"
+            sect = "//main[@class='main-primary']/descendant::section/h3|"
+            h1 = "//main[@class='main-primary']/descendant::h1/following-sibling::h3|"
+            ul = "//main[@class='main-primary']/descendant::ul/following-sibling::h3"
             path = hr + h2 + sect + h1 + ul
             meetings_raw = response.xpath(path)
             
@@ -99,6 +118,8 @@ class CataSpider(CityScrapersSpider):
                 while i < num_sibs and "<h3>" not in siblings[i].get():
                     item.append(siblings[i])
                     i+=1
+                    if "workshops" in response.url and "<ul>" in siblings[i].get():
+                        num_sibs = i + 1
                 
                 h = item[0].xpath(".//text()")
                 head = h.get().strip() if h else ""
@@ -114,6 +135,9 @@ class CataSpider(CityScrapersSpider):
                 return title.split(":")[0]
         elif "equity-advisory-roundtable" in response.url:
             return item[0]["text"]
+        elif "joint" in response.url:
+            if len(item) > 1:
+                return item[1]["text"]
         else:
             # For committee and town hall meetings: <h4> is the title
             items = item
@@ -148,11 +172,11 @@ class CataSpider(CityScrapersSpider):
         start = None
         end = None
         all_day = False
-        
+
         # Committee meeting date and time
         # Date is in the h2
         # Time: have to search the full text for that meeting/item
-        if "committee-meetings" in response.url:
+        if "committee-meetings" in response.url or "workshops" in response.url:
             title_segs = item[0].xpath(".//text()").getall()
             title = "".join(title_segs)
             
@@ -162,16 +186,24 @@ class CataSpider(CityScrapersSpider):
                 row = "".join(item.xpath(".//text()").getall())
                 body += row
             
+            enddt = ""
+            startdt = ""
             times = re.findall(r"\d{1,2}:\d\d\s?[aApP][mM]", body)
             if len(times) > 0:
-                title = title + " " + times[0]
-                # print(title)
+                startdt = title + " " + times[0]
+            if len(times) > 1:
+                enddt = title + " " + times[1]
 
             try:
-                start = dateparse(title, fuzzy = "True", ignoretz = "True")
+                start = dateparse(startdt, fuzzy = "True", ignoretz = "True")
             except ParserError:
                 start = None
-            return start, end, all_day
+            
+            # if enddt != "":
+            try:
+                end = dateparse(enddt, fuzzy = "True", ignoretz = "True")
+            except ParserError:
+                end = None
         
         elif "equity-advisory-roundtable" in response.url:
             if len(item) > 1:
@@ -180,52 +212,83 @@ class CataSpider(CityScrapersSpider):
                     start = dateparse(dt, fuzzy = "True", ignoretz = "True")
                 except ParserError:
                     start = None
-                return start, end, all_day
         
-        # For all other meetings
-        # Find date, example format: October 12(W) - 13(TH), 2022
-        # If date is a range, mark all_day=True and parse using only the start date
-        # Remove the (w) weekday marker for dateparsing
-        dt = re.findall(
-            r"(\w+\s\d{1,2}\([A-Za-z]{1,2}\)(\s?[-&]\s?\d{1,2}\([A-Za-z]{1,2}\))?,\s\d{4})", title)
-        if len(dt) > 0 and len(dt[0]) > 0:
-            dt1 = re.findall(r"\s?[-&]\s?\d{1,2}\([A-Za-z]{1,2}\)", dt[0][0])
-            if len(dt1) > 0:
-                # Multi-day event
-                clean_dt = re.sub(
-                    r"\([A-Za-z]{1,2}\)\s?[-&]\s?\d{1,2}\([A-Za-z]{1,2}\)", "", dt[0][0])
-                end_dt = re.sub(
-                    r"\s?\d{1,2}\([A-Za-z]{1,2}\)\s?[-&]", "", dt[0][0])
-                clean_end_dt = re.sub(r"\([A-Za-z]{1,2}\)", "", end_dt)
-                all_day = True
-                
-                # Set end date if there is
-                # End time of all day event is at 11:59 on the last day
-                try: 
-                    end_str = clean_end_dt + " 11:59PM"
-                    end = dateparse(end_str, fuzzy = "True", ignoretz = "True")
-                except:
-                    end = None
+        elif "joint-carb" in response.url:
+            date = ""
+            start_time = ""
+            end_time = ""
+            if len(item) > 0:
+                date = item[0]["text"]
+            if len(item) > 3:
+                time = item[2]["text"]
+                times = time.split("-")
+                start_time = times[0]
+                if len(times) > 1:
+                    end_time = times[1]
             
-            else:
-                # Single day event
-                clean_dt = re.sub(r"\([A-Z]{1,2}\)", "", dt[0][0])
-            
-            # search body for time
-            body = ""
-            items = item
-            for item in items:
-                row = "".join(item.xpath(".//text()").getall())
-                body += row
-            
-            times = re.findall(r"\d{1,2}:\d\d\s?[aApP][mM]", body)
-            if len(times) > 0:
-                clean_dt = clean_dt + " " + times[0]
-
             try:
-                start = dateparse(clean_dt, fuzzy = "True", ignoretz = "True")
+                start = dateparse(
+                    date + " " + start_time, 
+                    fuzzy = "True", 
+                    ignoretz = "True"
+                )
             except ParserError:
                 start = None
+            
+            if end_time != "":
+                try:
+                    end = dateparse(
+                        date + " " + end_time,
+                        fuzzy = "True",
+                        ignoretz = "True"
+                    )
+                except ParserError:
+                    end = None
+        else:
+            # For all other meetings
+            # Find date, example format: October 12(W) - 13(TH), 2022
+            # If date is a range, mark all_day=True and parse using only the start date
+            # Remove the (w) weekday marker for dateparsing
+            dt = re.findall(
+                r"(\w+\s\d{1,2}\([A-Za-z]{1,2}\)(\s?[-&]\s?\d{1,2}\([A-Za-z]{1,2}\))?,\s\d{4})", title)
+            if len(dt) > 0 and len(dt[0]) > 0:
+                dt1 = re.findall(r"\s?[-&]\s?\d{1,2}\([A-Za-z]{1,2}\)", dt[0][0])
+                if len(dt1) > 0:
+                    # Multi-day event
+                    clean_dt = re.sub(
+                        r"\([A-Za-z]{1,2}\)\s?[-&]\s?\d{1,2}\([A-Za-z]{1,2}\)", "", dt[0][0])
+                    end_dt = re.sub(
+                        r"\s?\d{1,2}\([A-Za-z]{1,2}\)\s?[-&]", "", dt[0][0])
+                    clean_end_dt = re.sub(r"\([A-Za-z]{1,2}\)", "", end_dt)
+                    all_day = True
+                    
+                    # Set end date if there is
+                    # End time of all day event is at 11:59 on the last day
+                    try: 
+                        end_str = clean_end_dt + " 11:59PM"
+                        end = dateparse(end_str, fuzzy = "True", ignoretz = "True")
+                    except:
+                        end = None
+                
+                else:
+                    # Single day event
+                    clean_dt = re.sub(r"\([A-Z]{1,2}\)", "", dt[0][0])
+                
+                # search body for time
+                body = ""
+                items = item
+                for item in items:
+                    row = "".join(item.xpath(".//text()").getall())
+                    body += row
+                
+                times = re.findall(r"\d{1,2}:\d\d\s?[aApP][mM]", body)
+                if len(times) > 0:
+                    clean_dt = clean_dt + " " + times[0]
+
+                try:
+                    start = dateparse(clean_dt, fuzzy = "True", ignoretz = "True")
+                except ParserError:
+                    start = None
 
         return start, end, all_day
 
@@ -273,6 +336,17 @@ class CataSpider(CityScrapersSpider):
                         break
                     address = address + txt + "\n"
             address = address.strip()
+        
+        # Joint CARB Meeting
+        elif "joint" in response.url:
+            count = -1
+            for row in item:
+                if row["href"] != None:
+                    break
+                count += 1
+            
+            if count > 1:
+                address = item[count]["text"]
 
         # Tri State Meeting
         elif "tri-state-" in response.url:
@@ -283,6 +357,18 @@ class CataSpider(CityScrapersSpider):
                     if location:
                         address = address + location.strip() + "\n"
             address = address.strip()
+        
+        # Workshops
+        elif "workshop" in response.url:
+            if len(item) > 3 and "<ul>" not in item[3].get():
+                name =  item[3].xpath("text()").get().strip()
+            
+            if len(item) > 4:
+                for row in item[4:]:
+                    if "<ul>" in row.get():
+                        break
+                    address = address + row.xpath("text()").get().strip() + "\n"
+                address = address.strip()
         
         # Comission Meetings
         else:
@@ -298,7 +384,7 @@ class CataSpider(CityScrapersSpider):
     def _parse_links(self, item, response):
         links = []
 
-        if "equity-advisory-roundtable" in response.url:
+        if "equity-advisory-roundtable" in response.url or "joint" in response.url:
             for row in item:
                 if row["href"]:
                     href = row["href"]
@@ -306,7 +392,7 @@ class CataSpider(CityScrapersSpider):
                         href = "https://catc.ca.gov" + href
                     title = row["text"].replace("\xa0", " ").strip()
                     links.append({"href": href, "title": title})
-        
+
         else:
             # collect every link at any sublevel of each "row" in the item
             for row in item:
