@@ -1,7 +1,6 @@
 from datetime import datetime
 from os.path import dirname, join
 
-# import pytest
 from city_scrapers_core.constants import (
     ADVISORY_COMMITTEE,
     COMMISSION,
