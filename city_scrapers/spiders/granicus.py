@@ -32,13 +32,33 @@ class GranicusSpider(CityScrapersSpider):
     time_regex = r"(\d{1,2}:\d{1,2}\s*([aApP]\.?[mM]\.?)?)"
     # The regex responsible for extracting the location from the agenda pdf
     location_regex = r""
+    table_classes = ["listingTable", "listingTableUpcoming"]
+    table_xpath = ""
 
     def __init__(
-        self, name=None, agency=None, sub_agency=None, location=None, *args, **kwargs
+        self,
+        name=None,
+        agency=None,
+        sub_agency=None,
+        location=None,
+        table_classes=None,
+        *args,
+        **kwargs,
     ):
         self.name = name
         self.agency = agency
         self.sub_agency = sub_agency
+
+        if table_classes is not None and type(table_classes) == list:
+            # do not completely remove the previous.
+            # just add to them
+            self.table_classes += table_classes
+
+        # Converting to the xpath syntax
+        table_classes_xpath_syntax = map(
+            lambda cls: f"@class='{cls}'", self.table_classes
+        )
+        self.table_xpath = " or ".join(table_classes_xpath_syntax)
 
         if location is not None and type(location) == dict:
             self.location = location
@@ -49,9 +69,7 @@ class GranicusSpider(CityScrapersSpider):
         # table classes
         # .listingTable
         # .listingTableUpcoming
-        tables = response.xpath(
-            ".//table[@class='listingTable' or @class='listingTableUpcoming']"
-        )
+        tables = response.xpath(f"//table[{self.table_xpath}]")
 
         # Parse the row based on the headers
         for table in tables:
