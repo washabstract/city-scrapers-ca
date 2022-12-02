@@ -20,14 +20,13 @@ def create_meeting(self, response, item, head):
         updated=datetime.now(),
     )
 
-    # use `head`(the heading/title) to get time and location
     (
         meeting["start"],
         meeting["end"],
         meeting["all_day"],
     ) = self._parse_start_end_all_day(item, head, response)
-    meeting["location"] = self._parse_location(item, head, response)
 
+    meeting["location"] = self._parse_location(item, head, response)
     meeting["classification"] = self._parse_classification(meeting["title"])
 
     if meeting["start"] is None:
@@ -39,8 +38,8 @@ def create_meeting(self, response, item, head):
     return meeting
 
 
-class CataSpider(CityScrapersSpider):
-    name = "cata"
+class CatcSpider(CityScrapersSpider):
+    name = "catc"
     agency = "California Transportation Commission"
     timezone = "America/Los_Angeles"
     start_urls = [
@@ -54,7 +53,7 @@ class CataSpider(CityScrapersSpider):
     ]
 
     def parse(self, response):
-        # Equity Advisory Roundtable and Joint CARB Meeting pages
+        # Equity Advisory Roundtable and Joint CARB Meetings
         if "equity-advisory-roundtable" in response.url or "joint-carb" in response.url:
             # extract all text and href element by element and store in a dict list
             items = []
@@ -110,6 +109,7 @@ class CataSpider(CityScrapersSpider):
                 meeting = create_meeting(self, response, item, head)
                 yield meeting
 
+        # Commission, Committee, Town Hall, Tri-State, and Workshop Meetings
         else:
             hr = "//main[@class='main-primary']/descendant::hr/following-sibling::h3|"
             h2 = "//main[@class='main-primary']/descendant::h2/following-sibling::h3|"
@@ -140,25 +140,27 @@ class CataSpider(CityScrapersSpider):
                 yield meeting
 
     def _parse_title(self, item, response):
-        # Comission Meetings
+        clean_title = ""
+
+        # Commission Meetings
         if "commission-meetings" in response.url:
             title = item[0].xpath("text()")
             if title:
                 title = title.get().strip()
-                return title.split(":")[0]
+                clean_title = title.split(":")[0]
 
         # Equity Advisory Roundtable Meetings
         elif "equity-advisory-roundtable" in response.url:
-            return item[0]["text"]
+            clean_title = item[0]["text"]
 
         # Joint CARB Meetings
         elif "joint" in response.url:
             if len(item) > 1:
-                return item[1]["text"]
+                clean_title = item[1]["text"]
 
         # Committee, Town Hall, Tri-State, and Workshops
         else:
-            # For committee and town hall meetings: <h4> is the title
+            # <h4> marks the title
             items = item
             for item in items:
                 if "<h4>" in item.get():
@@ -167,12 +169,12 @@ class CataSpider(CityScrapersSpider):
                         if "town-hall-" in response.url:
                             t = title[0]
                             title = t.split("-")
-                        return title[0].strip()
+                        clean_title = title[0].strip()
+                        break
 
-        return ""
+        return clean_title
 
     def _parse_description(self, item, response):
-        """Parse or generate meeting description."""
         if "committee-meetings" in response.url:
             items = item[2 : len(item) - 1]
             text = ""
@@ -195,7 +197,7 @@ class CataSpider(CityScrapersSpider):
 
         # Committee and Workshops
         if "committee-meetings" in response.url or "workshops" in response.url:
-            # Date is in the h2
+            # Date: in the h2
             # Time: have to search the full text for that meeting/item
             title_segs = item[0].xpath(".//text()").getall()
             title = "".join(title_segs)
@@ -392,7 +394,7 @@ class CataSpider(CityScrapersSpider):
                     address = address + row.xpath("text()").get().strip() + "\n"
                 address = address.strip()
 
-        # Comission and Committee Meetings
+        # Commission and Committee Meetings
         else:
             split_title = re.split(r",\s?\d{4}\s?-", title)
             if len(split_title) > 1:
@@ -445,13 +447,4 @@ class CataSpider(CityScrapersSpider):
         return links
 
     def _parse_source(self, response):
-        """Parse or generate source."""
         return response.url
-
-
-"""
-NOTES
-- make it look nice
-- test in scrapy
-
-"""
