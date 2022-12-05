@@ -1,0 +1,517 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
+	<title>Home - OnBase Agenda Online</title>
+	<link href="/211agendaonlinecouncil/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<meta name="viewport" content="width=device-width" />
+	
+	<meta name="format-detection" content="telephone=no" />
+
+	<script src="/211agendaonlinecouncil/bundles/jquery?v=9ktsOtIo0upvJP7-7FiXuOoOJe58RLFJ__wIRPL2vGo1"></script>
+
+
+	<link href="/211agendaonlinecouncil/bundles/css?v=DRk4-i98xgECysKu9WVBQQzGWVS-p3dGRK3lDMW9ZTo1" rel="stylesheet"/>
+
+
+	<!-- Dynamic Stylesheet -->
+	<link href="/211agendaonlinecouncil/Style" rel="stylesheet" />
+	<link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,600,800,700|Merriweather:400,700" media="all" />
+	<link rel="stylesheet" href="/211agendaonlinecouncil/Content/css/cosd-onbase.css">
+</head>
+<body>
+	<div id="logo-container">
+		
+<!--<div class="logo"><img src="~/Images/cosd-logo-stacked-white-color-sails-72ppi.png" /></div>-->
+<div id="logo-container">
+<div class="logo l-constrained">
+  <div class="three columns text-center l-padding-mobile-bd l-padding-desktop-lm">
+	<a href="https://www.sandiego.gov/city-clerk"><img src="/211agendaonlinecouncil/Images/cosd-logo-primary-white-color-sails-72ppi.png" width="205" height="50" class="hide-on-mobile" /><img src="/211agendaonlinecouncil/Images/cosd-logo-primary-white-color-sails-72ppi.png" width="200" height="auto" class="hide-on-desktop" /></a>
+  </div>
+  <div class="nine columns l-padding-mobile-hd">
+	<h1 class="heading--trim hide-on-mobile">City Council Agendas, Results, and Minutes</h1>
+	<h1 class="h2 heading--trim hide-on-desktop text-center">City Council Agendas, Results, and Minutes</h1>
+  </div>
+</div>
+</div>
+	</div>
+	<!--<div id="navbar" class="navbar navbar-inverse" role="navigation">
+		<div class="navbar-header">
+			<button id="btnNavToggle" class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<div class="media-collapse">
+				<span id="media-collapse-text">Hide Media</span>
+			</div>
+		</div>
+		<div class="navbar-collapse collapse navbar-responsive-collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="/211agendaonlinecouncil/" id="lnkNavHome">Home</a></li>
+				<li><a href="/211agendaonlinecouncil/Meetings" id="lnkNavMeetings">Meetings</a></li>
+				<li><a href="/211agendaonlinecouncil/Home/Contact" id="lnkNavContact">Contact</a></li>
+			</ul>
+		</div>
+
+	</div>-->
+	<div id="navbar" class="navbar navbar-inverse l-constrained" role="navigation">
+		<div class="navbar-header">
+			<button id="btnNavToggle" class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<div class="media-collapse">
+				<span id="media-collapse-text">Hide Media</span>
+			</div>
+		</div>
+		<div class="navbar-collapse collapse navbar-responsive-collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="/211agendaonlinecouncil/" id="lnkNavHome">Home</a></li>
+				<!--<li><a href="/211agendaonlinecouncil/Meetings" id="lnkNavMeetings">Meetings</a></li>-->
+				<li><a href="/211agendaonlinecouncil/Meetings" id="lnkNavMeetings">Past Meeting Search</a></li>
+				<!--<li><a href="/211agendaonlinecouncil/Home/Contact" id="lnkNavContact">Contact</a></li>-->
+				<li><a href="/211agendaonlinecouncil/Home/Contact" id="lnkNavContact">Meeting Resources</a></li>
+			</ul>
+		</div>
+	</div>
+	<div>
+		
+    <section class="featured l-constrained">
+        <div class="content-wrapper">
+            <!--<h1>Welcome to OnBase Agenda Online</h1>
+		    <p>Listed below are recent and upcoming meetings. To run a search click the &quot;Meetings&quot; link at the top of the page.</p>-->
+<div class="rounded-corners l-padding-am" style="background-color:#fffceb; border: 1px solid #ffa02f">
+<p class="l-margin-bn text-accent" style="font-size:1.3em;"><a href="https://www.sandiego.gov/city-clerk/officialdocs/participate-council-meetings">How to Join and Participate in City Council Meetings</a></p>
+</div>
+        </div>
+        <div class="header">
+           Meetings &amp; Agendas
+        </div>
+        <p class="l-margin-bm"><strong>NOTE:</strong> Council agendas move to the Recent tab on the day of the meeting once the meeting begins.</p>
+        <div class="content">
+            
+
+
+<script type="text/javascript">
+	var localeSortableStrings =
+	{
+		FILTER_MENU_ALL:	'All',
+		COUNT_LABEL:		'Showing {0} Meeting(s)',
+	};
+	var realCount = 0;
+</script>
+<div id="meetings-list">
+			<div>
+				<ul id="meetings-list-tabs" class="nav nav-tabs">
+						<li><a href="#meetings-list-upcoming" data-toggle="tabs" id="lnkUpcoming">Upcoming</a></li>
+
+							<li><a href="#meeting-list-recent" data-toggle="tabs" id="lnkRecent">Recent</a></li>
+				</ul>
+
+				<div id="meetings-list-content" class="tab-content">
+						<div class="tab-pane" id="meetings-list-upcoming">
+								<div class="border border--dark l-margin-bm">
+					<div class="row l-padding-vd l-padding-mobile-hd background-white">
+						<div class="two columns l-padding-desktop-lm">
+							<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/27/2022</strong></p>
+						</div>
+						<div class="ten columns">
+							<div class="row">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bn">Adjourned Agenda</p>
+								</div>
+								<div class="six columns l-margin-mobile-td">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5262&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Adjourned Agenda City Council on 9/27/2022 10:00:00 AM" id="lnkMeetingAgenda_5262">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Adjourned_Agenda_5262_Agenda_9_27_2022_10_00_00_AM.pdf?documentType=1&amp;meetingId=5262" id="lnkMeetingAgendaDoc_5262" target="_blank"
+		   title="Download Agenda for Adjourned Agenda City Council on 9/27/2022 10:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+						<hr class="l-margin-vn border--dark">
+					<div class="row l-padding-vd l-padding-mobile-hd background--off-white">
+						<div class="two columns l-padding-desktop-lm">
+							<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/26/2022</strong></p>
+						</div>
+						<div class="ten columns">
+							<div class="row">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bn">Adjourned Agenda</p>
+								</div>
+								<div class="six columns l-margin-mobile-td">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5261&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Adjourned Agenda City Council on 9/26/2022 2:00:00 PM" id="lnkMeetingAgenda_5261">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Adjourned_Agenda_5261_Agenda_9_26_2022_2_00_00_PM.pdf?documentType=1&amp;meetingId=5261" id="lnkMeetingAgendaDoc_5261" target="_blank"
+		   title="Download Agenda for Adjourned Agenda City Council on 9/26/2022 2:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+	</div>
+
+						</div>
+
+							<div class="tab-pane" id="meeting-list-recent">
+									<div class="border border--dark l-margin-bm">
+					<div class="row l-padding-vd l-padding-mobile-hd background-white">
+						<div class="two columns l-padding-desktop-lm">
+							<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/20/2022</strong></p>
+						</div>
+						<div class="ten columns">
+							<div class="row">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bn">Closed Session</p>
+								</div>
+								<div class="six columns l-margin-mobile-td">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5251&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Closed Session City Council on 9/20/2022 11:00:00 AM" id="lnkMeetingAgenda_5251">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Closed_Session_5251_Agenda_9_20_2022_11_00_00_AM.pdf?documentType=1&amp;meetingId=5251" id="lnkMeetingAgendaDoc_5251" target="_blank"
+		   title="Download Agenda for Closed Session City Council on 9/20/2022 11:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row l-padding-mobile-hd background-white">
+						<div class="two columns hide-on-mobile">
+							<p class="l-margin-vs"><span class="visuallyhidden">9/20/2022</span>&nbsp;</p>
+						</div>
+						<div class="ten columns">
+							<hr class="l-margin-vn hr--dashed">
+							<div class="row l-padding-vd">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bd">Public Comments for Sept 20 Council Meeting</p>
+								</div>
+								<div class="six columns">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5260&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Public Comments for Sept 20 Council Meeting City Council on 9/20/2022 10:00:00 AM" id="lnkMeetingAgenda_5260">Public Comment</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Public_Comments_for_Sept_20_Council_Meeting_5260_Agenda_9_20_2022_10_00_00_AM.pdf?documentType=1&amp;meetingId=5260" id="lnkMeetingAgendaDoc_5260" target="_blank"
+		   title="Download Agenda for Public Comments for Sept 20 Council Meeting City Council on 9/20/2022 10:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row l-padding-mobile-hd background-white">
+						<div class="two columns hide-on-mobile">
+							<p class="l-margin-vs"><span class="visuallyhidden">9/20/2022</span>&nbsp;</p>
+						</div>
+						<div class="ten columns">
+							<hr class="l-margin-vn hr--dashed">
+							<div class="row l-padding-vd">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bd">Tuesday Agenda and Results Summary</p>
+								</div>
+								<div class="six columns">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5241&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Tuesday Agenda and Results Summary City Council on 9/20/2022 10:00:00 AM" id="lnkMeetingAgenda_5241">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Tuesday_Agenda_and_Results_Summary_5241_Agenda_9_20_2022_10_00_00_AM.pdf?documentType=1&amp;meetingId=5241" id="lnkMeetingAgendaDoc_5241" target="_blank"
+		   title="Download Agenda for Tuesday Agenda and Results Summary City Council on 9/20/2022 10:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5241&amp;doctype=3&amp;site=council"
+		   title="View Summary for Tuesday Agenda and Results Summary City Council on 9/20/2022 10:00:00 AM" id="lnkMeetingSummary_5241">Summary</a>
+		<!--<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Documents/DownloadFile/Tuesday_Agenda_and_Results_Summary_5241_Summary_9_20_2022_10_00_00_AM.pdf?documentType=3&amp;meetingId=5241" id="lnkMeetingSummaryDoc_5241" target="_blank"
+		   title="Download Summary for Tuesday Agenda and Results Summary City Council on 9/20/2022 10:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+						<hr class="l-margin-vn border--dark">
+					<div class="row l-padding-vd l-padding-mobile-hd background--off-white">
+						<div class="two columns l-padding-desktop-lm">
+							<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/19/2022</strong></p>
+						</div>
+						<div class="ten columns">
+							<div class="row">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bn">Adjourned Agenda</p>
+								</div>
+								<div class="six columns l-margin-mobile-td">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5250&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Adjourned Agenda City Council on 9/19/2022 2:00:00 PM" id="lnkMeetingAgenda_5250">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Adjourned_Agenda_5250_Agenda_9_19_2022_2_00_00_PM.pdf?documentType=1&amp;meetingId=5250" id="lnkMeetingAgendaDoc_5250" target="_blank"
+		   title="Download Agenda for Adjourned Agenda City Council on 9/19/2022 2:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row l-padding-mobile-hd background--off-white">
+						<div class="two columns hide-on-mobile">
+							<p class="l-margin-vs"><span class="visuallyhidden">9/19/2022</span>&nbsp;</p>
+						</div>
+						<div class="ten columns">
+							<hr class="l-margin-vn hr--dashed">
+							<div class="row l-padding-vd">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bd">Special Agenda and Results Summary</p>
+								</div>
+								<div class="six columns">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5245&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Special Agenda and Results Summary City Council on 9/19/2022 12:00:00 PM" id="lnkMeetingAgenda_5245">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Special_Agenda_and_Results_Summary_5245_Agenda_9_19_2022_12_00_00_PM.pdf?documentType=1&amp;meetingId=5245" id="lnkMeetingAgendaDoc_5245" target="_blank"
+		   title="Download Agenda for Special Agenda and Results Summary City Council on 9/19/2022 12:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5245&amp;doctype=3&amp;site=council"
+		   title="View Summary for Special Agenda and Results Summary City Council on 9/19/2022 12:00:00 PM" id="lnkMeetingSummary_5245">Summary</a>
+		<!--<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Documents/DownloadFile/Special_Agenda_and_Results_Summary_5245_Summary_9_19_2022_12_00_00_PM.pdf?documentType=3&amp;meetingId=5245" id="lnkMeetingSummaryDoc_5245" target="_blank"
+		   title="Download Summary for Special Agenda and Results Summary City Council on 9/19/2022 12:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row l-padding-mobile-hd background--off-white">
+						<div class="two columns hide-on-mobile">
+							<p class="l-margin-vs"><span class="visuallyhidden">9/19/2022</span>&nbsp;</p>
+						</div>
+						<div class="ten columns">
+							<hr class="l-margin-vn hr--dashed">
+							<div class="row l-padding-vd">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bd">Special Council Meeting and Adjournment</p>
+								</div>
+								<div class="six columns">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5249&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Special Council Meeting and Adjournment City Council on 9/19/2022 12:00:00 PM" id="lnkMeetingAgenda_5249">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Special_Council_Meeting_and_Adjournment_5249_Agenda_9_19_2022_12_00_00_PM.pdf?documentType=1&amp;meetingId=5249" id="lnkMeetingAgendaDoc_5249" target="_blank"
+		   title="Download Agenda for Special Council Meeting and Adjournment City Council on 9/19/2022 12:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+						<hr class="l-margin-vn border--dark">
+					<div class="row l-padding-vd l-padding-mobile-hd background-white">
+						<div class="two columns l-padding-desktop-lm">
+							<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/13/2022</strong></p>
+						</div>
+						<div class="ten columns">
+							<div class="row">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bn">Housing Authority</p>
+								</div>
+								<div class="six columns l-margin-mobile-td">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5244&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Housing Authority City Council on 9/13/2022 2:00:00 PM" id="lnkMeetingAgenda_5244">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Housing_Authority_5244_Agenda_9_13_2022_2_00_00_PM.pdf?documentType=1&amp;meetingId=5244" id="lnkMeetingAgendaDoc_5244" target="_blank"
+		   title="Download Agenda for Housing Authority City Council on 9/13/2022 2:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row l-padding-mobile-hd background-white">
+						<div class="two columns hide-on-mobile">
+							<p class="l-margin-vs"><span class="visuallyhidden">9/13/2022</span>&nbsp;</p>
+						</div>
+						<div class="ten columns">
+							<hr class="l-margin-vn hr--dashed">
+							<div class="row l-padding-vd">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bd">PFFA Session Adjourned</p>
+								</div>
+								<div class="six columns">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5243&amp;doctype=1&amp;site=council"
+		   title="View Agenda for PFFA Session Adjourned City Council on 9/13/2022 2:00:00 PM" id="lnkMeetingAgenda_5243">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/PFFA_Session_Adjourned_5243_Agenda_9_13_2022_2_00_00_PM.pdf?documentType=1&amp;meetingId=5243" id="lnkMeetingAgendaDoc_5243" target="_blank"
+		   title="Download Agenda for PFFA Session Adjourned City Council on 9/13/2022 2:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row l-padding-mobile-hd background-white">
+						<div class="two columns hide-on-mobile">
+							<p class="l-margin-vs"><span class="visuallyhidden">9/13/2022</span>&nbsp;</p>
+						</div>
+						<div class="ten columns">
+							<hr class="l-margin-vn hr--dashed">
+							<div class="row l-padding-vd">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bd">Closed Session</p>
+								</div>
+								<div class="six columns">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5242&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Closed Session City Council on 9/13/2022 11:00:00 AM" id="lnkMeetingAgenda_5242">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Closed_Session_5242_Agenda_9_13_2022_11_00_00_AM.pdf?documentType=1&amp;meetingId=5242" id="lnkMeetingAgendaDoc_5242" target="_blank"
+		   title="Download Agenda for Closed Session City Council on 9/13/2022 11:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row l-padding-mobile-hd background-white">
+						<div class="two columns hide-on-mobile">
+							<p class="l-margin-vs"><span class="visuallyhidden">9/13/2022</span>&nbsp;</p>
+						</div>
+						<div class="ten columns">
+							<hr class="l-margin-vn hr--dashed">
+							<div class="row l-padding-vd">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bd">Tuesday Agenda and Results Summary</p>
+								</div>
+								<div class="six columns">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5219&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Tuesday Agenda and Results Summary City Council on 9/13/2022 10:00:00 AM" id="lnkMeetingAgenda_5219">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Tuesday_Agenda_and_Results_Summary_5219_Agenda_9_13_2022_10_00_00_AM.pdf?documentType=1&amp;meetingId=5219" id="lnkMeetingAgendaDoc_5219" target="_blank"
+		   title="Download Agenda for Tuesday Agenda and Results Summary City Council on 9/13/2022 10:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5219&amp;doctype=3&amp;site=council"
+		   title="View Summary for Tuesday Agenda and Results Summary City Council on 9/13/2022 10:00:00 AM" id="lnkMeetingSummary_5219">Summary</a>
+		<!--<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Documents/DownloadFile/Tuesday_Agenda_and_Results_Summary_5219_Summary_9_13_2022_10_00_00_AM.pdf?documentType=3&amp;meetingId=5219" id="lnkMeetingSummaryDoc_5219" target="_blank"
+		   title="Download Summary for Tuesday Agenda and Results Summary City Council on 9/13/2022 10:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row l-padding-mobile-hd background-white">
+						<div class="two columns hide-on-mobile">
+							<p class="l-margin-vs"><span class="visuallyhidden">9/13/2022</span>&nbsp;</p>
+						</div>
+						<div class="ten columns">
+							<hr class="l-margin-vn hr--dashed">
+							<div class="row l-padding-vd">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bd">Public Comments for Sept 13 Council Meeting</p>
+								</div>
+								<div class="six columns">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5246&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Public Comments for Sept 13 Council Meeting City Council on 9/13/2022 10:00:00 AM" id="lnkMeetingAgenda_5246">Public Comment</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Public_Comments_for_Sept_13_Council_Meeting_5246_Agenda_9_13_2022_10_00_00_AM.pdf?documentType=1&amp;meetingId=5246" id="lnkMeetingAgendaDoc_5246" target="_blank"
+		   title="Download Agenda for Public Comments for Sept 13 Council Meeting City Council on 9/13/2022 10:00:00 AM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+						<hr class="l-margin-vn border--dark">
+					<div class="row l-padding-vd l-padding-mobile-hd background--off-white">
+						<div class="two columns l-padding-desktop-lm">
+							<p class="l-margin-desktop-vs l-margin-mobile-bd date"><strong>9/12/2022</strong></p>
+						</div>
+						<div class="ten columns">
+							<div class="row">
+								<div class="six columns">
+									<p class="l-margin-desktop-vs l-margin-mobile-bn">Monday Agenda and Results Summary</p>
+								</div>
+								<div class="six columns l-margin-mobile-td">
+									<p class="l-margin-bn">		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5218&amp;doctype=1&amp;site=council"
+		   title="View Agenda for Monday Agenda and Results Summary City Council on 9/12/2022 2:00:00 PM" id="lnkMeetingAgenda_5218">Agenda</a>
+		<!--<a class="btn" href="/211agendaonlinecouncil/Documents/Downloadfile/Monday_Agenda_and_Results_Summary_5218_Agenda_9_12_2022_2_00_00_PM.pdf?documentType=1&amp;meetingId=5218" id="lnkMeetingAgendaDoc_5218" target="_blank"
+		   title="Download Agenda for Monday Agenda and Results Summary City Council on 9/12/2022 2:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+		<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Meetings/ViewMeeting?id=5218&amp;doctype=3&amp;site=council"
+		   title="View Summary for Monday Agenda and Results Summary City Council on 9/12/2022 2:00:00 PM" id="lnkMeetingSummary_5218">Summary</a>
+		<!--<a class="btn l-margin-mobile-bs" href="/211agendaonlinecouncil/Documents/DownloadFile/Monday_Agenda_and_Results_Summary_5218_Summary_9_12_2022_2_00_00_PM.pdf?documentType=3&amp;meetingId=5218" id="lnkMeetingSummaryDoc_5218" target="_blank"
+		   title="Download Summary for Monday Agenda and Results Summary City Council on 9/12/2022 2:00:00 PM">
+			<img src="~/Images/PDF_16x16.png" />
+		</a>-->
+</p>
+								</div>
+							</div>
+						</div>
+					</div>
+	</div>
+
+							</div>
+				</div>
+			</div>
+<script src="/211agendaonlinecouncil/bundles/meetinglisttabs?v=51hsMNIHnj_B_3yXTotEAkYgxxYtAo8UTLYAzCngnCA1"></script>
+
+	<div id="footer-results-message">
+	</div>
+</div>
+
+<script src="/211agendaonlinecouncil/bundles/meetinglistsort?v=Zyu7yuvwuJ4fcqfIpoVt-6d6DcwlDK9_67_62s3mKkY1"></script>
+
+
+
+
+
+
+        </div>
+		<div class="post-meeting-grid-spacer">
+			TEXT;
+		</div>
+    </section>
+
+		<section class="content-wrapper main-content clear-fix l-constrained">
+			
+
+
+
+
+
+
+		</section>
+	</div>
+	<div class="footer">
+		<!--<div class="container">
+			<div class="row">
+                <div class="col-md-12 no-padding-left">
+                    <img src="~/Images/OnBase_Logo.png" class="onbase-logo" />
+                    Copyright &#169; 2015-2022 Hyland Software, Inc.
+                </div>
+			</div>
+		</div>-->
+		<div class="footer__privacy l-constrained">
+			<div class="row text-center l-padding-vd background-off-white">
+				<ul>
+					<li>Copyright &#169; 2022 City of San Diego</li>
+					<li><a href="https://www.sandiego.gov/disclaimers">Disclaimers</a></li>
+					<li><a href="https://www.sandiego.gov/privacy-policy">Privacy Policy</a></li>
+					<li><a href="https://www.sandiego.gov/accessibility">Accessibility</a></li>
+					<li><a href="https://www.sandiego.gov/contact">Contact the City</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script src="/211agendaonlinecouncil/bundles/corescripts?v=6h0g3m818gbdrW57_Q6xLaHjZitU5RtArUxI7lFhH9E1"></script>
+
+	<script src="/211agendaonlinecouncil/Scripts/cosd-onbase.js"></script>
+
+</body>
+</html>
