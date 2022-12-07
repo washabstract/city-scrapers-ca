@@ -177,7 +177,10 @@ class GranicusSpider(CityScrapersSpider):
     def _parse_start(self, item, headers):
         """Parse start datetime as a naive datetime object."""
         # getall since the date is split
-        date = item.xpath("td[contains(@headers, 'Date')]/text()").getall() + item.xpath("td[contains(@headers, 'Date')]//a/text()").getall()
+        date = (
+            item.xpath("td[contains(@headers, 'Date')]/text()").getall()
+            + item.xpath("td[contains(@headers, 'Date')]//a/text()").getall()
+        )
         if len(date) == 0:
             # Default date index is 2
             date_index = headers["Date"] if "Date" in headers else 2
