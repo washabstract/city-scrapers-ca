@@ -112,7 +112,7 @@ class GranicusSpider(CityScrapersSpider):
                     agenda_link = [
                         link["href"]
                         for link in meeting["links"]
-                        if link["title"] == "Agenda"
+                        if "Agenda" in link["title"]
                     ][0]
                     yield response.follow(
                         agenda_link,
