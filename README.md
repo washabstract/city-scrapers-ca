@@ -5,9 +5,12 @@
 
 <details><summary>Individual Scrapers</summary>
 
+[![Scrape CA High-Speed Rail](https://github.com/washabstract/city-scrapers-ca/actions/workflows/ca_highspeed_rail.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/ca_highspeed_rail.yml)
+[![Scrape CATC](https://github.com/washabstract/city-scrapers-ca/actions/workflows/catc.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/catc.yml)
 [![Scrape CC County BOS](https://github.com/washabstract/city-scrapers-ca/actions/workflows/cc_county_bos.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/cc_county_bos.yml)
 [![Scrape CCTA](https://github.com/washabstract/city-scrapers-ca/actions/workflows/ccta.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/ccta.yml)
 [![Scrape City of Long Beach](https://github.com/washabstract/city-scrapers-ca/actions/workflows/long_beach.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/long_beach.yml)
+[![Scrape City of San Diego](https://github.com/washabstract/city-scrapers-ca/actions/workflows/san_diego_city.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/san_diego_city.yml)
 [![Scrape County of San Diego](https://github.com/washabstract/city-scrapers-ca/actions/workflows/san_diego_county.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/san_diego_county.yml)
 [![Scrape Culver City](https://github.com/washabstract/city-scrapers-ca/actions/workflows/culver_city.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/culver_city.yml)
 [![Scrape LA City Government](https://github.com/washabstract/city-scrapers-ca/actions/workflows/la_city_government.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/la_city_government.yml)
@@ -22,6 +25,8 @@
 [![Scrape SF Planning Commission](https://github.com/washabstract/city-scrapers-ca/actions/workflows/sf_planning.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/sf_planning.yml)
 [![Scrape San Francisco Board of Supervisors](https://github.com/washabstract/city-scrapers-ca/actions/workflows/sf_bos.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/sf_bos.yml)
 [![Scrape San Jose](https://github.com/washabstract/city-scrapers-ca/actions/workflows/san_jose_leg.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/san_jose_leg.yml)
+[![Scrape Santa Monica](https://github.com/washabstract/city-scrapers-ca/actions/workflows/santa_monica.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/santa_monica.yml)
+[![Scrape South Coast AQMD](https://github.com/washabstract/city-scrapers-ca/actions/workflows/south_coast_air_quality_management.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/south_coast_air_quality_management.yml)
 [![Scrape Walnut Creek](https://github.com/washabstract/city-scrapers-ca/actions/workflows/walnut_creek.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/walnut_creek.yml)
 [![Scrape West Hollywood](https://github.com/washabstract/city-scrapers-ca/actions/workflows/west_hollywood.yml/badge.svg)](https://github.com/washabstract/city-scrapers-ca/actions/workflows/west_hollywood.yml)
 
@@ -31,6 +36,8 @@ Based on the template from the [City Scrapers](https://cityscrapers.org/) projec
 
 ## Scrapers Implemented
 
+* California High-Speed Rail Authority
+* California Transportation Commission
 * Contra Costa County Board of Supervisors
 * Contra Costa Transportation Authority
 * Culver City
@@ -43,11 +50,13 @@ Based on the template from the [City Scrapers](https://cityscrapers.org/) projec
 * LA Unified School District
 * LA World Airports
 * City of Long Beach
+* City of San Diego
 * County of San Diego
 * San Francisco Board of Supervisors
 * San Francisco Planning Commission
 * City of San Jose
 * Santa Monica City Council
+* South Coast AQMD
 * Southern California Regional Rail Authority
 * City of Walnut Creek
 
