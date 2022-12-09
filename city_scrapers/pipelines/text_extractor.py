@@ -7,7 +7,7 @@ from pdfminer.pdfparser import PDFSyntaxError
 
 
 class TextExtractorPipeline:
-    """Implements :class:`Pipeline` for PDF Text Extraction from meeting notes and agendas.
+    """Implements :class:`Pipeline` for PDF Text Extraction.
     Extracts and stores zoom meeting link if available
     """
 
