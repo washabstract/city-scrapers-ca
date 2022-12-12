@@ -81,20 +81,22 @@ class LawaSpider(CityScrapersSpider):
         if response is not None:
             # Time is usually either on first center element or third div
             # Creating a single array where we search for year and time using regex
-            content = (
-                response.xpath(".//center")[0].xpath(".//text()").getall()
-                + response.xpath(
-                    ".//div[@style='text-align: center;'][3]/text()"
-                ).getall()
-            )
-            # Removes \r\n from the captured texts
-            content = list(map(lambda x: re.sub(r"[\n\r]", "", x), content))
-            regex = re.compile(
-                r"([0-9]{4},?\s+at\s+\d{2}:\d{2}\s+(AM)?(PM)?(am)?(pm)?)"
-            )  # Matches the year and time part of the string (eg. 2022 at 10:00 AM)
+            center = response.xpath(".//center")
+            if len(center) > 0:
+                content = (
+                    center[0].xpath(".//text()").getall()
+                    + response.xpath(
+                        ".//div[@style='text-align: center;'][3]/text()"
+                    ).getall()
+                )
+                # Removes \r\n from the captured texts
+                content = list(map(lambda x: re.sub(r"[\n\r]", "", x), content))
+                regex = re.compile(
+                    r"([0-9]{4},?\s+at\s+\d{2}:\d{2}\s+(AM)?(PM)?(am)?(pm)?)"
+                )  # Matches the year and time part of the string (eg. 2022 at 10:00 AM)
 
-            # Getting all the indexes where we have a regex match
-            indexes = [i for i, text in enumerate(content) if re.search(regex, text)]
+                # Getting all the indexes where we have a regex match
+                indexes = [i for i, text in enumerate(content) if re.search(regex, text)]
 
         if len(indexes) > 0:
             # Getting the first index
