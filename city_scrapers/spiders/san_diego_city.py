@@ -67,25 +67,73 @@ class SanDiegoCitySpider(CityScrapersSpider):
     ]
     upcoming_meeting_base_url = "https://sandiego.hylandcloud.com"
 
-    start_urls = past_meeting_urls + upcoming_meetings_urls
+    # start_urls = past_meeting_urls + upcoming_meetings_urls
+    start_urls = upcoming_meetings_urls
 
     def parse(self, response):
-        if response.url in self.past_meeting_urls:
-            # past meetings
-            for item in response.xpath(".//tbody/tr"):
-                start = self._parse_start(item)
-                title = self._parse_title(item)
+        # if response.url in self.past_meeting_urls:
+        #     # past meetings
+        #     for item in response.xpath(".//tbody/tr"):
+        #         start = self._parse_start(item)
+        #         title = self._parse_title(item)
+
+        #         meeting = Meeting(
+        #             title=title,
+        #             description=self._parse_description(item),
+        #             classification=self._parse_classification(item, title),
+        #             start=start,
+        #             end=self._parse_end(item, start),
+        #             all_day=self._parse_all_day(item),
+        #             time_notes=self._parse_time_notes(item),
+        #             location=self._parse_location(item),
+        #             links=self._parse_links(item),
+        #             source=self._parse_source(response),
+        #             created=datetime.now(),
+        #             updated=datetime.now(),
+        #         )
+
+        #         meeting["status"] = self._get_status(meeting)
+        #         meeting["id"] = self._get_id(meeting)
+
+        #         yield meeting
+        # else:
+        print("\n\n\n\n\nWin!\n\n\n\n\n")
+        # upcoming
+        if response.url == self.planning_commission_upcoming:
+            # parsing the agenda and then follow the link
+            for agenda_link in response.xpath(
+                "//div[@class='field-items']/.//a/@href"
+            ).getall():
+                # Only following pdf links
+                if pathlib.Path(agenda_link).suffix == ".pdf":
+                    yield response.follow(
+                        agenda_link,
+                        callback=self._parse_planning,
+                        cb_kwargs={"source": response.url},
+                        dont_filter=True,
+                    )
+        else:
+            if response.url == self.city_council_upcoming:
+                # for council meetings
+                item_path = ".//div[@id='meetings-list-upcoming']/div/div"
+            else:
+                # for committee meeting
+                item_path = ".//div[@id='meetings-list-content']/div/div/div"
+
+            for item in response.xpath(item_path):
+                # Agenda button contains the time
+                title = self._parse_title_upcoming(item)
 
                 meeting = Meeting(
                     title=title,
                     description=self._parse_description(item),
                     classification=self._parse_classification(item, title),
-                    start=start,
-                    end=self._parse_end(item, start),
+                    start=self._parse_start_upcoming(item),
+                    end=self._parse_end_upcoming(item),
                     all_day=self._parse_all_day(item),
                     time_notes=self._parse_time_notes(item),
                     location=self._parse_location(item),
-                    links=self._parse_links(item),
+                    links=self._parse_links_upcoming(item),
                     source=self._parse_source(response),
                     created=datetime.now(),
                     updated=datetime.now(),
@@ -95,52 +143,6 @@ class SanDiegoCitySpider(CityScrapersSpider):
                 meeting["id"] = self._get_id(meeting)
 
                 yield meeting
-        else:
-            # upcoming
-            if response.url == self.planning_commission_upcoming:
-                # parsing the agenda and then follow the link
-                for agenda_link in response.xpath(
-                    "//div[@class='field-items']/.//a/@href"
-                ).getall():
-                    # Only following pdf links
-                    if pathlib.Path(agenda_link).suffix == ".pdf":
-                        yield response.follow(
-                            agenda_link,
-                            callback=self._parse_planning,
-                            cb_kwargs={"source": response.url},
-                            dont_filter=True,
-                        )
-            else:
-                if response.url == self.city_council_upcoming:
-                    # for council meetings
-                    item_path = ".//div[@id='meetings-list-upcoming']/div/div"
-                else:
-                    # for committee meeting
-                    item_path = ".//div[@id='meetings-list-content']/div/div/div"
-
-                for item in response.xpath(item_path):
-                    # Agenda button contains the time
-                    title = self._parse_title_upcoming(item)
-
-                    meeting = Meeting(
-                        title=title,
-                        description=self._parse_description(item),
-                        classification=self._parse_classification(item, title),
-                        start=self._parse_start_upcoming(item),
-                        end=self._parse_end_upcoming(item),
-                        all_day=self._parse_all_day(item),
-                        time_notes=self._parse_time_notes(item),
-                        location=self._parse_location(item),
-                        links=self._parse_links_upcoming(item),
-                        source=self._parse_source(response),
-                        created=datetime.now(),
-                        updated=datetime.now(),
-                    )
-
-                    meeting["status"] = self._get_status(meeting)
-                    meeting["id"] = self._get_id(meeting)
-
-                    yield meeting
 
     def _parse_planning(self, response, source):
         if response is not None:
