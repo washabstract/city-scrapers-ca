@@ -96,7 +96,9 @@ class LawaSpider(CityScrapersSpider):
                 )  # Matches the year and time part of the string (eg. 2022 at 10:00 AM)
 
                 # Getting all the indexes where we have a regex match
-                indexes = [i for i, text in enumerate(content) if re.search(regex, text)]
+                indexes = [
+                    i for i, text in enumerate(content) if re.search(regex, text)
+                ]
 
         if len(indexes) > 0:
             # Getting the first index
