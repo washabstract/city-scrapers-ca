@@ -38,6 +38,9 @@ class LaCityGovernmentSpider(CityScrapersSpider):
                 updated=datetime.now(),
             )
 
+            if meeting["start"] is None:
+                return
+
             meeting["id"] = self._get_id(meeting)
             meeting["status"] = self._get_status(meeting)
 
