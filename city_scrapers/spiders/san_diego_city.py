@@ -227,7 +227,7 @@ class SanDiegoCitySpider(CityScrapersSpider):
         if results:
             start_str = results.group("datetime")
             if start_str:
-                start = parse(start_str, ignoretz = True)
+                start = parse(start_str, ignoretz=True)
                 return start
 
         return None
@@ -242,14 +242,14 @@ class SanDiegoCitySpider(CityScrapersSpider):
 
         if start_time:
             start_time = start_time.group().strip()
-            return parse(start_time, ignoretz = True)
+            return parse(start_time, ignoretz=True)
 
         return None
 
     def _parse_start(self, item):
         """Parse start datetime as a naive datetime object."""
         start_date_str = item.xpath(".//td[2]/text()").get()
-        start = parse(start_date_str, ignoretz = True)
+        start = parse(start_date_str, ignoretz=True)
         return start
 
     def _parse_end(self, item, start: datetime):
