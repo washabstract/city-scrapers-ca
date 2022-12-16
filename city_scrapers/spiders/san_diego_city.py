@@ -91,6 +91,9 @@ class SanDiegoCitySpider(CityScrapersSpider):
                     updated=datetime.now(),
                 )
 
+                if meeting["start"] is None:
+                    return
+
                 meeting["status"] = self._get_status(meeting)
                 meeting["id"] = self._get_id(meeting)
 
@@ -136,6 +139,9 @@ class SanDiegoCitySpider(CityScrapersSpider):
                         created=datetime.now(),
                         updated=datetime.now(),
                     )
+
+                    if meeting["start"] is None:
+                        return
 
                     meeting["status"] = self._get_status(meeting)
                     meeting["id"] = self._get_id(meeting)
@@ -221,8 +227,8 @@ class SanDiegoCitySpider(CityScrapersSpider):
         if results:
             start_str = results.group("datetime")
             if start_str:
-                start = parse(start_str)
-                return start.replace(tzinfo=None)
+                start = parse(start_str, ignoretz=True)
+                return start
 
         return None
 
@@ -236,15 +242,15 @@ class SanDiegoCitySpider(CityScrapersSpider):
 
         if start_time:
             start_time = start_time.group().strip()
-            return parse(start_time).replace(tzinfo=None)
+            return parse(start_time, ignoretz=True)
 
         return None
 
     def _parse_start(self, item):
         """Parse start datetime as a naive datetime object."""
         start_date_str = item.xpath(".//td[2]/text()").get()
-        start = parse(start_date_str)
-        return start.replace(tzinfo=None)
+        start = parse(start_date_str, ignoretz=True)
+        return start
 
     def _parse_end(self, item, start: datetime):
         """Parse end datetime as a naive datetime object. Added by pipeline if None"""
