@@ -66,7 +66,7 @@ class LaPortSpider(CityScrapersSpider):
         # If there is no meeting agenda link, scrape time from table
         location = {"address": "", "name": ""}
         row = item.xpath("td[@class='listItem']/text()")
-        if len(row) > 0:
+        if len(row) > 1:
             date = row[1].get()
             meeting["start"], meeting["location"] = (
                 dateparse(date, fuzzy=True, ignoretz=True),
@@ -83,15 +83,20 @@ class LaPortSpider(CityScrapersSpider):
 
     def _parse_title(self, item):
         row = item.xpath("td[@class='listItem']/text()")
-        text = row[0].extract()
-        return text.strip()
+        if len(row) > 0:
+            text = row[0].extract()
+            return text.strip()
+        return ""
 
     def _parse_description(self, item):
         return ""
 
     def _parse_classification(self, item):
         row = item.xpath("td[@class='listItem']/text()")
-        title = (row[0].get()).lower()
+        title = ""
+        if len(row) > 0:
+            title = (row[0].get()).lower()
+
         if "committee" in title:
             return COMMITTEE
         elif "commission" in title:
@@ -104,7 +109,7 @@ class LaPortSpider(CityScrapersSpider):
         #   just return default 00:00 start time
 
         row = item.xpath("td[@class='listItem']/text()")
-        if len(row) > 0:
+        if len(row) > 1:
             date = row[1].get()
             date = dateparse(date, fuzzy=True, ignoretz=True)
         else:
@@ -173,15 +178,16 @@ class LaPortSpider(CityScrapersSpider):
             return links
 
         # Upcoming Meetings
-        agenda = row[2].xpath("./*").extract()
-        if agenda != []:
-            # extract the url from the onclick field
-            text = agenda[0]
-            beg = text.find("onclick=\"window.open('") + 22
-            end = text.find("'", beg)
-            url = text[beg:end]
-            clean_url = re.sub("amp;", "", url)
-            links.append({"href": "https:" + clean_url, "title": "Agenda"})
+        if len(row) > 2:
+            agenda = row[2].xpath("./*").extract()
+            if agenda != []:
+                # extract the url from the onclick field
+                text = agenda[0]
+                beg = text.find("onclick=\"window.open('") + 22
+                end = text.find("'", beg)
+                url = text[beg:end]
+                clean_url = re.sub("amp;", "", url)
+                links.append({"href": "https:" + clean_url, "title": "Agenda"})
 
         return links
 
