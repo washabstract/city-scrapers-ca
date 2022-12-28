@@ -10,7 +10,8 @@ from city_scrapers.items import Meeting
 
 class LaCityGovernmentSpider(CityScrapersSpider):
     name = "la_city_government"
-    agency = "Los Angeles City Government"
+    agency = "Los Angeles"
+    sub_agency = "City"
     timezone = "America/Los_Angeles"
     start_urls = [
         (

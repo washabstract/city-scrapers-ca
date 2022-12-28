@@ -9,7 +9,8 @@ from city_scrapers.items import Meeting
 
 class SanJoseLegSpider(LegistarSpider):
     name = "san_jose_leg"
-    agency = "San Jose Calendar"
+    agency = "San Jose"
+    sub_agency = "City"
     timezone = "America/Los_Angeles"
     start_urls = ["https://sanjose.legistar.com/Calendar.aspx"]
     # Add the titles of any links not included in the scraped results

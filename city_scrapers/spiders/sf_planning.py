@@ -10,7 +10,8 @@ from city_scrapers.items import Meeting
 
 class SfPlanningSpider(CityScrapersSpider):
     name = "sf_planning"
-    agency = "SF Planning Commission"
+    agency = "San Francisco"
+    sub_agency = "Planning Commission"
     timezone = "America/Los_Angeles"
     start_urls = [
         "https://sfplanning.org/hearings-cpc-grid",

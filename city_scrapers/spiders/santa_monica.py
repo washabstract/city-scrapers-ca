@@ -12,7 +12,8 @@ from city_scrapers.items import Meeting
 
 class SantaMonicaSpider(CityScrapersSpider):
     name = "santa_monica"
-    agency = "Santa Monica City Council"
+    agency = "Santa Monica"
+    sub_agency = "City"
     timezone = "America/Los_Angeles"
     start_urls = [
         # "https://santamonicacityca.iqm2.com/Citizens/calendar.aspx?"

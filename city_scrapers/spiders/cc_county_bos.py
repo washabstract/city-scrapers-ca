@@ -10,7 +10,8 @@ from city_scrapers.items import Meeting
 
 class CcCountyBosSpider(CityScrapersSpider):
     name = "cc_county_bos"
-    agency = "Contra Costa County Board of Supervisors"
+    agency = "Contra Costa"
+    sub_agency = "County Board of Supervisors"
     timezone = "America/Los_Angeles"
     start_urls = [
         "http://64.166.146.245/agenda_publish.cfm"

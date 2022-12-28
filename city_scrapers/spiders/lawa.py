@@ -11,7 +11,8 @@ from city_scrapers.items import Meeting
 
 class LawaSpider(CityScrapersSpider):
     name = "lawa"
-    agency = "LA World Airports"
+    agency = "Los Angeles"
+    sub_agency = "World Airports"
     timezone = "America/Los_Angeles"
     start_urls = ["http://lawa.granicus.com/ViewPublisher.php?view_id=4"]
 

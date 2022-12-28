@@ -12,7 +12,8 @@ from city_scrapers.items import Meeting
 
 class LaPortSpider(CityScrapersSpider):
     name = "la_port"
-    agency = "Port of LA"
+    agency = "Los Angeles"
+    sub_agency = "Port"
     timezone = "America/Los_Angeles"
     start_urls = ["https://portofla.granicus.com/ViewPublisher.php?view_id=9"]
 

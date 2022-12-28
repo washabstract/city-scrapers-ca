@@ -10,7 +10,8 @@ from city_scrapers.items import Meeting
 
 class LausdSpider(CityScrapersSpider):
     name = "lausd"
-    agency = "LA Unified School District"
+    agency = "Los Angeles"
+    sub_agency = "Unified School District"
     timezone = "America/Los_Angeles"
     start_urls = ["http://laschoolboard.org/LAUSDBdMtgAgendas"]
 
