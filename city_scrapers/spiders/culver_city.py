@@ -10,7 +10,7 @@ from city_scrapers.items import Meeting
 class CulverCitySpider(LegistarSpider):
     name = "culver_city"
     agency = "Culver City"
-    sub_agency = ""
+    sub_agency = "City"
     timezone = "America/Los_Angeles"
     start_urls = ["https://culver-city.legistar.com/Calendar.aspx"]
     # Add the titles of any links not included in the scraped results

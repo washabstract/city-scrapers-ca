@@ -11,7 +11,7 @@ from city_scrapers.items import Meeting
 class WestHollywoodSpider(CityScrapersSpider):
     name = "west_hollywood"
     agency = "West Hollywood"
-    sub_agency = ""
+    sub_agency = "City"
     timezone = "America/Los_Angeles"
     start_urls = [
         "https://weho.granicus.com/ViewPublisher.php?view_id=22",
