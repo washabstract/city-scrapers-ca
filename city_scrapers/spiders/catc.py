@@ -40,7 +40,8 @@ def create_meeting(self, response, item, head):
 
 class CatcSpider(CityScrapersSpider):
     name = "catc"
-    agency = "California Transportation Commission"
+    agency = "California"
+    sub_agency = "Transportation Commission"
     timezone = "America/Los_Angeles"
     start_urls = [
         "https://catc.ca.gov/meetings-events/commission-meetings",

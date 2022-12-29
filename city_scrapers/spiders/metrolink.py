@@ -11,7 +11,8 @@ from city_scrapers.items import Meeting
 
 class MetrolinkSpider(CityScrapersSpider):
     name = "metrolink"
-    agency = "Southern California Regional Rail Authority"
+    agency = "Southern California"
+    sub_agency = "Regional Rail Authority"
     timezone = "America/Los_Angeles"
     start_urls = ["https://metrolink.granicus.com/ViewPublisher.php?view_id=8"]
 
