@@ -15,6 +15,7 @@ pdfplumber = "*"
 python-dateutil = "*"
 importlib-resources = "*"
 jsonschema = "*"
+flatdict = "*"
 
 [dev-packages]
 freezegun = "*"
