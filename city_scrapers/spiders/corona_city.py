@@ -8,7 +8,7 @@ from city_scrapers.items import Meeting
 
 class CoronaCitySpider(LegistarSpider):
     name = "corona_city"
-    agency = "Corona City"
+    agency = "Corona"
     sub_agency = "City"
     timezone = "America/Los_Angeles"
     start_urls = ["https://corona.legistar.com/Calendar.aspx"]
