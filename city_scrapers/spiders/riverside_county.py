@@ -12,8 +12,8 @@ from city_scrapers.items import Meeting
 
 class RiversideCountySpider(CityScrapersSpider):
     name = "riverside_county"
-    agency = "Riverside County"
-    sub_agency = ""
+    agency = "Riverside"
+    sub_agency = "County"
     timezone = "America/Los_Angeles"
     start_urls = ["https://riversidecountyca.iqm2.com/Citizens/calendar.aspx"]
     base_url = "riversidecountyca.iqm2.com"
