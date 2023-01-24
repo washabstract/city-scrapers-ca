@@ -5,7 +5,12 @@ class LapuenteSpider(GranicusSpider):
     name = "lapuente"
     agency = "La Puente"
     sub_agency = "Planning Commission"
-    start_urls = ["https://lapuente.granicus.com/ViewPublisher.php?view_id=3"]
+    start_urls = [
+        # Planning Commission
+        "https://lapuente.granicus.com/ViewPublisher.php?view_id=3",
+        # City Council
+        "https://lapuente.granicus.com/ViewPublisher.php?view_id=2",
+    ]
     location = {
         "name": "",
         "address": "CITY HALL COUNCIL CHAMBERS 15900 E. MAIN STREET, LA PUENTE",
