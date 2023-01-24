@@ -5,7 +5,10 @@ class ManhattanbeachSpider(GranicusSpider):
     name = "manhattanbeach"
     agency = "Manhattan Beach"
     sub_agency = "Planning Commission"
-    start_urls = ["https://manhattanbeach.granicus.com/ViewPublisher.php?view_id=7"]
+    start_urls = [
+        "https://manhattanbeach.granicus.com/ViewPublisher.php?view_id=7", # noqa Planning Commission
+        "https://manhattanbeach.granicus.com/ViewPublisher.php?view_id=4", # noqa City Council
+    ]
     location = {
         "name": "",
         "address": "City Council Chambers "
