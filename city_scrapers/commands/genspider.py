@@ -42,6 +42,10 @@ class Command(ScrapyCommand):
             spider_template = "spider_legistar.tmpl"
             test_template = "test_legistar.tmpl"
             fixture_file = self._gen_legistar_fixtures(name, start_url)
+        elif "granicus.com" in domain:
+            spider_template = "spider_granicus.tmpl"
+            test_template = "test_granicus.tmpl"
+            fixture_file = self._gen_fixtures(name, start_url)
         else:
             fixture_file = self._gen_fixtures(name, start_url)
         classname = f"{string.capwords(name, sep='_').replace('_', '')}Spider"
