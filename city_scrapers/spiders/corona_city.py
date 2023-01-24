@@ -33,7 +33,7 @@ class CoronaCitySpider(LegistarSpider):
 
             if meeting["start"] is None:
                 return
-            
+
             meeting["status"] = self._get_status(meeting)
             meeting["id"] = self._get_id(meeting)
 
