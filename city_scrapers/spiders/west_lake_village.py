@@ -4,7 +4,7 @@ from city_scrapers.spiders.granicus import GranicusSpider
 class WestLakeVillageSpider(GranicusSpider):
     name = "west_lake_village"
     agency = "West Lake Village"
-    sub_agency = "City Council"
+    sub_agency = "City"
     start_urls = ["https://westlakevillage.granicus.com/viewpublisher.php?view_id=8"]
     location = {
         "title": "City Council Chambers",
