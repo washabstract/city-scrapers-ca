@@ -4,7 +4,7 @@ from city_scrapers.spiders.granicus import GranicusSpider
 class LomitaSpider(GranicusSpider):
     name = "lomita"
     agency = "Lomita"
-    sub_agency = "Council"
+    sub_agency = "City"
     start_urls = ["https://lomita.granicus.com/ViewPublisher.php?view_id=3"]
     location = {
         "name": "",
