@@ -4,8 +4,7 @@ from city_scrapers.spiders.granicus import GranicusSpider
 class LaHabraHeightsSpider(GranicusSpider):
     name = "la_habra_heights"
     agency = "La Habra Heights"
-    sub_agency = "Planning Commission"
-    timezone = "America/Chicago"
+    sub_agency = "City"
     start_urls = ["https://la-habra-heights.granicus.com/ViewPublisher.php?view_id=4"]
 
     location = {
