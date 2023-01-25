@@ -4,7 +4,7 @@ from city_scrapers.spiders.granicus import GranicusSpider
 class RollingHillsEstatesSpider(GranicusSpider):
     name = "rolling_hills_estates"
     agency = "Rolling Hills Estates"
-    sub_agency = "Planning Commission"
+    sub_agency = "City"
     start_urls = [
         "https://rollinghillsestatesca.granicus.com/ViewPublisher.php?view_id=1"
     ]
