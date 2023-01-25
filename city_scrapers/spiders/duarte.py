@@ -5,7 +5,12 @@ class DuarteSpider(GranicusSpider):
     name = "duarte"
     agency = "Duarte"
     sub_agency = "City"
-    start_urls = ["https://accessduarte.granicus.com/ViewPublisher.php?view_id=12"]
+    start_urls = [
+        # City Council
+        "https://accessduarte.granicus.com/ViewPublisher.php?view_id=12",
+        # Planning Commission
+        "https://accessduarte.granicus.com/ViewPublisher.php?view_id=2",
+    ]
     location = {
         "name": "",
         "address": "1600 Huntington Dr, Duarte, CA 91010",
