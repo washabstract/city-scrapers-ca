@@ -3,7 +3,7 @@ from city_scrapers.spiders.granicus import GranicusSpider
 
 class PalosVerdesEstatesSpider(GranicusSpider):
     name = "palos_verdes_estates"
-    agency = "LA Canada Flintridge"
+    agency = "Palos Verdes Estates"
     sub_agency = "City"
     start_urls = ["https://pvestates.granicus.com/ViewPublisher.php?view_id=1"]
     location = {
