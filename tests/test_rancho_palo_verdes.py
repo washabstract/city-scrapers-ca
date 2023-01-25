@@ -67,7 +67,8 @@ def test_time_notes():
 
 def test_id():
     assert (
-        parsed_items[0]["id"] == "rancho_palo_verdes/202212061900/x/city_council_meeting"
+        parsed_items[0]["id"]
+        == "rancho_palo_verdes/202212061900/x/city_council_meeting"
     )
 
 
