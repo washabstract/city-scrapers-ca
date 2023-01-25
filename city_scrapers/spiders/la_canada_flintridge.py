@@ -4,7 +4,7 @@ from city_scrapers.spiders.granicus import GranicusSpider
 class LaCanadaFlintridgeSpider(GranicusSpider):
     name = "la_canada_flintridge"
     agency = "LA Canada Flintridge"
-    sub_agency = "Planning Commission"
+    sub_agency = "City"
     start_urls = [
         "https://lacanadaflintridge-ca.granicus.com" "/ViewPublisher.php?view_id=4"
     ]
