@@ -6,7 +6,7 @@ from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
 from city_scrapers.items import Meeting
-from city_scrapers.spiders.granicus import GranicusSpider
+from city_scrapers.spiders.rancho_palo_verdes import RanchoPaloVerdesSpider
 
 start_url = "https://rpv.granicus.com/ViewPublisher.php?view_id=5"
 test_response = file_response(
@@ -20,13 +20,7 @@ agenda_response = file_response(
     url=start_url,
 )
 
-spider = GranicusSpider(
-    name="ranchopaloverdes",
-    agency="Rancho Palo Verdes",
-    sub_agency="Something",
-    location={"name": "Rancho Palo Verdes", "address": "123 Test Ave"},
-    start_urls=[start_url],
-)
+spider = RanchoPaloVerdesSpider()
 
 freezer = freeze_time("2022-12-01")
 freezer.start()
@@ -73,7 +67,7 @@ def test_time_notes():
 
 def test_id():
     assert (
-        parsed_items[0]["id"] == "ranchopaloverdes/202212061900/x/city_council_meeting"
+        parsed_items[0]["id"] == "rancho_palo_verdes/202212061900/x/city_council_meeting"
     )
 
 
@@ -83,8 +77,8 @@ def test_status():
 
 def test_location():
     assert parsed_items[0]["location"] == {
-        "name": "Rancho Palo Verdes",
-        "address": "123 Test Ave",
+        "name": "",
+        "address": "29301 Hawthorne Blvd, Rancho Palos Verdes, CA 90275",
     }
 
 
