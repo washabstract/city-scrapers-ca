@@ -7,7 +7,7 @@ from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
 from city_scrapers.items import Meeting
-from city_scrapers.spiders.granicus import GranicusSpider
+from city_scrapers.spiders.palmdale import PalmdaleSpider
 
 palmdale_start_url = "https://palmdale.granicus.com/ViewPublisher.php?view_id=22"
 
@@ -23,13 +23,7 @@ agenda_response = file_response(
 )
 
 
-spider = GranicusSpider(
-    name="palmdale",
-    agency="Palmdale",
-    sub_agency="Something",
-    location={"name": "Palmdale", "address": "123 Test Ave"},
-    start_urls=[palmdale_start_url],
-)
+spider = PalmdaleSpider()
 
 freezer = freeze_time("2022-11-30")
 freezer.start()
@@ -93,8 +87,8 @@ def test_status():
 
 def test_location():
     assert parsed_items[0]["location"] == {
-        "name": "Palmdale",
-        "address": "123 Test Ave",
+        "name": "City Council Chamber",
+        "address": "38300 Sierra Hwy, Palmdale, CA 93550",
     }
 
 
