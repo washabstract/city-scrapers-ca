@@ -7,7 +7,7 @@ from city_scrapers_core.utils import file_response
 from freezegun import freeze_time
 
 from city_scrapers.items import Meeting
-from city_scrapers.spiders.granicus import GranicusSpider
+from city_scrapers.spiders.norwalk import NorwalkSpider
 
 start_url = "https://norwalk.granicus.com/ViewPublisher.php?view_id=1"
 
@@ -22,13 +22,7 @@ agenda_response = file_response(
     url=start_url,
 )
 
-spider = GranicusSpider(
-    name="norwalk",
-    agency="Norwalk",
-    sub_agency="Something",
-    location={"name": "Norwalk", "address": "123 Test Ave"},
-    start_urls=[start_url],
-)
+spider = NorwalkSpider()
 
 freezer = freeze_time("2022-11-29")
 freezer.start()
@@ -85,7 +79,10 @@ def test_status():
 
 
 def test_location():
-    assert parsed_items[0]["location"] == {"name": "Norwalk", "address": "123 Test Ave"}
+    assert parsed_items[0]["location"] == {
+        "name": "Norwalk City Hall",
+        "address": "12700 Norwalk Blvd, Norwalk, CA 90650",
+    }
 
 
 def test_source():
