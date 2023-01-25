@@ -4,10 +4,12 @@ from city_scrapers.spiders.granicus import GranicusSpider
 class ManhattanbeachSpider(GranicusSpider):
     name = "manhattanbeach"
     agency = "Manhattan Beach"
-    sub_agency = "Planning Commission"
+    sub_agency = "City"
     start_urls = [
-        "https://manhattanbeach.granicus.com/ViewPublisher.php?view_id=7", # noqa Planning Commission
-        "https://manhattanbeach.granicus.com/ViewPublisher.php?view_id=4", # noqa City Council
+        # Planning Commission
+        "https://manhattanbeach.granicus.com/ViewPublisher.php?view_id=7",
+        # City Council
+        "https://manhattanbeach.granicus.com/ViewPublisher.php?view_id=4",
     ]
     location = {
         "name": "",
