@@ -3,8 +3,8 @@ from city_scrapers.spiders.granicus import GranicusSpider
 
 class HermosaBeachSpider(GranicusSpider):
     name = "hermosa_beach"
-    agency = "Los Angeles"
-    sub_agency = "Hermosa Beach"
+    agency = "Hermosa Beach"
+    sub_agency = "City"
     start_urls = ["https://hermosabeach.granicus.com/ViewPublisher.php?view_id=6"]
     location = {
         "name": "City Hall",
