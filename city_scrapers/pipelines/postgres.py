@@ -17,11 +17,17 @@ class PostgresPipeline:
 
     @classmethod
     def from_crawler(cls, crawler):
+        # return cls(
+        #     host=crawler.settings.get("POSTGRES_HOST"),
+        #     user=crawler.settings.get("POSTGRES_USER"),
+        #     password=crawler.settings.get("POSTGRES_PASSWORD"),
+        #     database=crawler.settings.get("POSTGRES_DATABASE"),
+        # )
         return cls(
-            host=crawler.settings.get("POSTGRES_HOST"),
-            user=crawler.settings.get("POSTGRES_USER"),
-            password=crawler.settings.get("POSTGRES_PASSWORD"),
-            database=crawler.settings.get("POSTGRES_DATABASE"),
+            host="openstates-production.cfd4ggfnyky4.us-west-1.rds.amazonaws.com",
+            user="postgres",
+            password="lsjrdTmE7t8FU0nqfhhE",
+            database="cityscrapers",
         )
 
     def get_or_create_agency(self, name, parent_agency_id):
