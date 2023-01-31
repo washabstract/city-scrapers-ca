@@ -16,8 +16,8 @@ class SantaMonicaSpider(CityScrapersSpider):
     sub_agency = "City"
     timezone = "America/Los_Angeles"
     start_urls = [
-        # "https://santamonicacityca.iqm2.com/Citizens/calendar.aspx?"
-        # "From=1/1/1900&To=12/31/9999"
+        "https://santamonicacityca.iqm2.com/Citizens/calendar.aspx?"
+        "From=1/1/1900&To=12/31/9999"
     ]
 
     def parse(self, response):
@@ -38,8 +38,8 @@ class SantaMonicaSpider(CityScrapersSpider):
                 updated=datetime.now(),
             )
 
-            if meeting["start"] is None:
-                return
+            # if meeting["start"] is None:
+            #     return
 
             meeting["classification"] = self._parse_classification(
                 item, meeting["title"]
