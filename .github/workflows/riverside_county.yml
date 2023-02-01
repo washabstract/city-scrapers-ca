@@ -47,6 +47,7 @@ jobs:
         run: |
           export PYTHONPATH=$(pwd):$PYTHONPATH
           pipenv run scrapy crawl riverside_county
+          
       - name: Combine output feeds
         run: |
           export PYTHONPATH=$(pwd):$PYTHONPATH
