@@ -16,12 +16,12 @@ env:
   AUTOTHROTTLE_TARGET_CONCURRENCY: 3.0
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  S3_BUCKET: ${{ secrets.S3_BUCKET }}
-  SENTRY_DSN: ${{ secrets.SENTRY_DSN_NEW }}
-  POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }}
-  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  S3_BUCKET: "s3://wa-city-scrapers-store/riverside/"
+  SENTRY_DSN: "https://e9f961e3177d4573a5e1bea7d4d552f1@o488083.ingest.sentry.io/4504601086984192"
+  POSTGRES_DATABASE: "cityscrapers"
+  POSTGRES_HOST: "openstates-production.cfd4ggfnyky4.us-west-1.rds.amazonaws.com"
+  POSTGRES_PASSWORD: "lsjrdTmE7t8FU0nqfhhE"
+  POSTGRES_USER: "postgres"
 
 
 jobs:
