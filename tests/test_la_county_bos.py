@@ -55,14 +55,14 @@ def test_time_notes(item):
 
 
 def test_id():
-    assert(
-        parsed_items[0]["id"] ==
-        "la_county_bos/202302140930/x/public_hearing_and_closed_session_meeting"
+    assert (
+        parsed_items[0]["id"]
+        == "la_county_bos/202302140930/x/public_hearing_and_closed_session_meeting"
     )
     assert parsed_items[1]["id"] == "la_county_bos/202302070930/x/regular_board_meeting"
-    assert(
-        parsed_items[2]["id"] ==
-        "la_county_bos/202301310930/x/public_hearing_and_closed_session_meeting"
+    assert (
+        parsed_items[2]["id"]
+        == "la_county_bos/202301310930/x/public_hearing_and_closed_session_meeting"
     )
 
 

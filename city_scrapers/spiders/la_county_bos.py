@@ -1,6 +1,4 @@
-import re
 from datetime import datetime
-from urllib.parse import urljoin
 
 from city_scrapers_core.constants import BOARD
 from city_scrapers_core.spiders import CityScrapersSpider
@@ -43,7 +41,6 @@ class LaCountyBosSpider(CityScrapersSpider):
 
             yield meeting
 
-
     def _parse_title(self, item):
         title = item.xpath(".//*[@class='card-title']/text()").get()
         return title
@@ -58,7 +55,7 @@ class LaCountyBosSpider(CityScrapersSpider):
         dts = item.xpath(".//*[@class='meeting-info']//text()").getall()
         dt = "".join(dts)
         try:
-            start = dateparse(dt, ignoretz = True)
+            start = dateparse(dt, ignoretz=True)
         except ParserError:
             start = None
         return start
@@ -86,10 +83,8 @@ class LaCountyBosSpider(CityScrapersSpider):
             title = link.xpath(".//text()").get().strip()
             if "agenda" in title.lower():
                 title = "Agenda"
-            
-            links.append({
-                "href": href, "title": title
-            })
+
+            links.append({"href": href, "title": title})
         return links
 
     def _parse_source(self, response):
