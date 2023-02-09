@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 
 from city_scrapers_core.constants import BOARD
 from city_scrapers_core.spiders import CityScrapersSpider
+from dateutil.parser import ParserError
 from dateutil.parser import parse as dateparse
 
 from city_scrapers.items import Meeting
@@ -14,11 +15,11 @@ class LaCountyBosSpider(CityScrapersSpider):
     agency = "Los Angeles"
     sub_agency = "County Board of Supervisors"
     timezone = "America/Los_Angeles"
-    start_urls = ["http://bos.lacounty.gov/Board-Meeting/Board-Agendas"]
+    start_urls = ["https://bos.lacounty.gov/board-meeting-agendas/"]
 
     def parse(self, response):
-        sections = self._parse_sections(response)
-        for item in sections:
+        meetings = response.xpath("//div[@class='meeting-inner-container']")
+        for item in meetings:
             meeting = Meeting(
                 title=self._parse_title(item),
                 description=self._parse_description(item),
@@ -34,63 +35,33 @@ class LaCountyBosSpider(CityScrapersSpider):
                 updated=datetime.now(),
             )
 
+            if meeting["start"] is None:
+                return
+
             meeting["status"] = self._get_status(meeting)
             meeting["id"] = self._get_id(meeting)
 
             yield meeting
 
-    def _parse_sections(self, response):
-        sections = response.css(".price_border")
-        items = []
-        while len(sections) > 1:
-            section = sections.pop(0)
-            agenda_text = " ".join(
-                [text.strip() for text in section.css("li::text").getall()]
-            )
-            agenda_re = re.search(r"Agenda for the (.+) of (.+\.)", agenda_text)
-            matched = False
-            for i in range(1, len(sections)):
-                match_text = " ".join(
-                    [text.strip() for text in sections[i].css("li::text").getall()]
-                )
-                match_re = re.search(r"Agenda for the (.+) of (.+\.)", match_text)
-                if (agenda_re.group(1) == match_re.group(1)) and (
-                    agenda_re.group(2) == match_re.group(2)
-                ):
-                    supp_agenda = sections.pop(i)
-                    items.append((section, supp_agenda))
-                    matched = True
-                    break
-            if not matched and "Supplemental" in agenda_text:
-                self.logger.info("Could not find match for %s", section)
-            elif not matched:
-                items.append((section, None))
-        return items
 
     def _parse_title(self, item):
-        item = item[0]
-        m = re.search("Agenda for the (.+) of", item.css("li::text").get())
-        return m.group(1)
+        title = item.xpath(".//*[@class='card-title']/text()").get()
+        return title
 
     def _parse_description(self, item):
-        agenda = urljoin(self.start_urls[0], item[0].css("a::attr('href')").get())
-        if item[1]:
-            supplemental_agenda = urljoin(
-                self.start_urls[0], item[1].css("a::attr('href')").get()
-            )
-            return (
-                f"Meeting Agenda: {agenda}\nSupplemental Agenda: {supplemental_agenda}"
-            )
-        return f"Meeting Agenda: {agenda}"
+        return ""
 
     def _parse_classification(self, item):
         return BOARD
 
     def _parse_start(self, item):
-        item = item[0]
-        agenda_text = " ".join([text.strip() for text in item.css("li::text").getall()])
-        m = re.search(r"of (.+\.)", agenda_text)
-        return dateparse(m.group(1))
+        dts = item.xpath(".//*[@class='meeting-info']//text()").getall()
+        dt = "".join(dts)
+        try:
+            start = dateparse(dt, ignoretz = True)
+        except ParserError:
+            start = None
+        return start
 
     def _parse_end(self, item):
         return None
@@ -108,23 +79,17 @@ class LaCountyBosSpider(CityScrapersSpider):
         }
 
     def _parse_links(self, item):
-        links = [
-            {
-                "href": urljoin(
-                    self.start_urls[0], item[0].css("a::attr('href')").get()
-                ),
-                "title": "Meeting/Agenda Information",
-            }
-        ]
-        if item[1]:
-            links.append(
-                {
-                    "href": urljoin(
-                        self.start_urls[0], item[1].css("a::attr('href')").get()
-                    ),
-                    "title": "Supplemental Agenda",
-                }
-            )
+        links = []
+        card_links = item.xpath(".//a[@class='card-link']")
+        for link in card_links:
+            href = link.xpath("@href").get()
+            title = link.xpath(".//text()").get().strip()
+            if "agenda" in title.lower():
+                title = "Agenda"
+            
+            links.append({
+                "href": href, "title": title
+            })
         return links
 
     def _parse_source(self, response):
