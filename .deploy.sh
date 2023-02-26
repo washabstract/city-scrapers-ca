@@ -13,7 +13,7 @@ FAILED_SCRAPERS=()
 for scraper in $SCRAPERS
 do
     echo "Running $scraper"
-    pipenv run scrapy crawl $scraper
+    pipenv run scrapy crawl -v $scraper
 
     # check if the previous command failed and add the scraper to the list of failed scrapers
     if [ $? -ne 0 ]; then
