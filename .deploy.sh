@@ -4,7 +4,7 @@ pipenv run scrapy list
 
 # Assign variable to list of scrapers
 SCRAPERS=$(pipenv run scrapy list)
-
+echo $SCRAPERS
 # Loop through each scraper
 for scraper in $SCRAPERS
 do
