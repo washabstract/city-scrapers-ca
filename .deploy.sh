@@ -1,10 +1,23 @@
 #!/bin/bash
-pipenv run scrapy list | xargs -I {} pipenv run scrapy crawl {} -s LOG_ENABLED=False &
+echo "Running scrapers"
+pipenv run scrapy list
 
-# Output to the screen every 9 minutes to prevent a travis timeout
-# https://stackoverflow.com/a/40800348
-export PID=$!
-while [[ `ps -p $PID | tail -n +2` ]]; do
-  echo 'Deploying'
-  sleep 30
+# Assign variable to list of scrapers
+SCRAPERS=$(pipenv run scrapy list)
+
+# create a list of scrapers that failed
+FAILED_SCRAPERS=()
+
+# Loop through each scraper
+for scraper in $SCRAPERS
+do
+    echo "Running $scraper"
+    pipenv run scrapy crawl $scraper;
+
+    # check if the previous command failed and add the scraper to the list of failed scrapers
+    if [ $? -ne 0 ]; then
+        FAILED_SCRAPERS+=($scraper);
+    fi
 done
+
+echo "Scrapers that failed: ${FAILED_SCRAPERS[@]}"
