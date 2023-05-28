@@ -1,0 +1,23 @@
+from city_scrapers.spiders.granicus import GranicusSpider
+
+
+class $classname(GranicusSpider):
+    name = "$name"
+    agency = "$agency"
+    sub_agency = ""
+    start_urls = ["$start_url"]
+    location = {
+        "name": "",
+        "address": "",
+    }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            self.name,
+            self.agency,
+            self.sub_agency,
+            self.location,
+            None,
+            *args,
+            **kwargs,
+        )
